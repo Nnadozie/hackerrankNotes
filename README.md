@@ -1,2 +1,8 @@
-# n.e.okeke-outlook.com
-hackerrankSql
+Hackerrank SQL Solutions
+
+[Revising the Select Query](https://www.hackerrank.com/challenges/revising-the-select-query/problem)
+```
+SELECT *
+FROM CITY
+WHERE COUNTRYCODE = 'USA' AND POPULATION > 100000
+```
