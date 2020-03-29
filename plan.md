@@ -40,7 +40,7 @@ Things to fully understand
 ~ 1 week job application break for lead Nodejs
 front-end to full-stack roles.
 
-## 20th - 22nd May to 26th June
+## 20th/22nd May to 26th June
 
 ### Upskill in Standards <15 credit difficulty
 - Accessibility in HTML -google mbs as guidance
@@ -78,7 +78,7 @@ Job applications begin for team lead/ lead full-stack developer roles in
 banks and Cisco type organisations, with a focus on cyber-
 security related teams.
 
-Certificates ? Why am I irrationally afraid of certs?
+Certificates ? Why am I irrationally skeptical of certs?
 
 - PCI DCI
 - Cisco CyberOps associate
