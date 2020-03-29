@@ -27,4 +27,27 @@ public class Solution {
     }
 }
 ```
+# FCC Solutions
 
+1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
+```
+function updateRecords(id, prop, value) {
+  if(prop != 'tracks' && value != '') {
+    collection[id][prop] = value;
+  }
+
+  if(prop == 'tracks' && !collection[id].hasOwnProperty(prop)) {
+    collection[id][prop] = [value]
+  }
+
+  if(prop == 'tracks' && value != '') {
+    collection[id][prop].push(value);
+  }
+
+  if(value == '') {
+    delete collection[id][prop]
+  }
+
+  return collection;
+}
+```
