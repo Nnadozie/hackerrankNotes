@@ -16,7 +16,7 @@ I will be
 
 ## 1.5months 29/30th March - 15th May
 
-### Foundation Theory ~15 - 30 credit difficulty
+### Rehash of Foundation Theory ~15 - 30 credit difficulty
 - Algorithms and data structures
 - Java, Databases and SQL
 
@@ -42,12 +42,12 @@ front-end to full-stack roles.
 
 ## 20th - 22nd May to 26th June
 
-### Standards <15 credit difficulty
+### Upskill in Standards <15 credit difficulty
 - Accessibility in HTML -google mbs as guidance
 - Documentation in Java and React
 - Testing (TDD) in Java and React
 
-### Front-end ~15 credit difficulty
+### Master Front-end ~15 credit difficulty
 - Functional programming with Typescript
 - Functional React with Typescript
 - CSS architecture
@@ -59,13 +59,13 @@ roles.
 
 ## July && August
 
-### Security <15credit difficulty
+### Upskill in Security <15credit difficulty
 - PCI DCI as guidance
 - Cisco CyberOps associate as guidance
 - Not getting hacked
 - Communicating over a secure network
 
-### Back-end ~30 credit difficulty
+### Ace Back-end ~30 credit difficulty
 - Logic & Data manipulation with oop Java
 - Communicating with DBs in Java
 - Hosting Java applications
