@@ -27,6 +27,29 @@ public class Solution {
     }
 }
 ```
+
+2 [Java Stdin and Stdout I](https://www.hackerrank.com/challenges/java-stdin-and-stdout-1/problem)
+```
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int a = scan.nextInt();
+        
+        System.out.println(a);
+
+        a = scan.nextInt();
+        System.out.println(a);
+
+        a = scan.nextInt();
+        System.out.println(a);
+
+        scan.close();
+    }
+}
+```
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
