@@ -1,3 +1,41 @@
+# Leetcode solutions
+1[Sort an array](https://leetcode.com/problems/sort-an-array/submissions/)
+```
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var sortArray = function(nums) {
+    
+    if(nums.length <= 1){ return nums}
+    //splitarray
+    let a = sortArray(nums.slice(0, nums.length/2))
+    let b = sortArray(nums.slice(nums.length/2))
+    
+    
+    //merge a and b
+    let i = 0
+    let j = 0
+    
+    for(let k = 0; k < nums.length; k++) {
+        if (a[i] < b[j]){
+            nums[k] = a[i]
+            if(i === a.length-1){
+                return nums.slice(0, k+1).concat(b.slice(j))
+            }
+            i++
+        }
+        else if(b[j] <= a[i]) {
+            nums[k] = b[j]
+            if(j === b.length-1) {
+                return nums.slice(0, k+1).concat(a.slice(i))
+            }
+            j++
+        }
+    }  
+};
+```
+
 # Hackerrank SQL Solutions
 
 1 [Revising the Select Query](https://www.hackerrank.com/challenges/revising-the-select-query/problem)
