@@ -1,0 +1,42 @@
+<body>
+  <div id="before" class="format">
+    <p>
+      <pre style="padding: 0 20vw;">
+    Where nums is an array of intergers
+
+mergeSort(nums) 
+		items in nums ≤ 1?  return nums
+		else,
+		a = mergeSort(one-half of nums) 
+		b = mergeSort(the other half of nums)
+
+		execute merge routine:
+			loop through each slot in nums
+				if current elem of a, starting from the first one is less than current elem of b
+						store it in nums current slot
+						if you then run out of elems in a
+							copy over the remaining elems of b into nums //it is done
+						in the next loop check the next element in a, against the same one in b						
+				
+				else if current elem of b ≤ current elem of a
+						store it in nums current slot
+						if you then run out of elems in b
+							copy over the remaining elems of a into nums //it is done
+						in the next loop check the next element in b, against the same one in a
+
+Important thing to note is that the first element of a sorted half
+is the smallest integer. So comparing the first element in each half of the
+arrays returned from the two recursive call, you are guaranteed to find the
+smallest overall.
+          </pre>
+    </p>
+    <button onclick="generate()">Generate new array</button>
+    <h3>Merge Sort :: Before Sorting</h3>
+  </div>
+  <div id="after" class="format">
+    <h3>After Sorting</h3>
+  </div>
+  <div id="during" class="format">
+    <h3>During Sorting<h2>
+  </div>
+</body>
