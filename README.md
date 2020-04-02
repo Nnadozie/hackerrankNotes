@@ -234,6 +234,115 @@ class Solution{
 }
 ```
 
+9 [Java End-Of-file](https://www.hackerrank.com/challenges/java-end-of-file/problem)
+```
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+
+        int i = 1;
+        while(sc.hasNext()){
+           System.out.printf("%d %s%n", i, sc.nextLine());
+           i++;
+        }
+
+        sc.close();
+    }
+}
+```
+
+10 [Java Static Initialization Block](https://www.hackerrank.com/challenges/java-static-initializer-block/problem?h_r=next-challenge&h_v=zen)
+```
+public class Solution {
+    static int B, H = 0;
+    static boolean flag = false;
+    static {
+        Scanner sc = new Scanner(System.in);
+        B = sc.nextInt();
+        H = sc.nextInt();
+        if(B > 0 && H > 0) {
+            flag = true;
+        } else {
+            System.out.println("java.lang.Exception: Breadth and height must be positive");
+        }
+        sc.close();
+    }
+public static void main(String[] args){
+		if(flag){
+			int area=B*H;
+			System.out.print(area);
+		}
+		
+	}//end of main
+
+}//end of class
+```
+
+11 [Java Int to String](https://www.hackerrank.com/challenges/java-int-to-string/problem)
+```
+String s = String.valueOf(n);
+```
+
+12 [Java Date and Time](https://www.hackerrank.com/challenges/java-date-and-time/problem)
+```
+public static String findDay(int month, int day, int year) {
+        Calendar cal = Calendar.getInstance();
+        Date date = null;
+        try {
+         date = new SimpleDateFormat("yyyy-MM-dd").parse(year+"-"+month+"-"+day);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+        cal.setTime(date);
+        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+        
+        switch(dayOfWeek) {
+            case 1:
+                return "SUNDAY";
+            case 2:
+                return "MONDAY";
+            case 3:
+                return "TUESDAY";
+            case 4:
+                return "WEDNESDAY";
+            case 5:
+                return "THURSDAY";
+            case 6:
+                return "FRIDAY";
+            case 7:
+                return "SATURDAY";
+            default:
+                return "NOT A DAY";
+        }
+ 
+    }
+```
+
+13 [Java Currency Formatter](https://www.hackerrank.com/challenges/java-currency-formatter/problem?h_r=next-challenge&h_v=zen)
+```
+public class Solution {
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double payment = scanner.nextDouble();
+        scanner.close();
+
+        // Write your code here.
+        String us = NumberFormat.getCurrencyInstance(Locale.US).format(payment);
+        String china = NumberFormat.getCurrencyInstance(Locale.CHINA).format(payment);
+        String france = NumberFormat.getCurrencyInstance(Locale.FRANCE).format(payment);
+        String india = NumberFormat.getCurrencyInstance(new Locale("en","IN")).format(payment);
+
+        System.out.println("US: " + us);
+        System.out.println("India: " + india);
+        System.out.println("China: " + china);
+        System.out.println("France: " + france);
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
