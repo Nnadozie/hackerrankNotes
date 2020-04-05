@@ -379,6 +379,231 @@ public class Solution {
 }
 ```
 
+16 [Java Substring Comparison](https://www.hackerrank.com/challenges/java-string-compare/problem)
+```
+public static String getSmallestAndLargest(String s, int k) {
+        String smallest = "";
+        String largest = "";
+        
+        // Complete the function
+        // 'smallest' must be the lexicographically smallest substring of length 'k'
+        // 'largest' must be the lexicographically largest substring of length 'k'
+        int l = (s.length()-k)+1; 
+        String[] substrings = new String[l];
+        for(int i = 0; i < l; ++i) {
+            substrings[i] = (s.substring(i, k+i));
+        }
+        java.util.Arrays.sort(substrings);
+        // for(int i = 0; i < l; ++i) {
+        //     System.out.println(substrings[i]);
+        // }
+
+        smallest = substrings[0];
+        largest = substrings[l-1];
+        
+        return smallest + "\n" + largest;
+    }
+```
+
+17 [Java String Reverse](https://www.hackerrank.com/challenges/java-string-reverse/problem?h_r=next-challenge&h_v=zen)
+```
+public class Solution {
+
+    public static void main(String[] args) {
+        
+        Scanner sc=new Scanner(System.in);
+        String A=sc.next();
+        /* Enter your code here. Print output to STDOUT. */
+        String R = new StringBuilder(A).reverse().toString();
+        if(A.equals(R)) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
+        }
+        
+    }
+}
+```
+
+18 [Java Anagrams](https://www.hackerrank.com/challenges/java-anagrams/problem?h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen)
+
+There's something about converting a char arrays to strings then comparing the resulting strings
+with Objects.equals or String.equals that kept giving false even though the two strings were equal. On the other hand, doing a comparison at the Array level using Arrays.equals worked.
+Arrays
+```
+static boolean isAnagram(String a, String b) {
+        // Complete the function
+        char[] as = a.toLowerCase().toCharArray();
+        char[] bs = b.toLowerCase().toCharArray();
+
+        // java.util.Arrays.sort(as);
+        // a = java.util.Arrays.toString(as);
+        // java.util.Arrays.sort(bs);
+        // b = java.util.Arrays.toString(bs);
+
+
+        // if(java.util.Objects.equals(as, bs)) {
+        //     //System.out.println("Anagrams");
+        //     return true;
+        // } else {
+        //     //System.out.println("Not Anagrams");
+        //     return false;
+        // }
+
+        java.util.Arrays.sort(as);
+        java.util.Arrays.sort(bs);
+
+
+        if(java.util.Arrays.equals(as, bs)) {
+            //System.out.println("Anagrams");
+            return true;
+        } else {
+            //System.out.println("Not Anagrams");
+            return false;
+        }
+    }
+```
+
+19 [Java String Tokens](https://www.hackerrank.com/challenges/java-string-tokens/problem?h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen)
+Solving this challenge I needed help in the form of the following pointers:
+1) trim the string
+
+2) handle string.length() > 400000 => don't print anything
+
+3) handle string.length() == 0 => print "0"
+```
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        String s = scan.nextLine();
+        s = s.trim();
+        // Write your code here.
+        String[] sp = s.split("[ !,?._'@]+");
+        if(s.length() < 1) {
+            System.out.println("0");
+        }else{
+        System.out.println(sp.length);
+        for(int i = 0; i < sp.length; ++i) {
+            System.out.println(sp[i]);
+        }}
+        scan.close();
+    }
+}
+```
+
+20 [Pattern Syntax Checker](https://www.hackerrank.com/challenges/pattern-syntax-checker/problem?h_r=next-challenge&h_v=zen)
+```
+public class Solution
+{
+	public static void main(String[] args){
+		Scanner in = new Scanner(System.in);
+		int testCases = Integer.parseInt(in.nextLine());
+		while(testCases>0){
+			String pattern = in.nextLine();
+          	//Write your code
+            try{
+                Pattern p = Pattern.compile(pattern);
+                System.out.println("Valid");
+            } catch(PatternSyntaxException e) {
+                System.out.println("Invalid");
+            }
+            --testCases;
+		}
+	}
+}
+```
+
+21 [Java Regex](https://www.hackerrank.com/challenges/java-regex/problem)
+
+Used this resource for the regex: https://www.regular-expressions.info/ip.html
+
+```
+class MyRegex {
+    String pattern = "\\b(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b";
+}
+```
+
+22 [Java Regex 2- Duplicate Words](https://www.hackerrank.com/challenges/duplicate-word/problem)
+
+Relied on help in the discussion forum to get this one after a few attempts.
+Found this recommended resource very helpful for getting an idea of how groups work: http://tutorials.jenkov.com/java-regex/matcher.html
+
+I do wish there were an easier way than regex of telling a machine what it is you want to match.
+
+```
+public class DuplicateWords {
+
+    public static void main(String[] args) {
+
+        String regex = "\\b(\\w+)( \\1)+\\b";
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+
+        Scanner in = new Scanner(System.in);
+        int numSentences = Integer.parseInt(in.nextLine());
+        
+        while (numSentences-- > 0) {
+            String input = in.nextLine();
+            
+            Matcher m = p.matcher(input);
+            
+            // Check for subsequences of input that match the compiled pattern
+            while (m.find()) {
+                input = input.replaceAll(m.group(0), m.group(1));
+            }
+            
+            // Prints the modified sentence.
+            System.out.println(input);
+        }
+        
+        in.close();
+    }
+}
+```
+
+23 [Username validator](https://www.hackerrank.com/challenges/valid-username-checker/problem)
+```
+class UsernameValidator {
+    /*
+     * Write regular expression here.
+     */
+    public static final String regularExpression = "[a-zA-Z]{1}[a-zA-Z0-9_]{7,29}";
+}
+```
+
+24 [Tag Content Extractor](https://www.hackerrank.com/challenges/tag-content-extractor/problem)
+My best regex solution: <(.+)>(.+)<\/\1> didn't quite cut it
+
+So with help from the discussions I used this: <(.+)>([^<]+)</\\1>
+And it makes sense. A child of tags cannot contain a < character.
+```
+public class Solution{
+
+	public static void main(String[] args){
+		
+		Scanner in = new Scanner(System.in);
+		int testCases = Integer.parseInt(in.nextLine());
+		while(testCases>0){
+			String line = in.nextLine();
+			
+          	//Write your code here
+            Pattern p = Pattern.compile("<(.+)>([^<]+)</\\1>");
+            Matcher m = p.matcher(line);
+
+            while(m.find()) {
+                System.out.println(m.group(2));
+            }
+            m.reset();
+            if(!m.find()) {
+                System.out.println("None");
+            }
+			
+			testCases--;
+		}
+	}
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
