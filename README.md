@@ -41,13 +41,17 @@ var sortArray = function(nums) {
 import java.math.*;
 
 class Solution {
-    public String multiply(String num1, String num2) {        
+    
+        public static String mymult(String num1, String num2) {
+        if(num1.length() == 0 || num2.length() == 0) {
+            return "0";
+        }
         
-        if(num1.length() == 1) {
+        if(num1.length() == 1 || num2.length() == 1) {
             try {
                 int x = Integer.parseInt(num1);
                 int y = Integer.parseInt(num2);
-                return String.valueOf(x*y);
+                return ""+x*y;
                 
             } catch(NumberFormatException e) {
                 System.out.println(e);
@@ -59,26 +63,16 @@ class Solution {
         String c = num2.substring(0, num2.length()/2);
         String d = num2.substring(num2.length()/2);
         
-        int ai, bi, ci, di;
-        ai = bi = ci = di = 0;
         
-        try {
-                ai = Integer.parseInt(a);
-                bi = Integer.parseInt(b);
-                ci = Integer.parseInt(c);
-                di = Integer.parseInt(d);
-            
-        } catch(NumberFormatException e) {
-                System.out.println(e);
-        }
-        
-        String O = multiply(a, c);
-        String G = multiply(b, d);
-        String C = multiply(String.valueOf(ai+bi), String.valueOf(ci+di));
-        
-        BigInteger Oi, Gi, Ci;
-        BigInteger ten = new BigInteger("10");
+        String O = mymult(a, c);
+        String G = mymult(b, d);
+        String C = mymult(""+(new BigInteger(a)).add(new BigInteger(b)),""+(new BigInteger(c)).add(new BigInteger(d)));
+
+         BigInteger Oi, Gi, Ci;
+         BigInteger ten = new BigInteger("10");
         Oi = Gi = Ci = new BigInteger("0");
+        int nhalf = num2.length() - num2.length()/2;
+        
         try {
                 Oi = new BigInteger(O);
                 Gi = new BigInteger(G);
@@ -88,9 +82,20 @@ class Solution {
                 System.out.println(e);
         }
         
-        BigInteger sum = ten.pow(num1.length()).multiply(Oi).add( ten.pow(num1.length()/2).multiply(Ci.subtract(Oi).subtract(Gi))).add(Gi);
+        BigInteger sum = ten.pow(nhalf*2).multiply(Oi).add( ten.pow(nhalf).multiply(Ci.subtract(Oi).subtract(Gi))).add(Gi);
         
+        //BigInteger sum = (new BigInteger(num1)).multiply(new BigInteger(num2));
         return "" + sum;
+        
+    }
+    
+    public String multiply(String num1, String num2) {
+//         num1 = "3141592653589793238462643383279502884197169399375105820974944592";
+//         num2 = "2718281828459045235360287471352662497757247093699959574966967627";
+        
+        System.out.println(mymult(num1, num2));
+        return mymult(num1, num2);
+
     }
 }
 ```
