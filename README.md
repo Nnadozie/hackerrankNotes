@@ -1,5 +1,5 @@
 # Leetcode solutions
-1[Sort an array](https://leetcode.com/problems/sort-an-array/submissions/)
+1 [Sort an array](https://leetcode.com/problems/sort-an-array/submissions/)
 ```
 /**
  * @param {number[]} nums
@@ -34,6 +34,65 @@ var sortArray = function(nums) {
         }
     }  
 };
+```
+
+2 [multiply two stings](https://leetcode.com/problems/multiply-strings/submissions/)
+```
+import java.math.*;
+
+class Solution {
+    public String multiply(String num1, String num2) {        
+        
+        if(num1.length() == 1) {
+            try {
+                int x = Integer.parseInt(num1);
+                int y = Integer.parseInt(num2);
+                return String.valueOf(x*y);
+                
+            } catch(NumberFormatException e) {
+                System.out.println(e);
+            }
+        }
+        
+        String a = num1.substring(0, num1.length()/2);
+        String b = num1.substring(num1.length()/2);
+        String c = num2.substring(0, num2.length()/2);
+        String d = num2.substring(num2.length()/2);
+        
+        int ai, bi, ci, di;
+        ai = bi = ci = di = 0;
+        
+        try {
+                ai = Integer.parseInt(a);
+                bi = Integer.parseInt(b);
+                ci = Integer.parseInt(c);
+                di = Integer.parseInt(d);
+            
+        } catch(NumberFormatException e) {
+                System.out.println(e);
+        }
+        
+        String O = multiply(a, c);
+        String G = multiply(b, d);
+        String C = multiply(String.valueOf(ai+bi), String.valueOf(ci+di));
+        
+        BigInteger Oi, Gi, Ci;
+        BigInteger ten = new BigInteger("10");
+        Oi = Gi = Ci = new BigInteger("0");
+        try {
+                Oi = new BigInteger(O);
+                Gi = new BigInteger(G);
+                Ci = new BigInteger(C);
+            
+        } catch(NumberFormatException e) {
+                System.out.println(e);
+        }
+        
+        BigInteger sum = ten.pow(num1.length()).multiply(Oi).add( ten.pow(num1.length()/2).multiply(Ci.subtract(Oi).subtract(Gi))).add(Gi);
+        
+        return "" + sum;
+    }
+}
 ```
 
 # Hackerrank SQL Solutions
