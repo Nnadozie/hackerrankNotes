@@ -37,77 +37,88 @@ var sortArray = function(nums) {
 ```
 
 2 [multiply two stings](https://leetcode.com/problems/multiply-strings/submissions/)
+
+Karatsuba multiplication
 ```
 import java.math.*;
 
 class Solution {
     
-        public static String mymult(String num1, String num2) {
-                if(num1.length() == 0 || num2.length() == 0) {
-            return "0";
-        }
+    public String multiply(String num1, String num2) {
         
-        if(num1.length() == 1 && num2.length() == 1) {
-            try {
-                int x = Integer.parseInt(num1);
-                int y = Integer.parseInt(num2);
-                return ""+x*y;
-                
-            } catch(NumberFormatException e) {
-                System.out.println(e);
-            }
-        }
-        if(num1.length() < num2.length()) {
-            int diff = num2.length() - num1.length();
-            String f = String.format("0%d", num2.length());
-            f = "%" + f + "d";
-            num1 = String.format(f, new BigInteger(num1));
-        }
-        if(num1.length() > num2.length()) {
-            int diff = num1.length() - num2.length();
-            String f = String.format("0%d", num1.length());
-            f = "%" + f + "d";
-            num2 = String.format(f, new BigInteger(num2));
-        }
-        
-        
-        String a = num1.substring(0, num1.length()/2);
-        String b = num1.substring(num1.length()/2);
-        String c = num2.substring(0, num2.length()/2);
-        String d = num2.substring(num2.length()/2);
-        
-        
-        String O = mymult(a, c);
-        String G = mymult(b, d);
-        String C = mymult(""+(new BigInteger(a)).add(new BigInteger(b)),""+(new BigInteger(c)).add(new BigInteger(d)));
+        int numl1 = num1.length();
+            int numl2 = num2.length();
 
-         BigInteger Oi, Gi, Ci;
-         BigInteger ten = new BigInteger("10");
-        Oi = Gi = Ci = new BigInteger("0");
-        int lhalf = Math.max(num1.length(), num2.length());
-        int nhalf = lhalf - lhalf/2;
-        
-        try {
-                Oi = new BigInteger(O);
-                Gi = new BigInteger(G);
-                Ci = new BigInteger(C);
-            
-        } catch(NumberFormatException e) {
-                System.out.println(e);
-        }
-        
-        BigInteger sum = ten.pow(nhalf*2).multiply(Oi).add( ten.pow(nhalf).multiply(Ci.subtract(Oi).subtract(Gi))).add(Gi);
-        
-        return "" + sum;
-        
+            if(numl1 == 0 || numl2 == 0) {
+                return "0";
+            }
+
+            if(numl1 == 1 && numl2 == 1) {
+                try {
+                    int x = Integer.parseInt(num1);
+                    int y = Integer.parseInt(num2);
+                    return ""+x*y;
+
+                } catch(NumberFormatException e) {
+                    System.out.println(e);
+                }
+            }
+            if(numl1 < numl2) {
+                String f = String.format("0%d", numl2);
+                f = "%" + f + "d";
+                num1 = String.format(f, new BigInteger(num1));
+                numl1 = numl2;
+            }
+            if(numl1 > numl2) {
+                String f = String.format("0%d", numl1);
+                f = "%" + f + "d";
+                num2 = String.format(f, new BigInteger(num2));
+                numl2 = numl1;
+            }
+
+
+            String a = num1.substring(0, numl1/2);
+            String b = num1.substring(numl1/2);
+            String c = num2.substring(0, numl2/2);
+            String d = num2.substring(numl2/2);
+
+
+            String O = multiply(a, c);
+            String G = multiply(b, d);
+            String C = multiply(""+(new BigInteger(a)).add(new BigInteger(b)),""+(new BigInteger(c)).add(new BigInteger(d)));
+
+             BigInteger Oi, Gi, Ci;
+             BigInteger ten = new BigInteger("10");
+            Oi = Gi = Ci = new BigInteger("0");
+            int lhalf = Math.max(numl1, numl2);
+            int nhalf = lhalf - lhalf/2;
+
+            try {
+                    Oi = new BigInteger(O);
+                    Gi = new BigInteger(G);
+                    Ci = new BigInteger(C);
+
+            } catch(NumberFormatException e) {
+                    System.out.println(e);
+            }
+
+            BigInteger sum = ten.pow(nhalf*2).multiply(Oi).add( ten.pow(nhalf).multiply(Ci.subtract(Oi).subtract(Gi))).add(Gi);
+
+            return "" + sum;
+
     }
+}
+```
+
+Relying on Java BigInteger
+```
+import java.math.*;
+
+class Solution {
     
     public String multiply(String num1, String num2) {
-//         num1 = "3141592653589793238462643383279502884197169399375105820974944592";
-//         num2 = "2718281828459045235360287471352662497757247093699959574966967627";
-        
-        //System.out.println(mymult(num1, num2));
-        return mymult(num1, num2);
+              
+            return "" + new BigInteger(num1).multiply(new BigInteger(num2));
 
     }
 }
