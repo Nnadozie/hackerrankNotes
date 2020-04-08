@@ -692,6 +692,45 @@ public class Solution{
 }
 ```
 
+25 [Java BigInteger](https://www.hackerrank.com/challenges/java-biginteger/problem)
+```
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        String a = sc.next();
+        String b = sc.next();
+        sc.close();
+
+        BigInteger A = new BigInteger(a);
+        BigInteger B = new BigInteger(b);
+
+        System.out.printf("%d%n%d%n", A.add(B), A.multiply(B));
+        
+    }
+}
+```
+
+26 [Java Primality Test](https://www.hackerrank.com/challenges/java-primality-test/problem)
+```
+public class Solution {
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        String n = scanner.nextLine();
+
+        scanner.close();
+
+        BigInteger bn = new BigInteger(n);
+        if(bn.isProbablePrime(1))
+        System.out.println("prime");
+        else
+        System.out.println("not prime");
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
