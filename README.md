@@ -731,6 +731,30 @@ public class Solution {
 }
 ```
 
+27 [Java BigDecimal](https://www.hackerrank.com/challenges/java-bigdecimal/problem)
+```
+ArrayList<String> ls = new ArrayList<String>(Arrays.asList(s));
+ls.remove(n+1);
+ls.remove(n);
+
+BigDecimal[] ds = new BigDecimal[ls.size()];
+
+for(int i = 0; i < ls.size(); ++i) {
+    ds[i] = new BigDecimal(ls.get(i));
+}
+
+Arrays.sort(ds, Collections.reverseOrder());
+
+for(int i = 0; i < ds.length; ++i) {
+    for(int j = 0; j < ls.size(); ++j) {
+        if(new BigDecimal(ls.get(j)).equals(ds[i])){
+            s[i] = ls.get(j);
+            ls.remove(j);
+        }
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
