@@ -1,0 +1,14 @@
+#title {
+  text-align: center;
+  font-family: arial;
+}
+
+body {
+  background: green;
+}
+
+svg {
+  background: pink;
+  display: block;
+  margin: 0 auto;
+}
