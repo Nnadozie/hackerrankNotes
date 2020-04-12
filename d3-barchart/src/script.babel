@@ -10,7 +10,11 @@ req.onload = () => {
   data = JSON.parse(req.responseText).data;
 
   const padding = 60;
+<<<<<<< HEAD
   const barWidth = 2;
+=======
+  const barWidth = 3;
+>>>>>>> 280fa15dac89fb2ca9bd593f057a02dc6abe218d
   const w = 350 * barWidth;
   const h = 200 * barWidth;
 
@@ -25,6 +29,7 @@ req.onload = () => {
 
   const yAxis = d3.axisLeft(yScale.range([h - 2 * padding, 0]));
 
+<<<<<<< HEAD
   //   const xScale = d3
   //     .scaleLinear()
   //     .domain([
@@ -56,6 +61,21 @@ req.onload = () => {
 
       d3.max(data, (d) => {
         return new Date(d[0]);
+=======
+  const xScale = d3
+    .scaleLinear()
+    .domain([
+      d3.min(data, (d) => {
+        const regex = /([0-9]{4})-/g;
+        const match = regex.exec(d[0]);
+        return match[1];
+      }),
+
+      d3.max(data, (d) => {
+        const regex = /([0-9]{4})-/g;
+        const match = regex.exec(d[0]);
+        return match[1];
+>>>>>>> 280fa15dac89fb2ca9bd593f057a02dc6abe218d
       })
     ])
     .range([0, barWidth * data.length]);
@@ -74,19 +94,26 @@ req.onload = () => {
     .attr("transform", "translate(" + padding + ", " + padding + ")")
     .call(yAxis);
 
+<<<<<<< HEAD
   const rect = svg
     .append("circle")
     .attr("id", "tooltip")
     .attr("r", 50)
     .style("opacity", 0);
 
+=======
+>>>>>>> 280fa15dac89fb2ca9bd593f057a02dc6abe218d
   svg
     .selectAll("rect")
     .data(data)
     .enter()
     .append("rect")
     .attr("x", (d, i) => {
+<<<<<<< HEAD
       return xScale(new Date(d[0])) + padding;
+=======
+      return i * barWidth + padding;
+>>>>>>> 280fa15dac89fb2ca9bd593f057a02dc6abe218d
     })
     .attr("y", (d, i) => {
       return h - yScale.range([0, h - padding * 2])(d[1]) - padding;
@@ -103,6 +130,7 @@ req.onload = () => {
     })
     .attr("data-gdp", (d, i) => {
       return d[1];
+<<<<<<< HEAD
     })
     .on("mouseover", (d, i) => {
       rect
@@ -114,6 +142,8 @@ req.onload = () => {
     })
     .on("mouseout", () => {
       rect.transition().duration(500).style("opacity", 0);
+=======
+>>>>>>> 280fa15dac89fb2ca9bd593f057a02dc6abe218d
     });
 };
 
