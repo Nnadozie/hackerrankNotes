@@ -1,22 +1,24 @@
 # Leetcode solutions
+
 1 [Sort an array](https://leetcode.com/problems/sort-an-array/submissions/)
+
 ```
 /**
  * @param {number[]} nums
  * @return {number[]}
  */
 var sortArray = function(nums) {
-    
+
     if(nums.length <= 1){ return nums}
     //splitarray
     let a = sortArray(nums.slice(0, nums.length/2))
     let b = sortArray(nums.slice(nums.length/2))
-    
-    
+
+
     //merge a and b
     let i = 0
     let j = 0
-    
+
     for(let k = 0; k < nums.length; k++) {
         if (a[i] < b[j]){
             nums[k] = a[i]
@@ -32,20 +34,21 @@ var sortArray = function(nums) {
             }
             j++
         }
-    }  
+    }
 };
 ```
 
 2 [multiply two stings](https://leetcode.com/problems/multiply-strings/submissions/)
 
 Karatsuba multiplication
+
 ```
 import java.math.*;
 
 class Solution {
-    
+
     public String multiply(String num1, String num2) {
-        
+
         int numl1 = num1.length();
             int numl2 = num2.length();
 
@@ -111,22 +114,93 @@ class Solution {
 ```
 
 Relying on Java BigInteger
+
 ```
 import java.math.*;
 
 class Solution {
-    
+
     public String multiply(String num1, String num2) {
-              
+
             return "" + new BigInteger(num1).multiply(new BigInteger(num2));
 
     }
 }
 ```
 
+3 [global-and-local-inversions](https://leetcode.com/problems/global-and-local-inversions/submissions/)
+
+Piggyback on merge sort
+
+```
+//A version of this solution that assumes even numbered arrays, which is sufficient to pass the
+//quiz given in week 2 of Stanford's Coursera algorithms course: https://www.coursera.org/learn/algorithms-divide-conquer/home/welcome
+//is located in /count-inversions
+
+
+var fs = require("fs");
+fs.readFile("array.txt", function (err, data) {
+  //console.log(data.toString());
+  let numa = data.toString().split("\n");
+  numa.pop();
+  numa = numa.map((val) => {
+    return parseInt(val);
+  });
+
+  let localInvs = 0;
+  let globalInvs = 0;
+
+  const main = () => {
+    let sorted = sortt(numa);
+    //console.log(localInvs);
+    console.log(`Global Inversions: ${globalInvs}`);
+    //console.log(sorted);
+  };
+
+  var sortt = function (nums) {
+    if (nums.length <= 1) {
+      return nums;
+    }
+    //splitarray
+    let a = sortt(nums.slice(0, nums.length / 2));
+    let b = sortt(nums.slice(nums.length / 2));
+
+    //count side by side inversion
+    if (a[a.length - 1] > b[0]) {
+      ++localInvs;
+    }
+
+    //merge a and b
+    let i = 0;
+    let j = 0;
+
+    for (let k = 0; k < nums.length; k++) {
+      if (a[i] < b[j]) {
+        nums[k] = a[i];
+        if (i === a.length - 1) {
+          return nums.slice(0, k + 1).concat(b.slice(j));
+        }
+        i++;
+      } else if (b[j] <= a[i]) {
+        globalInvs += a.length - i;
+        nums[k] = b[j];
+        if (j === b.length - 1) {
+          return nums.slice(0, k + 1).concat(a.slice(i));
+        }
+        j++;
+      }
+    }
+  };
+
+  main();
+});
+
+```
+
 # Hackerrank SQL Solutions
 
 1 [Revising the Select Query](https://www.hackerrank.com/challenges/revising-the-select-query/problem)
+
 ```
 SELECT *
 FROM CITY
@@ -136,6 +210,7 @@ WHERE COUNTRYCODE = 'USA' AND POPULATION > 100000
 # Hackerrank Databases Solutions
 
 1 [Basics of Sets and Relations #1](https://www.hackerrank.com/challenges/basics-of-sets-and-relational-algebra-1/problem)
+
 ```
 8
 ```
@@ -143,6 +218,7 @@ WHERE COUNTRYCODE = 'USA' AND POPULATION > 100000
 # Hackerrank Java Solutions
 
 1 [Welcome to Java!](https://www.hackerrank.com/challenges/welcome-to-java/problem)
+
 ```
 public class Solution {
 
@@ -155,6 +231,7 @@ public class Solution {
 ```
 
 2 [Java Stdin and Stdout I](https://www.hackerrank.com/challenges/java-stdin-and-stdout-1/problem)
+
 ```
 import java.util.*;
 
@@ -163,7 +240,7 @@ public class Solution {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int a = scan.nextInt();
-        
+
         System.out.println(a);
 
         a = scan.nextInt();
@@ -178,6 +255,7 @@ public class Solution {
 ```
 
 3 [Java if-else](https://www.hackerrank.com/challenges/java-if-else/problem)
+
 ```
 public class Solution {
 
@@ -207,6 +285,7 @@ public class Solution {
 ```
 
 4 [Java Stdin and Stdout II](https://www.hackerrank.com/challenges/java-stdin-stdout/problem?h_r=next-challenge&h_v=zen)
+
 ```
 public class Solution {
 
@@ -224,7 +303,9 @@ public class Solution {
     }
 }
 ```
+
 5 [Java Output Formatting](https://www.hackerrank.com/challenges/java-output-formatting/problem)
+
 ```
 public class Solution {
 
@@ -243,7 +324,9 @@ public class Solution {
     }
 }
 ```
+
 6 [Java Loops I](https://www.hackerrank.com/challenges/java-loops-i/problem)
+
 ```
 public class Solution {
 
@@ -263,6 +346,7 @@ public class Solution {
 ```
 
 7 [Java Loops II](https://www.hackerrank.com/challenges/java-loops/problem)
+
 ```
 class Solution{
     public static void main(String []argh){
@@ -288,6 +372,7 @@ class Solution{
 ```
 
 8 [Java Datatypes](https://www.hackerrank.com/challenges/java-datatypes/problem)
+
 ```
 class Solution{
     public static void main(String []argh)
@@ -323,6 +408,7 @@ class Solution{
 ```
 
 9 [Java End-Of-file](https://www.hackerrank.com/challenges/java-end-of-file/problem)
+
 ```
 public class Solution {
 
@@ -342,6 +428,7 @@ public class Solution {
 ```
 
 10 [Java Static Initialization Block](https://www.hackerrank.com/challenges/java-static-initializer-block/problem?h_r=next-challenge&h_v=zen)
+
 ```
 public class Solution {
     static int B, H = 0;
@@ -362,18 +449,20 @@ public static void main(String[] args){
 			int area=B*H;
 			System.out.print(area);
 		}
-		
+
 	}//end of main
 
 }//end of class
 ```
 
 11 [Java Int to String](https://www.hackerrank.com/challenges/java-int-to-string/problem)
+
 ```
 String s = String.valueOf(n);
 ```
 
 12 [Java Date and Time](https://www.hackerrank.com/challenges/java-date-and-time/problem)
+
 ```
 public static String findDay(int month, int day, int year) {
         Calendar cal = Calendar.getInstance();
@@ -385,7 +474,7 @@ public static String findDay(int month, int day, int year) {
         }
         cal.setTime(date);
         int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-        
+
         switch(dayOfWeek) {
             case 1:
                 return "SUNDAY";
@@ -404,14 +493,15 @@ public static String findDay(int month, int day, int year) {
             default:
                 return "NOT A DAY";
         }
- 
+
     }
 ```
 
 13 [Java Currency Formatter](https://www.hackerrank.com/challenges/java-currency-formatter/problem?h_r=next-challenge&h_v=zen)
+
 ```
 public class Solution {
-    
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         double payment = scanner.nextDouble();
@@ -432,11 +522,12 @@ public class Solution {
 ```
 
 14 [Java Strings Introduction](https://www.hackerrank.com/challenges/java-strings-introduction/problem)
+
 ```
 public class Solution {
 
     public static void main(String[] args) {
-        
+
         Scanner sc=new Scanner(System.in);
         String A=sc.next();
         String B=sc.next();
@@ -448,12 +539,13 @@ public class Solution {
             System.out.println("No");
         }
         System.out.printf("%s %s%n", A.toUpperCase().charAt(0)+ A.substring(1), B.toUpperCase().charAt(0)+ B.substring(1));
-        
+
     }
 }
 ```
 
 15 [Java Substring](https://www.hackerrank.com/challenges/java-substring/problem?h_r=next-challenge&h_v=zen)
+
 ```
 public class Solution {
 
@@ -468,15 +560,16 @@ public class Solution {
 ```
 
 16 [Java Substring Comparison](https://www.hackerrank.com/challenges/java-string-compare/problem)
+
 ```
 public static String getSmallestAndLargest(String s, int k) {
         String smallest = "";
         String largest = "";
-        
+
         // Complete the function
         // 'smallest' must be the lexicographically smallest substring of length 'k'
         // 'largest' must be the lexicographically largest substring of length 'k'
-        int l = (s.length()-k)+1; 
+        int l = (s.length()-k)+1;
         String[] substrings = new String[l];
         for(int i = 0; i < l; ++i) {
             substrings[i] = (s.substring(i, k+i));
@@ -488,17 +581,18 @@ public static String getSmallestAndLargest(String s, int k) {
 
         smallest = substrings[0];
         largest = substrings[l-1];
-        
+
         return smallest + "\n" + largest;
     }
 ```
 
 17 [Java String Reverse](https://www.hackerrank.com/challenges/java-string-reverse/problem?h_r=next-challenge&h_v=zen)
+
 ```
 public class Solution {
 
     public static void main(String[] args) {
-        
+
         Scanner sc=new Scanner(System.in);
         String A=sc.next();
         /* Enter your code here. Print output to STDOUT. */
@@ -508,7 +602,7 @@ public class Solution {
         } else {
             System.out.println("No");
         }
-        
+
     }
 }
 ```
@@ -518,6 +612,7 @@ public class Solution {
 There's something about converting a char arrays to strings then comparing the resulting strings
 with Objects.equals or String.equals that kept giving false even though the two strings were equal. On the other hand, doing a comparison at the Array level using Arrays.equals worked.
 Arrays
+
 ```
 static boolean isAnagram(String a, String b) {
         // Complete the function
@@ -554,11 +649,13 @@ static boolean isAnagram(String a, String b) {
 
 19 [Java String Tokens](https://www.hackerrank.com/challenges/java-string-tokens/problem?h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen&h_r=next-challenge&h_v=zen)
 Solving this challenge I needed help in the form of the following pointers:
-1) trim the string
 
-2) handle string.length() > 400000 => don't print anything
+1. trim the string
 
-3) handle string.length() == 0 => print "0"
+2. handle string.length() > 400000 => don't print anything
+
+3. handle string.length() == 0 => print "0"
+
 ```
 public class Solution {
 
@@ -581,6 +678,7 @@ public class Solution {
 ```
 
 20 [Pattern Syntax Checker](https://www.hackerrank.com/challenges/pattern-syntax-checker/problem?h_r=next-challenge&h_v=zen)
+
 ```
 public class Solution
 {
@@ -629,27 +727,28 @@ public class DuplicateWords {
 
         Scanner in = new Scanner(System.in);
         int numSentences = Integer.parseInt(in.nextLine());
-        
+
         while (numSentences-- > 0) {
             String input = in.nextLine();
-            
+
             Matcher m = p.matcher(input);
-            
+
             // Check for subsequences of input that match the compiled pattern
             while (m.find()) {
                 input = input.replaceAll(m.group(0), m.group(1));
             }
-            
+
             // Prints the modified sentence.
             System.out.println(input);
         }
-        
+
         in.close();
     }
 }
 ```
 
 23 [Username validator](https://www.hackerrank.com/challenges/valid-username-checker/problem)
+
 ```
 class UsernameValidator {
     /*
@@ -664,16 +763,17 @@ My best regex solution: <(.+)>(.+)<\/\1> didn't quite cut it
 
 So with help from the discussions I used this: <(.+)>([^<]+)</\\1>
 And it makes sense. A child of tags cannot contain a < character.
+
 ```
 public class Solution{
 
 	public static void main(String[] args){
-		
+
 		Scanner in = new Scanner(System.in);
 		int testCases = Integer.parseInt(in.nextLine());
 		while(testCases>0){
 			String line = in.nextLine();
-			
+
           	//Write your code here
             Pattern p = Pattern.compile("<(.+)>([^<]+)</\\1>");
             Matcher m = p.matcher(line);
@@ -685,7 +785,7 @@ public class Solution{
             if(!m.find()) {
                 System.out.println("None");
             }
-			
+
 			testCases--;
 		}
 	}
@@ -693,6 +793,7 @@ public class Solution{
 ```
 
 25 [Java BigInteger](https://www.hackerrank.com/challenges/java-biginteger/problem)
+
 ```
 public class Solution {
 
@@ -707,12 +808,13 @@ public class Solution {
         BigInteger B = new BigInteger(b);
 
         System.out.printf("%d%n%d%n", A.add(B), A.multiply(B));
-        
+
     }
 }
 ```
 
 26 [Java Primality Test](https://www.hackerrank.com/challenges/java-primality-test/problem)
+
 ```
 public class Solution {
     private static final Scanner scanner = new Scanner(System.in);
@@ -732,6 +834,7 @@ public class Solution {
 ```
 
 27 [Java BigDecimal](https://www.hackerrank.com/challenges/java-bigdecimal/problem)
+
 ```
 ArrayList<String> ls = new ArrayList<String>(Arrays.asList(s));
 ls.remove(n+1);
@@ -758,6 +861,7 @@ for(int i = 0; i < ds.length; ++i) {
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
+
 ```
 function updateRecords(id, prop, value) {
   if(prop != 'tracks' && value != '') {
