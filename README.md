@@ -883,6 +883,54 @@ public class Solution {
 }
 ```
 
+28 [Java 2D Array](https://www.hackerrank.com/challenges/java-2d-array/problem)
+
+```
+public class Solution {
+
+
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int[][] arr = new int[6][6];
+
+        for (int i = 0; i < 6; i++) {
+            String[] arrRowItems = scanner.nextLine().split(" ");
+            scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+            for (int j = 0; j < 6; j++) {
+                int arrItem = Integer.parseInt(arrRowItems[j]);
+                arr[i][j] = arrItem;
+            }
+        }
+
+        int max = 0; int sum = 0;
+
+        for(int i =0; i <= 3; ++i){
+            for(int j = 0; j<=3; ++j){
+                sum =
+                 arr[i][j] + arr[i][j+1] + arr[i][j+2]
+                 + arr[i+1][j+1]
+                 +arr[i+2][j]+arr[i+2][j+1]+arr[i+2][j+2];
+
+                if(i == 0 && j == 0) {
+                max = sum;
+                }
+
+                if(sum > max){
+                     max = sum;
+                }
+            }
+        }
+
+        System.out.println(max);
+
+        scanner.close();
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
