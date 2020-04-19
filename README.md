@@ -931,6 +931,47 @@ public class Solution {
 }
 ```
 
+29 [Java Subarray](https://www.hackerrank.com/challenges/java-negative-subarray/problem)
+
+```
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        int l = sc.nextInt();
+        int[] arr = new int[l];
+        for(int i = 0; i < l; i++){
+            arr[i] = sc.nextInt();
+        }
+
+        int counter = 0;
+        int sum = 0;
+        //int stop = 0;
+        for(int i = 0; i < l; i++) {
+            if(arr[i] < 0) {
+                ++counter;
+            }
+            sum = arr[i];
+
+            // if(i == 0) {
+            //     stop = l-1;
+            // }else {
+            //     stop = l;
+            // }
+            for(int j = i+1; j < l; j++) {
+                sum += arr[j];
+                //System.out.println(sum);
+                if(sum < 0){
+                    ++counter;
+                }
+            }
+        }
+        System.out.println(counter);
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
