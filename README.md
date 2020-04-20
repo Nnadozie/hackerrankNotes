@@ -972,6 +972,42 @@ public class Solution {
 }
 ```
 
+30 [Java ArrayList](https://www.hackerrank.com/challenges/java-arraylist/problem)
+What's the issue with ArrayList in ArrayList, why did I have to use an array of ArrayLists here?
+
+```
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        int listLen = sc.nextInt();
+        ArrayList[] arr = new ArrayList[listLen];
+        for(int i =0; i < listLen; ++i) {
+            ArrayList child = new ArrayList();
+            int childLen = sc.nextInt();
+            for(int j = 0; j < childLen; j++){
+                child.add(sc.nextInt());
+            }
+            arr[i] = child;
+            //System.out.println(arr.get(i));
+        }
+        int q = sc.nextInt();
+        int row, col =0;
+        row = col;
+        for(int i =0; i < q; ++i){
+            row = sc.nextInt();
+            col = sc.nextInt();
+            try {
+            System.out.println(arr[row-1].get(col-1));
+            }catch(Exception e){
+                System.out.println("ERROR!");
+            }
+        }
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
