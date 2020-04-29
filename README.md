@@ -1008,6 +1008,55 @@ public class Solution {
 }
 ```
 
+31 [Java 1D Array Part II](https://www.hackerrank.com/challenges/java-1d-array/problem)
+```
+import java.util.*;
+
+public class Solution {
+
+    public static boolean canWin(int leap, int[] game) {
+        // Return true if you can win the game; otherwise, return false.
+        int i = 0;
+        int n = game.length;
+        while( i < n-1) {
+            if((i + leap) >= (n-1)) {
+                return true;
+            }
+            if(i == (n-1)) {
+                return true;
+            }
+            if(game[i+leap] == 0){
+                i = i+leap;
+                continue;
+            }
+            if(game[i+1] == 0) {
+                i = i+1;
+                continue;
+            }
+            break;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        int q = scan.nextInt();
+        while (q-- > 0) {
+            int n = scan.nextInt();
+            int leap = scan.nextInt();
+            
+            int[] game = new int[n];
+            for (int i = 0; i < n; i++) {
+                game[i] = scan.nextInt();
+            }
+
+            System.out.println( (canWin(leap, game)) ? "YES" : "NO" );
+        }
+        scan.close();
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
