@@ -1,0 +1,252 @@
+// User Story #1: My heat map should have a title with a corresponding id="title".
+
+// User Story #2: My heat map should have a description with a corresponding id="description".
+
+// User Story #3: My heat map should have an x-axis with a corresponding id="x-axis".
+const w = 2000;
+const h = 500;
+const padding = 50;
+const xpadding = padding * 2.5;
+
+const svg = d3
+  .select("#svgCanvas")
+  .append("svg")
+  .attr("width", w + padding * 5)
+  .attr("height", h + padding * 2);
+
+// svg
+//   .append("rect")
+//   .attr("fill", "blue")
+//   .attr("width", w)
+//   .attr("height", h)
+//   .attr("x", xpadding)
+//   .attr("y", padding);
+
+let xScale = d3.scaleTime().range([0, w]);
+let xAxis = d3.axisBottom(xScale);
+
+// svg
+//   .append("g")
+//   .attr("transform", "translate(" + xpadding + "," + (h + padding) + ")")
+//   .attr("id", "x-axis")
+//   .call(xAxis);
+
+// User Story #4: My heat map should have a y-axis with a corresponding id="y-axis".
+let yScale = d3.scaleTime().range([0, h]);
+let yAxis = d3.axisLeft(yScale);
+
+// svg
+//   .append("g")
+//   .attr("transform", "translate(" + xpadding + "," + padding + ")")
+//   .attr("id", "y-axis")
+//   .call(yAxis);
+
+// User Story #5: My heat map should have rect elements with a class="cell" that represent the data.
+d3.json(
+  "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json"
+).then((data) => {
+  plot(data.monthlyVariance, data.baseTemperature);
+});
+
+const plot = (data, baseTemp) => {
+  //refactor x scales and axes
+  const minX = d3.min(data, (d) => {
+    return new Date(d.year, null, null);
+  });
+  const maxX = d3.max(data, (d) => {
+    return new Date(d.year, null, null);
+  });
+
+  xScale = d3.scaleTime().domain([minX, maxX]).range([0, w]);
+  xAxis = d3.axisBottom(xScale);
+
+  svg
+    .append("g")
+    .attr("transform", "translate(" + xpadding + "," + (h + padding) + ")")
+    .attr("id", "x-axis")
+    .call(xAxis);
+
+  //refactor y scales and axes
+  // const minY = d3.min(data, (d) => {
+  //   return new Date(0, d.month-1, null);
+  // });
+  // const maxY = d3.max(data, (d) => {
+  //   return new Date(0, d.month , null);
+  // });
+
+  yScale = d3
+    .scaleTime()
+    .domain([new Date(2012, 0, 1), new Date(2012, 11, 31)])
+    .range([0, h]);
+  yAxis = d3.axisLeft(yScale).ticks(12).tickFormat(d3.timeFormat("%B"));
+
+  svg
+    .append("g")
+    .attr("transform", "translate(" + xpadding + "," + padding + ")")
+    .attr("id", "y-axis")
+    .call(yAxis);
+  //todo: center month ticks
+
+  //-----------------------------
+
+  //create bind
+  let join = svg.selectAll("rect").data(data);
+
+  join
+    .enter()
+    .append("rect")
+    .attr("width", w / (data.length / 12 + 1))
+    .attr("height", h / 12)
+    .attr("fill", (d) => {
+      return "red";
+    })
+    .attr("x", (d) => {
+      return xScale(new Date(d.year, null, null)) + xpadding;
+    })
+    .attr("y", (d) => {
+      return yScale(new Date(2012, d.month - 1, null)) + padding;
+    })
+    .attr("class", "cell");
+
+  // User Story #6: There should be at least 4 different fill colors used for the cells.
+  const minV = d3.min(data, (d) => {
+    return d.variance;
+  });
+  const maxV = d3.max(data, (d) => {
+    return d.variance;
+  });
+
+  const colors = [
+    "#0500ff",
+    "#0032ff",
+    "#0064ff",
+    "#00b4ff",
+    "#00d4ff",
+    "#b0ff00",
+    "#d7ff00",
+    "#FFdc00",
+    "#FFc800",
+    "#FF2800",
+    "#FF0030"
+  ];
+  const colorScale = d3
+    .scaleQuantize()
+    .domain([minV, maxV])
+    //.range(d3.schemeSet3);
+    .range(colors);
+
+  join = svg.selectAll("rect").data(data);
+
+  join
+    .attr("fill", (d) => {
+      return colorScale(d.variance);
+    })
+    .attr("data-month", (d) => {
+      return d.month - 1;
+    })
+    .attr("data-year", (d) => d.year)
+    .attr("data-temp", (d) => baseTemp + d.variance);
+
+  // User Story #7: Each cell will have the properties data-month, data-year, data-temp containing their corresponding month, year, and temperature values.
+
+  // User Story #8: The data-month, data-year of each cell should be within the range of the data.
+
+  // User Story #9: My heat map should have cells that align with the corresponding month on the y-axis.
+
+  // User Story #10: My heat map should have cells that align with the corresponding year on the x-axis.
+
+  // User Story #11: My heat map should have multiple tick labels on the y-axis with the full month name.
+
+  // User Story #12: My heat map should have multiple tick labels on the x-axis with the years between 1754 and 2015.
+
+  // User Story #13: My heat map should have a legend with a corresponding id="legend".
+  const legendSvg = svg
+    .append("svg")
+    .attr("width", 20 * 11)
+    .attr("height", 40)
+    .attr("id", "legend")
+    .attr("x", xpadding); // legendSvg
+  //   .append("rect")
+  //   .attr("width", w / 4)
+  //   .attr("height", h / 4)
+  //   .attr("fill", "green");
+  const legendJ = legendSvg.selectAll("rect").data(colors);
+  legendJ
+    .enter()
+    .append("rect")
+    .attr("width", 20)
+    .attr("height", 20)
+    .attr("x", (d, i) => {
+      return i * 20;
+    })
+    .attr("fill", (d) => d);
+
+  const lscale = d3
+    .scaleLinear()
+    .domain([minV + baseTemp, maxV + baseTemp])
+    //.range(d3.schemeSet3);
+    .range([0, 20 * 11]);
+  laxis = d3.axisBottom(lscale);
+  legendSvg.append("g").call(laxis).attr("transform", "translate(0, 20)");
+
+  // User Story #14: My legend should contain rect elements.
+
+  // User Story #15: The rect elements in the legend should use at least 4 different fill colors.
+
+  // User Story #16: I can mouse over an area and see a tooltip with a corresponding id="tooltip" which displays more information about the area.
+
+  // User Story #16: My tooltip should have a data-year property that corresponds to the data-year of the active area.
+  const tooltip = svg.append("svg");
+  tooltip
+    .style("opacity", 0)
+    .attr("x", -1000)
+    .attr("id", "tooltip")
+    .append("rect")
+    .attr("width", 150)
+    .attr("height", 100)
+    .attr("rx", 15)
+    .attr("stroke", "black")
+    .attr("fill", "black");
+  const tiptext = tooltip
+    .append("text")
+    .style("font-size", "1rem")
+    .attr("fill", "white");
+
+  tiptext.append("tspan").attr("y", 20).attr("x", 10);
+  tiptext.append("tspan").attr("y", 50).attr("x", 10);
+  tiptext.append("tspan").attr("y", 80).attr("x", 10);
+
+  join = svg.selectAll(".cell").data(data);
+
+  join
+    .attr("cursor", "pointer")
+    .on("mouseover", (d) => {
+      tooltip
+        .attr("data-year", d.year)
+        .style("opacity", 0.7)
+        .attr("x", xScale(new Date(d.year, null, null)) + xpadding)
+
+        .attr("y", () => {
+          const res = yScale(new Date(2012, d.month - 1, null)) + padding - 100;
+          if (res < h * 0.25) {
+            return res + 150;
+          } else {
+            return res;
+          }
+        });
+
+      tiptext.select("tspan:nth-child(1)").text(
+        `${new Date(2012, d.month - 1, null).toLocaleString("default", {
+          month: "long"
+        })}, ${d.year}`
+      );
+      tiptext
+        .select("tspan:nth-child(2)")
+        .text(`${(baseTemp + d.variance).toFixed(2)}℃`);
+
+      tiptext.select("tspan:nth-child(3)").text(`${d.variance}℃`);
+    })
+    .on("mouseout", (d) => {
+      tooltip.style("opacity", 0).attr("x", -1000);
+    });
+};
