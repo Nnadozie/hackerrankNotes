@@ -1,0 +1,142 @@
+// User Story #1: My choropleth should have a title with a corresponding id="title".
+
+// User Story #2: My choropleth should have a description element with a corresponding id="description".
+
+// User Story #3: My choropleth should have counties with a corresponding class="county" that represent the data.
+
+const w = 1000;
+const h = 700;
+const svg = d3
+  .select("#canvas")
+  .append("svg")
+  .attr("width", w)
+  .attr("height", h);
+
+const tooltip = d3
+  .select("body")
+  .append("div")
+  .attr("id", "tooltip")
+  .style("opacity", 0);
+
+countiesPlot = (data, edData) => {
+  //console.log(data.objects.counties.geometries);
+  //console.log(topojson.feature(data, data.objects.counties));
+  const minEd = d3.min(edData, (d) => d.bachelorsOrHigher);
+  const maxEd = d3.max(edData, (d) => d.bachelorsOrHigher);
+  var color = d3
+    .scaleQuantize()
+    .domain([minEd, maxEd])
+    .range(d3.schemeYlGn[9].slice(2));
+  svg
+    .selectAll("path")
+    .data(topojson.feature(data, data.objects.counties).features)
+    .enter()
+    .append("path")
+    .attr("d", d3.geoPath())
+    .attr("data-education", (d) => {
+      //console.log(d);
+      //console.log(edData[0]);
+      const county = edData.find(({ fips }) => fips === d.id);
+      return county.bachelorsOrHigher;
+    })
+    .attr("data-fips", (d) => d.id)
+    .attr("fill", (d) => {
+      const county = edData.find(({ fips }) => fips === d.id);
+      return color(county.bachelorsOrHigher);
+    })
+    .attr("class", "county")
+    .attr("stroke", "none")
+    .on("mouseover", function (d) {
+      d3.select(this).attr("fill", "red");
+      tooltip
+        .style("top", d3.event.pageY + "px")
+        .style("left", d3.event.pageX + "px")
+        .transition()
+        .style("opacity", 0.9)
+        .attr("data-education", () => {
+          const county = edData.find(({ fips }) => fips === d.id);
+          return county.bachelorsOrHigher;
+        });
+      tooltip.html(() => {
+        const county = edData.find(({ fips }) => fips === d.id);
+        return `${county.area_name}, ${county.state}: ${county.bachelorsOrHigher}%`;
+      });
+    })
+    .on("mouseout", function () {
+      d3.select(this).attr("fill", (d) => {
+        const county = edData.find(({ fips }) => fips === d.id);
+        return color(county.bachelorsOrHigher);
+      });
+      tooltip.transition().style("opacity", 0);
+    });
+  svg
+    .append("g")
+    .selectAll("path")
+    .data(topojson.feature(data, data.objects.states).features)
+    .enter()
+    .append("path")
+    .attr("fill", "none")
+    .attr("stroke", "white")
+    .attr("stroke-linejoin", "bevel")
+    .attr("d", d3.geoPath());
+};
+
+const legendPlot = (edData) => {
+  const wl = 40;
+  const legendSvg = svg
+    .append("svg")
+    .attr("width", wl * 11)
+    .attr("height", 40)
+    .attr("id", "legend")
+    .attr("x", 500 - wl * 6); // legendSvg
+  //   .append("rect")
+  //   .attr("width", w / 4)
+  //   .attr("height", h / 4)
+  //   .attr("fill", "green");
+  const legendJ = legendSvg.selectAll("rect").data(d3.schemeYlGn[9].slice(2));
+  legendJ
+    .enter()
+    .append("rect")
+    .attr("width", wl)
+    .attr("height", 20)
+    .attr("x", (d, i) => {
+      return i * wl;
+    })
+    .attr("fill", (d) => d);
+  const minEd = d3.min(edData, (d) => d.bachelorsOrHigher);
+  const maxEd = d3.max(edData, (d) => d.bachelorsOrHigher);
+
+  const lscale = d3
+    .scaleLinear()
+    .domain([minEd / 100, maxEd / 100])
+    .range([0, wl * 7]);
+  laxis = d3.axisBottom(lscale).tickFormat(d3.format(".0%"));
+  legendSvg.append("g").call(laxis).attr("transform", "translate(0, 20)");
+};
+
+d3.json(
+  "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json"
+).then((data) => {
+  d3.json(
+    "https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json"
+  ).then((edData) => {
+    countiesPlot(data, edData);
+    legendPlot(edData);
+  });
+});
+
+// User Story #4: There should be at least 4 different fill colors used for the counties.
+
+// User Story #5: My counties should each have data-fips and data-education properties containing their corresponding fips and education values.
+
+// User Story #6: My choropleth should have a county for each provided data point.
+
+// User Story #7: The counties should have data-fips and data-education values that match the sample data.
+
+// User Story #8: My choropleth should have a legend with a corresponding id="legend".
+
+// User Story #9: There should be at least 4 different fill colors used for the legend.
+
+// User Story #10: I can mouse over an area and see a tooltip with a corresponding id="tooltip" which displays more information about the area.
+
+// User Story #11: My tooltip should have a data-education property that corresponds to the data-education of the active area.

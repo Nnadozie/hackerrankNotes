@@ -1,0 +1,33 @@
+#canvas {
+  width: 70%;
+  margin: 0 auto 0 auto;
+}
+
+h1,
+h2,
+p {
+  font-family: arial;
+  text-align: center;
+}
+
+svg {
+  margin: 0 auto 0 auto;
+}
+
+#tooltip {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  background: #f8f8f3;
+  top: 0px;
+  padding: 2%;
+  font-family: arial;
+}
+
+body {
+  position: relative;
+}
+
+.county {
+  cursor: pointer;
+}
