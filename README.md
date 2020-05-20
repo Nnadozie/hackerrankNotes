@@ -1109,3 +1109,29 @@ public boolean isUnique(String str) {
     return true;
 }
 ```
+
+```
+O(1) time and O(1) space. Also arguably O(n) time, or O(min(charset, input)) time.
+
+charMax could be 128 (normal Ascii), 256 (ascii extended), ()
+
+public boolean isUnique(String str) {
+    if(str.length() > charMax) {
+        return false;
+    }
+
+    boolean[] charSet = new boolean[charMax];
+
+    for(int i = 0; i < str.length(); i++) {
+        char val = str.charAt(i);
+        if(charSet[val]){
+            return false;
+        }else{
+            charSet[val] = true;
+        }
+    }
+
+    return true;
+}
+
+```
