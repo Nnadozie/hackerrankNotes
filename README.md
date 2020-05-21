@@ -1009,6 +1009,7 @@ public class Solution {
 ```
 
 31 [Java 1D Array Part II](https://www.hackerrank.com/challenges/java-1d-array/problem)
+
 ```
 import java.util.*;
 
@@ -1044,7 +1045,7 @@ public class Solution {
         while (q-- > 0) {
             int n = scan.nextInt();
             int leap = scan.nextInt();
-            
+
             int[] game = new int[n];
             for (int i = 0; i < n; i++) {
                 game[i] = scan.nextInt();
@@ -1080,5 +1081,31 @@ function updateRecords(id, prop, value) {
   }
 
   return collection;
+}
+```
+
+# Cracking the coding interview solutions
+
+1 [isUnique] Implement an algorithm to determine if a string has all unique characters. What if you cannot use additional data structures?
+
+```
+O(n) time, O(n) space complexity
+
+import java.util.HashMap;
+
+...
+
+public boolean isUnique(String str) {
+    HashMap<Character, Boolean> charSet = new HashMap<Character, Boolean>();
+
+    for(int i = 0; i < str.length(); i++) {
+        char val = str.charAt(i);
+        if(charSet.get(val) != null) {
+            return false;
+        }else{
+            charSet.put(val, true);
+        }
+    }
+    return true;
 }
 ```
