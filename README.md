@@ -1088,6 +1088,13 @@ function updateRecords(id, prop, value) {
 
 1 [isUnique] Implement an algorithm to determine if a string has all unique characters. What if you cannot use additional data structures?
 
+common errors:
+
+- trying to run a non-static method from the main static context;
+- using str.length instead of str.length(); former is JS, later is Java.
+- not returning true after the for loop; i.e not thinking about the end case;
+- not including a base case -- checking the length of the string.
+
 ```
 O(n) time, O(n) space complexity
 
@@ -1177,6 +1184,41 @@ public class HelloWorld{
         String bomb = new StringBuilder().appendCodePoint(0x10FFFF).toString();
         System.out.println(bomb);
         System.out.println(H.isUnique("helo" + bomb));
+     }
+}
+```
+
+Using int as an approximation of a bit vector.
+
+Common error: checker & (1 << val) > 0 gives bad operand error;
+wrap like so: (checker & (1 << val)) > 0
+
+```
+public class HelloWorld{
+
+
+    public boolean isUnique(String str) {
+        int checker = 0;
+        if(str.length() > 26) {
+            return false;
+        };
+
+        for(int i = 0; i < str.length(); i++) {
+            int val = str.charAt(i) - 'a';
+            if((checker & (1 << val)) > 0) {
+                return false;
+            }else{
+                checker |= (1 << val);
+            }
+        }
+
+        return true;
+
+    }
+
+     public static void main(String []args){
+        HelloWorld H = new HelloWorld();
+        System.out.println(H.isUnique("hello"));
      }
 }
 ```
