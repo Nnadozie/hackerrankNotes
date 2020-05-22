@@ -1135,3 +1135,48 @@ public boolean isUnique(String str) {
 }
 
 ```
+
+O(1) time and O(1) space for unicode characters. Just increased the size of the array as she said in the book.
+
+References:
+
+- http://wiki.juneday.se/mediawiki/images/b/b4/Java_and_Unicode.pdf
+- http://www.unicode.org/faq/utf_bom.html
+
+```
+import java.lang.Math;
+
+
+public class HelloWorld{
+
+
+    public boolean isUnique(String str) {
+
+    int charMax = (int)Math.pow(2,21);
+
+    if(str.length() > charMax) {
+        return false;
+    }
+
+    boolean[] charSet = new boolean[charMax];
+
+    for(int i = 0; i < str.length(); i++) {
+        char val = str.charAt(i);
+        if(charSet[val]){
+            return false;
+        }else{
+            charSet[val] = true;
+        }
+    }
+
+    return true;
+    }
+
+     public static void main(String []args){
+        HelloWorld H = new HelloWorld();
+        String bomb = new StringBuilder().appendCodePoint(0x10FFFF).toString();
+        System.out.println(bomb);
+        System.out.println(H.isUnique("helo" + bomb));
+     }
+}
+```
