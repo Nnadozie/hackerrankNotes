@@ -1222,3 +1222,47 @@ public class HelloWorld{
      }
 }
 ```
+
+```
+//StringBuilder. should have been StringBuilder()
+//appendCodePointAt('10xffff') should have been codePointAt(10xFFFF)
+//Math.pow(2,21) needed to be cast to an int as in (int)Math.pow(2,21)
+//notice how helo?💣  doesnt  have  duplicate  characters because it's unicode. but this counts the high surrogate 0xD83D as a character then when it sees it again in the unicode character for bomb it thows a false. How can you handle this?
+
+import java.lang.Math;
+import java.util.BitSet;
+
+public class HelloWorld{
+
+    public boolean isUnique (String str) {
+        int charMax = (int)Math.pow(2,21);
+
+        if(str.length() > charMax){
+            return false;
+        }
+
+        BitSet charSet = new BitSet(charMax);
+
+        for(int i =0; i < str.length(); i++){
+            //System.out.println(str.charAt(i));
+            char val = str.charAt(i);
+
+            if(charSet.get(val)) {
+                return false;
+            }else{
+                charSet.set(val);
+            }
+        }
+
+        return true;
+    }
+
+     public static void main(String []args){
+        HelloWorld T = new HelloWorld();
+        String end = new StringBuilder().appendCodePoint(0xD83D).toString();
+        String bomb = new StringBuilder().appendCodePoint(0x1F4A3).toString();
+        System.out.println("helo"+end+bomb);
+        System.out.println(T.isUnique("helo"+end+bomb));
+     }
+}
+```
