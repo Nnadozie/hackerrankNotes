@@ -1058,6 +1058,70 @@ public class Solution {
 }
 ```
 
+First thing to realize is that the array is a graph, with edges between nodes where one can traverse.
+
+Take the first sample for instance
+
+```
+5 3
+0 0 0 0 0
+```
+
+This gives the following graph
+![image](https://user-images.githubusercontent.com/15310842/82845435-7e77de00-9edc-11ea-90ba-0ff87ff90a29.png)
+
+That hurdle out of the way, a dfs run (which finds every path findable from a startign node s, in this case index 0) is all that's needed.
+
+A quick overview of the algorithm
+
+```
+dfs(s, graph) {
+
+mark s as explored
+
+for every edge s,v of s
+	dfs(v, graph)
+
+}
+```
+
+A roughly 1:1 implementation
+
+```
+    public static boolean dfs(int index, int leap, int[] game) {
+        game[index] = 1;
+
+        if(index == game.length-1){
+            return true;
+        }
+        if(index + leap >= game.length){
+            return true;
+        }
+
+        ArrayList<Integer> edges = new ArrayList<Integer>();
+
+        if(index-1 >= 0 && game[index-1] == 0){
+            edges.add(index-1);
+        }
+        if(game[index + leap] == 0) {
+            edges.add(index+leap);
+        }
+        if(game[index + 1] == 0) {
+            edges.add(index+1);
+        }
+
+        boolean canTraverse = false;
+        for(int i = 0; i < edges.size(); i++) {
+            canTraverse = canTraverse || dfs(edges.get(i), leap, game);
+        }
+        return canTraverse;
+    }
+
+    public static boolean canWin(int leap, int[] game) {
+        return dfs(0, leap, game);
+    }
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
