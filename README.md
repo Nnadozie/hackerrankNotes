@@ -1266,3 +1266,31 @@ public class HelloWorld{
      }
 }
 ```
+
+2 [Check Permutation] Given two strings, write a method to decide if one is a permutation of the other.
+
+O(1) space and O(n) or O(max(n1, n2)) , not sure
+The idea is the same as that given in ctci, however, the implementation is different. Why?
+
+```
+isPermutation(String str1, String str2) {
+    int[] char_set = new int[128];
+
+    for(int i =0; i < str1.length; i++) {
+        char val = str1.charAt(i);
+        char_set[val] += 1;
+    }
+
+    for(int i = 0; i < str2.length(); i++) {
+        char val = str2.charAt(i);
+        if(char_set[val] == null) {
+            return false;
+        }
+        char_set[val] -= 1;
+        if(char_set[val] < 0) {
+            return false;
+        }
+    }
+    return true;
+}
+```
