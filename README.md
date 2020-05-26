@@ -1122,6 +1122,46 @@ A roughly 1:1 implementation
     }
 ```
 
+33 [Java List](https://www.hackerrank.com/challenges/java-list/problem)
+
+Errors made:
+
+- new Scanner without System.in
+- Deducting 1 from the indices specified
+- Using == instead of .equals to compare strings
+- Using ArrayList instead of LinkedList, which is faster for insertions and deletions (https://www.hackerrank.com/challenges/java-list/forum, https://beginnersbook.com/2013/12/difference-between-arraylist-and-linkedlist-in-java/)
+
+```
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        int len = sc.nextInt();
+        List list = new ArrayList(len);
+        for(int i = 0; i < len; i++) {
+            list.add(sc.nextInt());
+        }
+        int qLen = sc.nextInt();
+        for(int i = 0; i < qLen; ++i) {
+            if(sc.next().equals("Insert")){
+                list.add(sc.nextInt(),sc.nextInt());
+            }else{
+                list.remove(sc.nextInt());
+            }
+        }
+        sc.close();
+        for(int i = 0; i < list.size(); ++i) {
+            System.out.printf("%d ", list.get(i));
+        }
+
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
