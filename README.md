@@ -1358,3 +1358,79 @@ isPermutation(String str1, String str2) {
     return true;
 }
 ```
+
+Mistakes:
+
+- trying to access an array like a method. char_set() instead of char_set[]
+- expecting a null initialization of an integer array. Int arrays are initialized to 0 in Java.
+- forgetting a return statement.
+
+running time: O(n) + O(n) = 2O(n) = O(n)
+space: O(1), the int array
+
+```
+public class HelloWorld{
+
+    public static boolean isPermutation(String str1, String str2) {
+        int [] char_set = new int[128];
+
+        for(int i = 0; i < str1.length(); i++){
+            char_set[str1.charAt(i)]++;
+        }
+
+        for(int i = 0; i < str2.length(); i++) {
+            char val = str2.charAt(i);
+            // if(char_set[val] == null) {
+            //     return false;
+            // }
+            char_set[val]--;
+            if(char_set[val] < 0) {return false;}
+        }
+
+        return true;
+    }
+
+     public static void main(String []args){
+        System.out.println("Hello World");
+        System.out.println(isPermutation("dog", "god"));
+     }
+}
+```
+
+Mistakes:
+
+- using reference equality check instead of logical equality check. i.e != instead of .equals() to compare strings
+- not importing java.util.Arrays;
+- expecting Arrays.sort not to run in a static method
+
+Runtime: O(nlogn) (depending on how sort is implemented in Java), space O(n)
+
+```
+import java.util.Arrays;
+
+public class HelloWorld{
+
+    public static String sort(String str) {
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars);
+        return new String(chars);
+    }
+
+    public static boolean isPermutation(String str1, String str2) {
+        str1 = sort(str1);
+        str2 = sort(str2);
+        System.out.println(str1);
+        System.out.println(str2);
+
+        //if(str1 != str2) {return false;}
+        if(!str1.equals(str2)) {return false;}
+
+        return true;
+    }
+
+     public static void main(String []args){
+        System.out.println("Hello World");
+        System.out.println(isPermutation("dog", "god"));
+     }
+}
+```
