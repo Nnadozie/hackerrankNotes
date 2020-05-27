@@ -1474,3 +1474,47 @@ public class HelloWorld{
      }
 }
 ```
+
+3 [URLify] Write a method to replace all spaces in a string with '%20': You may assume that the string has sufficient space at the end to hold the additional characters, and that you are given the "true" length of the string. (Note: if implementing in Java, please use a character array so that you can perform this operation in place.)
+
+This first solution aimed for O(logn) using binary search. Perfect if the string characters were sorted. However that's not specified, so the sorting will take o(nlogn), making it worse than O(n), the runtime of the solution she provided in the book. Pseudocode:
+
+```
+URLify(String str) {
+    char[] chars = str.toCharArray();
+    int index = binarySearch(" ");
+    while(index != -1){
+        chars[index] = '%20';
+        index = binarySearch(" ");
+    }
+    return chars.toString();
+}
+
+binarySearch(char[] chars){
+    ...
+    return index || -1
+}
+```
+
+Even assuming the array was sorted, this solution disappoints. It forgets that a char array index can hold only 1 char and attempts to insert 3 chars at once. Perhaps a plausible alternative:
+
+```
+String [] chars = str.split("");
+...
+return String.join(",", chars);
+```
+
+See [here](https://stackoverflow.com/questions/5283444/convert-array-of-strings-into-a-string-in-java)
+
+That said, your alternative solution did not account for cases the book's solution did. Psuedocode:
+
+```
+for(int i = 0; i < str.length(); ++i){
+    if(chars[i] == ' '){
+        chars[i] = '%20';
+    }
+    return chars.toString();
+}
+```
+
+It makes the same data structure mistake as the false logn solution, among other failures, doing no justice to the problem.
