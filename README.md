@@ -1230,6 +1230,49 @@ public class Solution {
 }
 ```
 
+36 [Java Generics]()
+
+Error: forgetting to include <T> in the generic method signature (is it called a signature? No it's not. The signature is just the method name and parameter list https://docs.oracle.com/javase/tutorial/java/javaOO/methods.html). ...<T> in the generic method definition.
+
+```
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+class Printer
+{
+   <T> void printArray(T[] a){
+       for(T o : a) {
+           System.out.println(o);
+       }
+   }
+
+}
+
+public class Solution {
+
+
+    public static void main( String args[] ) {
+        Printer myPrinter = new Printer();
+        Integer[] intArray = { 1, 2, 3 };
+        String[] stringArray = {"Hello", "World"};
+        myPrinter.printArray(intArray);
+        myPrinter.printArray(stringArray);
+        int count = 0;
+
+        for (Method method : Printer.class.getDeclaredMethods()) {
+            String name = method.getName();
+
+            if(name.equals("printArray"))
+                count++;
+        }
+
+        if(count > 1)System.out.println("Method overloading is not allowed!");
+
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
