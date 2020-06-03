@@ -1716,3 +1716,50 @@ public class HelloWorld{
      }
 }
 ```
+
+Perhaps the main thing to note is that the question implied a mutable string. In Java, there is no such thing, so she went for the next best, a char array. This allows the method to work on the char array replaing in place without needing to return anything. as such:
+
+```
+public class HelloWorld{
+
+    static void urlify(char[] str, int tl) {
+        int spaces = 0;
+        for(int i = 0; i < tl; i++){
+            if(str[i] == (' ')){
+                spaces++;
+            }
+        }
+
+        int index = tl + spaces * 2;
+
+        for(int i = tl -1; i>=0; --i) {
+            if(str[i] == (' ')){
+                str[index-1] = '0';
+                str[index-2] = '2';
+                str[index-3] = '%';
+                index -= 3;
+            }else{
+                str[index-1] = str[i];
+                index--;
+            }
+        }
+
+        //return new String(str);
+    }
+
+     public static void main(String []args){
+        System.out.println("Hello World");
+        String test = "Mr John Smith          0";
+        char [] ta = test.toCharArray();
+        for(char o : ta) {
+            System.out.print(o);
+        }
+        //=> Mr John Smith          0
+        urlify(ta, 13);
+        for(char o : ta) {
+            System.out.print(o);
+        }
+        //=>Mr%20John%20Smith      0
+     }
+}
+```
