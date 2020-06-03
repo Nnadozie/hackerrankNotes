@@ -1588,13 +1588,13 @@ public class HelloWorld{
 
 3 [URLify] Write a method to replace all spaces in a string with '%20': You may assume that the string has sufficient space at the end to hold the additional characters, and that you are given the "true" length of the string. (Note: if implementing in Java, please use a character array so that you can perform this operation in place.)
 
-This first solution aimed for O(logn) using binary search. Perfect if the string characters were sorted. However that's not specified, so the sorting will take o(nlogn), making it worse than O(n), the runtime of the solution she provided in the book. Pseudocode:
+This first solution aimed for O(logn) using binary search. Perfect if the string characters were sorted. However that's not specified, so the sorting will take O(nlogn), making it worse than O(n), the runtime of the solution she provided in the book. Pseudocode:
 
 ```
 URLify(String str) {
     char[] chars = str.toCharArray();
     int index = binarySearch(" ");
-    while(index != -1){
+    while(index != -1){ //-1 just to indicate not found
         chars[index] = '%20';
         index = binarySearch(" ");
     }
@@ -1628,4 +1628,91 @@ for(int i = 0; i < str.length(); ++i){
 }
 ```
 
-It makes the same data structure mistake as the false logn solution, among other failures, doing no justice to the problem.
+It makes the same mistake as the false logn solution (assuming a sorted string array), among other failures, doing no justice to the problem.
+
+But frankly what if we don't assume a sorted array and instead settle for O(n), finding spaces and replacing in one scan? Psuedocode:
+
+```
+String [] chars = str.split("");
+
+for(int i = 0; i < str.length; ++i) {
+    if(chars[i].equals(" ")){
+        chars[i] = "%20";
+    }
+}
+
+return String.join(",", chars);
+```
+
+A quick implementation shows that, excluding the trailing spaces, this should work in O(n) time
+
+Mistake: not including return type
+
+```
+public class HelloWorld{
+
+    static String urlify(String str) {
+        String [] chars = str.split("");
+
+        for(int i = 0; i < chars.length; ++i) {
+            if(chars[i].equals(" ")){
+                chars[i] = "%20";
+            }
+        }
+
+        return String.join("", chars);
+    }
+
+     public static void main(String []args){
+        System.out.println("Hello World");
+        System.out.println(urlify("Mr John Smith      "));
+     }
+}
+```
+
+She does account for this: "If we used strings directly, the function would have to return a new copy of the string, but it would allow us to implement this in just one pass.
+(Page 207). "
+
+Final, as in the book. Assuming use of char array.
+
+Mistakes:
+
+- attemting chartype.equals(' ') instead of chartype == ' '. I got a cannot dereference error.
+- forgetting return statement.
+
+```
+public class HelloWorld{
+
+    static String urlify(char[] str, int tl) {
+        int spaces = 0;
+        for(int i = 0; i < tl; i++){
+            if(str[i] == (' ')){
+                spaces++;
+            }
+        }
+
+        int index = tl + spaces * 2;
+
+        for(int i = tl -1; i>=0; --i) {
+            if(str[i] == (' ')){
+                str[index-1] = '0';
+                str[index-2] = '2';
+                str[index-3] = '%';
+                index -= 3;
+            }else{
+                str[index-1] = str[i];
+                index--;
+            }
+        }
+
+        return new String(str);
+    }
+
+     public static void main(String []args){
+        System.out.println("Hello World");
+        String test = "Mr John Smith          0";
+        char [] ta = test.toCharArray();
+        System.out.println(urlify(ta, 13));
+     }
+}
+```
