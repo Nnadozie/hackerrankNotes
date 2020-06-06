@@ -1763,3 +1763,35 @@ public class HelloWorld{
      }
 }
 ```
+
+4 [Permutation Palindrome]()
+
+- Thinking through this, brute force search was out of the question with O(n!)
+- Solving it as a graph problem would have been better at O(m+n), but deciding how to construct the nodes et al was not straight forward.
+- That left analysing what it meant to be a palindrome. You got the key idea, not more than one odd character, but my implementation (first below) forgot that these characters must belong to the set of a-z, and A-Z and cannot include spaces, so this is not a correct implementation.
+
+```
+ public static boolean permutationPalindrome(String str) {
+        char[] letters = new char[256];
+        for(int i = 0; i < str.length(); ++i) {
+            letters[str.charAt(i)]++;
+        }
+        int isOdd = 0;
+        for(int n : letters){
+            if(n%2 > 0){isOdd++;}
+            if(isOdd > 1){return false;}
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String a = sc.nextLine();
+
+        System.out.println(permutationPalindrome("taco cat"));
+    }
+```
+
+```
+
+```
