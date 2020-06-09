@@ -1768,7 +1768,7 @@ public class HelloWorld{
 
 - Thinking through this, brute force search was out of the question with O(n!)
 - Solving it as a graph problem would have been better at O(m+n), but deciding how to construct the nodes et al was not straight forward.
-- That left analysing what it meant to be a palindrome. You got the key idea, not more than one odd character, but my implementation (first below) forgot that these characters must belong to the set of a-z, and A-Z and cannot include spaces, so this is not a correct implementation.
+- That left analysing what it meant to be a palindrome. You got the key idea, not more than one odd character, but my implementation (first below) forgot that these characters must belong to the set of a-z, and A-Z and cannot include spaces, so this is not a correct implementation .
 
 ```
  public static boolean permutationPalindrome(String str) {
