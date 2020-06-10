@@ -1792,6 +1792,107 @@ public class HelloWorld{
     }
 ```
 
+The correction
+
+```
+for(int i = 0; i < str.length(); ++i) {
+    char val = str.charAt(i);
+    if('a' <= val && 'z' >= val){
+        letters[val]++
+    }
+}
 ```
 
+5 [One Away]()
+
+There are three types of edits that can be performed on strings: insert a character, remove a character, or replace a character. Given two strings, write a function to check if they are one edit (or zero edits) away.
+
+(Page 103).
+
+I decided to start scanning in my input from this problem, having noticed that many times I have a solution to a problem but can't implement it in time simply becasue I was too slow and/or inaccurate at scanning the input in.
+
+This is one of those problems that can be solved as a graph, with nodes representing all possible difference between the two strings, and a shortest path one hop away as true. But like the previous problem, the ambiguity in how to represent this graph incentivices looking for a simpler solution in the structure of the data itself.
+
+Noticing that there are three cases:
+
+- different by more than 2 xters in length (definitely two edits)
+- different by just one xter (expect one char difference so check for more than one char diff to retrun false )
+- different by 0 xter in length (expect one char difference so check for more than one char diff to return false)
+
+mistakes
+
+- forgot to close scanner;
+- initially tried to use a delimiter ", " expecting sc.next() and sc.nextLine() to give you strings excluding the delimiter. This turned out to return ", "+"string" when using nextLine(), because nextLine scans from the last position to the next line char.
+- better to adopt a scan in full line then split approach.
+- you initially returned false by default in the oneCharDiff method, not paying full attention to what the method was supposed to be doing.
+
+input:
+
+```
+pale, ple
+pales, pale
+pale, bale
+pale, bake
+```
+
+```
+import java.util.*;
+
+public class Solution {
+
+    static boolean isOneOrZeroEditsAway(String str1, String str2) {
+        //System.out.printf("%s%s\n", str1, str2);
+        int lengthDiff = str1.length() - str2.length();
+        //System.out.println(lengthDiff);
+        if(lengthDiff >= 2 || lengthDiff <= -2){
+            return false;
+        }
+        if(lengthDiff == 1 || lengthDiff == -1) {
+            //System.out.println("got here");
+            return oneCharDiff(str1, str2);
+        }
+        if(lengthDiff == 0) {
+            //System.out.println("got here");
+            return oneCharDiff(str1, str2);
+        }
+        return true;
+    }
+
+    static boolean oneCharDiff(String str1, String str2){
+        int[] letters = new int[256];
+        for(int i = 0; i < str1.length(); ++i){
+            letters[str1.charAt(i)]++;
+        }
+        for(int i = 0; i < str2.length(); ++i){
+            if(letters[str2.charAt(i)] > 0) {
+                letters[str2.charAt(i)]--;
+            }
+        }
+        boolean count = false;
+        for(int c : letters) {
+            if(c == 1) {
+                if(count == true) {
+                    return false;
+                }
+                count = true;
+            }
+        }
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        //int n = sc.nextInt();
+        Boolean res = false;
+        while(sc.hasNextLine()){
+            String[] line = sc.nextLine().split(", ");
+            String str1 = line[0];
+            String str2 = line[1];
+            // System.out.printf("%s %s", str1, str2);
+            res = isOneOrZeroEditsAway(str1, str2);
+            System.out.println(res);
+        }
+        sc.close();
+    }
+}
 ```
