@@ -1826,6 +1826,11 @@ mistakes
 - better to adopt a scan in full line then split approach.
 - you initially returned false by default in the oneCharDiff method, not paying full attention to what the method was supposed to be doing.
 
+Optimization:
+
+- she solved this without using any arrays, so basically constant space.
+- You've used O(n) space.
+
 input:
 
 ```
