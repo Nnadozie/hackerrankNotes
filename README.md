@@ -1901,3 +1901,184 @@ public class Solution {
     }
 }
 ```
+
+6 [String Compression]
+
+Implement a method to perform basic string compression using the counts of repeated characters. For example, the string aabcccccaaa would become a2b1c5a3. If the "compressed" string would not become smaller than the original string, your method should return the original string. You can assume the string has only uppercase and lowercase letters (a - z).
+
+(Page 103).
+
+```
+import java.util.*;
+
+public class Solution{
+
+    static String compressString(String str){
+        String finalStr = str.charAt(0);
+        int count = 1;
+        for(int i = 1; i < str.length(); ++i){
+            if(str.charAt(i) == str.charAt(i-1))
+                count++;
+            }else{
+                finalStr += count.toString() + str.charAt(i);
+                count = 1;
+            }
+        }
+        finalStr += count.toString();
+
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+    }
+
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNextLine()){
+            String str = sc.nextLine();
+            str = compressString(str);
+            System.out.println(str);
+        }
+    }
+}
+```
+
+Full of bugs
+
+```
+Solution.java:11: error: 'else' without 'if'
+            }else{
+             ^
+Solution.java:16: error: <identifier> expected
+        finalStr += count.toString();
+                                    ^
+Solution.java:18: error: illegal start of type
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+        ^
+Solution.java:18: error: <identifier> expected
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+                          ^
+Solution.java:18: error: ';' expected
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+                           ^
+Solution.java:18: error: > expected
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+                                  ^
+Solution.java:18: error: ';' expected
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+                                           ^
+Solution.java:18: error: illegal start of type
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+                                                              ^
+Solution.java:18: error: ';' expected
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+                                                                  ^
+Solution.java:18: error: illegal start of type
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+                                                                   ^
+Solution.java:19: error: class, interface, or enum expected
+    }
+    ^
+Solution.java:21: error: class, interface, or enum expected
+    public static void main(String[] args){
+                  ^
+Solution.java:23: error: class, interface, or enum expected
+        while(sc.hasNextLine()){
+        ^
+Solution.java:25: error: class, interface, or enum expected
+            str = compressString(str);
+            ^
+Solution.java:26: error: class, interface, or enum expected
+            System.out.println(str);
+            ^
+Solution.java:27: error: class, interface, or enum expected
+        }
+        ^
+16 errors
+```
+
+Fist: forgot { after if. This reduced errors drastically
+
+```
+Solution.java:6: error: incompatible types: char cannot be converted to String
+        String finalStr = str.charAt(0);
+                                    ^
+Solution.java:12: error: int cannot be dereferenced
+                finalStr += count.toString() + str.charAt(i);
+                                 ^
+Solution.java:16: error: int cannot be dereferenced
+        finalStr += count.toString();
+                         ^
+3 errors
+```
+
+- Assumed char is natively converted to string
+- Used wrong syntax to convet int to string
+
+Char and Int to String conversions:
+
+- Character.toString(char c)
+- Integer.toString(int c)
+
+Final code
+
+```
+import java.util.*;
+
+public class Solution{
+
+    static String compressString(String str){
+        String finalStr = Character.toString(str.charAt(0));
+        int count = 1;
+        for(int i = 1; i < str.length(); ++i){
+            if(str.charAt(i) == str.charAt(i-1)){
+                count++;
+            }else{
+                finalStr += Integer.toString(count) + str.charAt(i);
+                count = 1;
+            }
+        }
+        finalStr += Integer.toString(count);
+
+        if(finalStr.length() < str.length()){return finalStr;}else{return str;}
+    }
+
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNextLine()){
+            String str = sc.nextLine();
+            str = compressString(str);
+            System.out.println(str);
+        }
+    }
+}
+```
+
+Input
+
+```
+aabcccccaaa
+paleple
+palespale
+palebale
+palebake
+```
+
+Output
+
+```
+a2b1c5a3
+paleple
+palespale
+palebale
+palebake
+```
+
+Turns out this naive implementation has O(n + k^2) runtime, where n is the size of original string and K is the number of character sequences. I'm yet to fully understand why except that string concatenation uses O(n2) time.
+
+Also, I love how she does this to convert both char and int to string
+
+```
+compressedString += " " + str.charAt(i) + countConsecutivej
+
+(Page 213).
+```
+
+Her final optimal solution is quite beautiful, optimizing mostly for space in a way that is convinces that such an optimization makes sense.
