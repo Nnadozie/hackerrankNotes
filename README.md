@@ -1342,10 +1342,63 @@ public class Solution
 		}
 	}
 }
+```
 
+38 [Java BitSet](https://www.hackerrank.com/challenges/java-bitset/problem)
 
+Practising writing from std with your ctci questions helped with this
 
+- as with the previous one, very nice advanced syntax here: https://www.hackerrank.com/challenges/java-bitset/forum
 
+```
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        int size = sc.nextInt();
+        BitSet[] set = new BitSet[2];
+        set[0] = new BitSet(size);
+        set[1] = new BitSet(size);
+
+        int ops = sc.nextInt();
+        sc.nextLine();
+        for(int i = 0; i < ops; ++i ) {
+            String[] op = sc.nextLine().split(" ");
+            int a = Integer.valueOf(op[1]);
+            int b = Integer.valueOf(op[2]);
+
+            //System.out.printf("%d%d", a, b);
+
+            switch(op[0]) {
+                case "AND":
+                    set[--a].and(set[--b]);
+                    break;
+                case "OR":
+                    set[--a].or(set[--b]);
+                    break;
+                case "XOR":
+                    set[--a].xor(set[--b]);
+                    break;
+                case "FLIP":
+                    set[--a].flip(b);
+                    break;
+                case "SET":
+                    set[--a].set(b);
+                    break;
+                default:
+                    // code block
+                }
+
+            System.out.printf("%d %d\n", set[0].cardinality(), set[1].cardinality());
+        }
+
+        sc.close();
+    }
+}
 ```
 
 # FCC Solutions
