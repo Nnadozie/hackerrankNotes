@@ -1273,6 +1273,81 @@ public class Solution {
 }
 ```
 
+37 [Java Sort](https://www.hackerrank.com/challenges/java-sort/problem)
+
+implements comparable to sort a user defined class.
+
+- Do not understand why fname is the only one reveresed.
+
+There are better approahces in the discussions worth reading through that use more advanced syntax https://www.hackerrank.com/challenges/java-sort/forum
+
+```
+import java.util.*;
+
+class Student implements Comparable<Student>{
+	private int id;
+	private String fname;
+	private double cgpa;
+	public Student(int id, String fname, double cgpa) {
+		super();
+		this.id = id;
+		this.fname = fname;
+		this.cgpa = cgpa;
+	}
+	public int getId() {
+		return id;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public double getCgpa() {
+		return cgpa;
+	}
+
+    public int compareTo(Student s) {
+        int lastCmp = Double.valueOf(cgpa).compareTo(Double.valueOf(s.cgpa));
+        if(lastCmp == 0) {
+            lastCmp = s.fname.compareTo(fname);
+        }
+        if(lastCmp == 0) {
+            lastCmp = Integer.valueOf(id).compareTo(Integer.valueOf(s.id));
+        }
+        return lastCmp;
+    }
+
+}
+
+//Complete the code
+public class Solution
+{
+	public static void main(String[] args){
+		Scanner in = new Scanner(System.in);
+		int testCases = Integer.parseInt(in.nextLine());
+
+		List<Student> studentList = new ArrayList<Student>();
+		while(testCases>0){
+			int id = in.nextInt();
+			String fname = in.next();
+			double cgpa = in.nextDouble();
+
+			Student st = new Student(id, fname, cgpa);
+			studentList.add(st);
+
+			testCases--;
+		}
+
+        Collections.sort(studentList, Collections.reverseOrder());
+      	for(Student st: studentList){
+			System.out.println(st.getFname());
+		}
+	}
+}
+
+
+
+
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
