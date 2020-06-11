@@ -2210,3 +2210,27 @@ compressedString += " " + str.charAt(i) + countConsecutivej
 ```
 
 Her final optimal solution is quite beautiful, optimizing mostly for space in a way that is convinces that such an optimization makes sense.
+
+7 [Rotate Matrix]
+
+Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes, write a method to rotate the image by 90 degrees. (an you do this in place?
+
+(Page 103).
+
+You initially correctly reasoned or guessed that you would require O(n^2) to solve this problem.
+
+- however thinking about an in place solution led to considering swapping the way rows and cols are represented. in a rotation, rows become cols and cols become rows, possibly needed a reversal on some level.
+- a clock wise rotation would have been nlogn you resoned(but this is the runtime of sorting instead of reversing), so you reasoned wrongly. Also, an anticlockwise rotation would have been (n^2logn) you also reasoned wrongly
+- by far your best solution would have been the one where using just one int as a temporary store, you rotate each layer, char by char, one char moving to the right until all have moved right one time, and you continued concentrically inwards.
+- this last solution was somewhat similar to her solution, which she argued cannot be done faster than O(n^2) time since all elements in the matrix have to be touched. That said, she focused on optimizing the space usage.
+- an entirely naive space usage could go up to O(n^2) where someone just create a new matrix and copies in the values (this I now understand is a not in place solution). A better space usage is O(n) where rows and columns are switched one at a time (her first solution). The optimal solution here is something that uses O(1) space. A single int.
+
+8 [Zero Matrix]
+
+Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column are set to O.
+
+(Page 103).
+
+- It seemed so easy that you completely failed to spot the error in that straight forward attempt. She expalains in the book. Naively replace as you go will lead to an entire matrix of zeros when there's even one 0.
+- Anyway, that runtime would have been O(MN) and given wrong solution. So? Here solution again optimizes on the space usage, bringing it down from O(MN) to O(max(M, N)).
+- She further optimizes to O(1) space but I don't understand that yet.
