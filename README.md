@@ -1401,7 +1401,72 @@ public class Solution {
 }
 ```
 
-39 [Java Comparator](https://www.hackerrank.com/challenges/java-comparator/problem)
+39 [Java Sort](https://www.hackerrank.com/challenges/java-sort/problem)
+```
+import java.util.*;
+
+class Student implements Comparable<Student>{
+	private int id;
+	private String fname;
+	private double cgpa;
+	public Student(int id, String fname, double cgpa) {
+		super();
+		this.id = id;
+		this.fname = fname;
+		this.cgpa = cgpa;
+	}
+	public int getId() {
+		return id;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public double getCgpa() {
+		return cgpa;
+	}
+
+    public int compareTo(Student s) {
+        int lastCmp = Double.valueOf(cgpa).compareTo(Double.valueOf(s.cgpa));
+        if(lastCmp == 0) {
+            lastCmp = s.fname.compareTo(fname);
+        }
+        if(lastCmp == 0) {
+            lastCmp = Integer.valueOf(id).compareTo(Integer.valueOf(s.id));
+        }
+        return lastCmp;
+    }
+
+}
+
+//Complete the code
+public class Solution
+{
+	public static void main(String[] args){
+		Scanner in = new Scanner(System.in);
+		int testCases = Integer.parseInt(in.nextLine());
+		
+		List<Student> studentList = new ArrayList<Student>();
+		while(testCases>0){
+			int id = in.nextInt();
+			String fname = in.next();
+			double cgpa = in.nextDouble();
+			
+			Student st = new Student(id, fname, cgpa);
+			studentList.add(st);
+			
+			testCases--;
+		}
+      
+        Collections.sort(studentList, Collections.reverseOrder());
+      	for(Student st: studentList){
+			System.out.println(st.getFname());
+		}
+	}
+}
+
+```
+
+40 [Java Comparator](https://www.hackerrank.com/challenges/java-comparator/problem)
 
 ```
 import java.util.*;
@@ -1446,6 +1511,164 @@ class Solution {
         Arrays.sort(player, checker);
         for(int i = 0; i < player.length; i++){
             System.out.printf("%s %s\n", player[i].name, player[i].score);
+        }
+    }
+}
+```
+
+41 [Java Priority Queue](https://www.hackerrank.com/challenges/java-priority-queue/problem)
+```
+ //public class Student => this threw an error, public class student should be declared in file named Student.java
+ class Student {
+     private int id;
+     private String name;
+     private double cgpa;
+
+     public Student(int id, String name, double cgpa) {
+         this.id = id;
+         this.name = name;
+         this.cgpa = cgpa;
+     }
+
+     public int getID() {
+         return id;
+     }
+
+     public String getName() {
+         return name;
+     }
+
+     public double getCGPA() {
+         return cgpa;
+     }
+ }
+
+//public class Priorities => same error as above
+class Priorities {
+
+    List<Student> getStudents(List<String> events) {
+        //return new List<Student>; this threw an error
+        return new ArrayList<Student>();
+    }
+}
+
+public class Solution {
+    private final static Scanner scan = new Scanner(System.in);
+    private final static Priorities priorities = new Priorities();
+    
+    public static void main(String[] args) {
+        int totalEvents = Integer.parseInt(scan.nextLine());    
+        List<String> events = new ArrayList<>();
+        
+        while (totalEvents-- != 0) {
+            String event = scan.nextLine();
+            events.add(event);
+        }
+        
+        List<Student> students = priorities.getStudents(events);
+        
+        if (students.isEmpty()) {
+            System.out.println("EMPTY");
+        } else {
+            for (Student st: students) {
+                System.out.println(st.getName());
+            }
+        }
+    }
+}
+
+```
+
+Final. Special attention should be given to implementing Comparable or overiding comparator. The order that results is not entirely clear.
+
+```
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+/*
+ * Create the Student and Priorities classes here.
+ */
+import java.util.*;
+
+ class Student implements Comparable<Student> {
+     private int id;
+     private String name;
+     private double cgpa;
+
+     public Student(int id, String name, double cgpa) {
+         this.id = id;
+         this.name = name;
+         this.cgpa = cgpa;
+     }
+
+     public int getID() {
+         return id;
+     }
+
+     public String getName() {
+         return name;
+     }
+
+     public double getCGPA() {
+         return cgpa;
+     }
+
+     public int compareTo(Student s) {
+        int lastCmp = Double.valueOf(s.cgpa).compareTo(Double.valueOf(cgpa));
+        if(lastCmp == 0) {
+            lastCmp = name.compareTo(s.name);
+        }
+        if(lastCmp == 0) {
+            lastCmp = Integer.valueOf(s.id).compareTo(Integer.valueOf(id));
+        }
+        return lastCmp;
+     }
+ }
+
+class Priorities {
+
+    List<Student> getStudents(List<String> events) {
+        PriorityQueue<Student> pq = new PriorityQueue<Student>();
+        for(String s : events) {
+            String [] sa = s.split(" ");
+            if(sa[0].equals("ENTER")){
+                pq.add(new Student(Integer.valueOf(sa[3]), sa[1], Double.valueOf(sa[2])));
+            }
+            if(sa[0].equals("SERVED")) {
+                pq.poll();
+            }
+        }
+        List ss = new ArrayList<Student>();
+        while(!pq.isEmpty()){
+            ss.add(pq.poll());
+        }
+        return ss;
+    }
+}
+
+
+
+public class Solution {
+    private final static Scanner scan = new Scanner(System.in);
+    private final static Priorities priorities = new Priorities();
+    
+    public static void main(String[] args) {
+        int totalEvents = Integer.parseInt(scan.nextLine());    
+        List<String> events = new ArrayList<>();
+        
+        while (totalEvents-- != 0) {
+            String event = scan.nextLine();
+            events.add(event);
+        }
+        
+        List<Student> students = priorities.getStudents(events);
+        
+        if (students.isEmpty()) {
+            System.out.println("EMPTY");
+        } else {
+            for (Student st: students) {
+                System.out.println(st.getName());
+            }
         }
     }
 }
