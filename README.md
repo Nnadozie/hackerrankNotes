@@ -1402,6 +1402,7 @@ public class Solution {
 ```
 
 39 [Java Sort](https://www.hackerrank.com/challenges/java-sort/problem)
+
 ```
 import java.util.*;
 
@@ -1444,19 +1445,19 @@ public class Solution
 	public static void main(String[] args){
 		Scanner in = new Scanner(System.in);
 		int testCases = Integer.parseInt(in.nextLine());
-		
+
 		List<Student> studentList = new ArrayList<Student>();
 		while(testCases>0){
 			int id = in.nextInt();
 			String fname = in.next();
 			double cgpa = in.nextDouble();
-			
+
 			Student st = new Student(id, fname, cgpa);
 			studentList.add(st);
-			
+
 			testCases--;
 		}
-      
+
         Collections.sort(studentList, Collections.reverseOrder());
       	for(Student st: studentList){
 			System.out.println(st.getFname());
@@ -1487,7 +1488,7 @@ class Checker implements Comparator<Player> {
 class Player{
     String name;
     int score;
-    
+
     Player(String name, int score){
         this.name = name;
         this.score = score;
@@ -1502,7 +1503,7 @@ class Solution {
 
         Player[] player = new Player[n];
         Checker checker = new Checker();
-        
+
         for(int i = 0; i < n; i++){
             player[i] = new Player(scan.next(), scan.nextInt());
         }
@@ -1517,6 +1518,7 @@ class Solution {
 ```
 
 41 [Java Priority Queue](https://www.hackerrank.com/challenges/java-priority-queue/problem)
+
 ```
  //public class Student => this threw an error, public class student should be declared in file named Student.java
  class Student {
@@ -1555,18 +1557,18 @@ class Priorities {
 public class Solution {
     private final static Scanner scan = new Scanner(System.in);
     private final static Priorities priorities = new Priorities();
-    
+
     public static void main(String[] args) {
-        int totalEvents = Integer.parseInt(scan.nextLine());    
+        int totalEvents = Integer.parseInt(scan.nextLine());
         List<String> events = new ArrayList<>();
-        
+
         while (totalEvents-- != 0) {
             String event = scan.nextLine();
             events.add(event);
         }
-        
+
         List<Student> students = priorities.getStudents(events);
-        
+
         if (students.isEmpty()) {
             System.out.println("EMPTY");
         } else {
@@ -1651,18 +1653,18 @@ class Priorities {
 public class Solution {
     private final static Scanner scan = new Scanner(System.in);
     private final static Priorities priorities = new Priorities();
-    
+
     public static void main(String[] args) {
-        int totalEvents = Integer.parseInt(scan.nextLine());    
+        int totalEvents = Integer.parseInt(scan.nextLine());
         List<String> events = new ArrayList<>();
-        
+
         while (totalEvents-- != 0) {
             String event = scan.nextLine();
             events.add(event);
         }
-        
+
         List<Student> students = priorities.getStudents(events);
-        
+
         if (students.isEmpty()) {
             System.out.println("EMPTY");
         } else {
@@ -1671,6 +1673,50 @@ public class Solution {
             }
         }
     }
+}
+```
+
+42 [Java Stack](https://www.hackerrank.com/challenges/java-stack/problem)
+
+- for string, use .length(), not length to check the length.
+
+```
+import java.util.*;
+class Solution{
+
+    static boolean isBalanced(String b) {
+        if(b.equals("")){return true;}
+        int len = b.length();
+        if(len % 2 != 0) {
+            return false;
+        }
+
+        Stack<Character> stack = new Stack<Character>();
+
+        for(int i = 0; i < len; ++i){
+            char k = b.charAt(i);
+            if(k == '{' || k == '[' || k == '(') {
+                stack.push(k);
+            }
+            if(stack.empty()){return false;} ///////////////////<<<<==== this case was not obvious at first, but since you're only pushing if open bracket, then it's still possible to get an empty stack when the fist few are closed brackets, but the rest are balanced brackets.
+            if(k == '}' && stack.peek() == '{'){stack.pop();}
+            if(k == ']' && stack.peek() == '['){stack.pop();}
+            if(k == ')' && stack.peek() == '('){stack.pop();}
+        }
+
+        return stack.empty();
+    }
+
+	public static void main(String []argh)
+	{
+		Scanner sc = new Scanner(System.in);
+
+		while (sc.hasNext()) {
+			String input=sc.next();
+            System.out.println(isBalanced(input));
+		}
+
+	}
 }
 ```
 
