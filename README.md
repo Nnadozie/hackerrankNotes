@@ -1680,6 +1680,8 @@ public class Solution {
 
 - for string, use .length(), not length to check the length.
 
+- I know it's not an algorithm question, but this uses O(n) space, for the stack. n/2 best case, so n/2. Whereas a recursive solution can solve it in place, in, I think, O(nlogn) but definitely not worese than the present O(n) time.
+
 ```
 import java.util.*;
 class Solution{
