@@ -1722,6 +1722,39 @@ class Solution{
 }
 ```
 
+43 [Java Deque](https://www.hackerrank.com/challenges/java-dequeue/problem)
+
+- to be fair, I still don't see why a normal que won't have sufficed.
+- also, for future reference deque.stream().distint().count() seems to run in O(n) time.
+- hence the need for a hashset. Making this, I think, O(n) time in total.
+
+```
+    import java.util.*;
+    public class test {
+        public static void main(String[] args) {
+            Scanner in = new Scanner(System.in);
+            Deque<Integer> deque = new ArrayDeque<Integer>();
+            HashSet<Integer> set = new HashSet<Integer>();
+            int n = in.nextInt();
+            int m = in.nextInt();
+
+            long res = 0;
+            for (int i = 0; i < n; i++) {
+                int num = in.nextInt();
+                deque.addFirst(num);
+                set.add(num);
+                if(deque.size() == m) {
+                    res = Math.max(set.size(), res);
+                    int r = deque.removeLast();
+                    if(!deque.contains(r)) set.remove(r);
+                }
+            }
+            System.out.println(res);
+        }
+    }
+
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
