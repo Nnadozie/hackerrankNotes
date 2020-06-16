@@ -1798,6 +1798,23 @@ public class Solution{
 }
 ```
 
+45 [Inheritance II](https://www.hackerrank.com/challenges/java-inheritance-2/problem)
+
+Superclass: The class you inherit from is called the superclass.
+
+```
+//Write your code here
+class Arithmetic {
+    int add(int a, int b) {
+        return a + b;
+    }
+}
+
+class Adder extends Arithmetic {
+
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
