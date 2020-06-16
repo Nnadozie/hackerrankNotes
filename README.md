@@ -1815,6 +1815,32 @@ class Adder extends Arithmetic {
 }
 ```
 
+46 [Java Abstract Class]()
+
+- An abstract class is a class that cannot be instantiated.
+- It can contain abstract methods (lacking any implementation) which will have to be implemented in classes which inherit from it.
+- Trying to inherit an abstract method while retaining the abstract keyword throws an error.
+
+```
+import java.util.*;
+abstract class Book{
+	String title;
+	abstract void setTitle(String s);
+	String getTitle(){
+		return title;
+	}
+
+}
+
+//Write MyBook class here
+class MyBook extends Book {
+    void setTitle(String s) {
+        this.title = s;
+    }
+
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
