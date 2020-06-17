@@ -1815,11 +1815,12 @@ class Adder extends Arithmetic {
 }
 ```
 
-46 [Java Abstract Class]()
+46 [Java Abstract Class](https://www.hackerrank.com/challenges/java-abstract-class/problem)
 
 - An abstract class is a class that cannot be instantiated.
 - It can contain abstract methods (lacking any implementation) which will have to be implemented in classes which inherit from it.
 - Trying to inherit an abstract method while retaining the abstract keyword throws an error.
+- abstract classes exist to work as a base for subclasses.
 
 ```
 import java.util.*;
@@ -1839,6 +1840,169 @@ class MyBook extends Book {
     }
 
 }
+```
+
+47 [Java Interface](https://www.hackerrank.com/challenges/java-interface/problem)
+
+- A java interface contains only method signatures and fields.
+- It can be used for polymorphism. How?
+- Classes can implement multiple interfaces, although they can only ever extend one class.
+
+```
+import java.util.*;
+interface AdvancedArithmetic{
+  int divisor_sum(int n);
+}
+
+//Write your code here
+class MyCalculator implements AdvancedArithmetic{
+    public int divisor_sum(int n) {
+        int sum = 0;
+        for(int i = 1; i <= n; ++i){
+            if(n%i == 0) {
+                sum += i;
+            }
+        }
+        return sum;
+    }
+}
+```
+
+48 [Java Method Overiding](https://www.hackerrank.com/challenges/java-method-overriding/problem)
+
+- Method overiding is done using the @override annnotation: more on that [here](https://www.baeldung.com/java-custom-annotation) and [here](https://www.baeldung.com/java-default-annotations)
+
+```
+import java.util.*;
+class Sports{
+
+    String getName(){
+        return "Generic Sports";
+    }
+
+    void getNumberOfTeamMembers(){
+        System.out.println( "Each team has n players in " + getName() );
+    }
+}
+
+class Soccer extends Sports{
+    @Override
+    String getName(){
+        return "Soccer Class";
+    }
+
+    // Write your overridden getNumberOfTeamMembers method here
+    @Override
+    void getNumberOfTeamMembers() {
+        System.out.println("Each team has 11 players in " + getName());
+    }
+
+}
+...
+```
+
+49 [Java Method Overriding, Super Keyword](https://www.hackerrank.com/challenges/java-method-overriding-2-super-keyword/problem)
+
+- Notice here that it is still possible to override a method without applying the @override annotation.
+- Using the super keyword, as in super.func(), it is possible to access the function (method) in the super class. i.e the original implementation of the overriden method.
+
+```
+import java.util.*;
+import java.io.*;
+
+
+class BiCycle{
+	String define_me(){
+		return "a vehicle with pedals.";
+	}
+}
+
+class MotorCycle extends BiCycle{
+	String define_me(){
+		return "a cycle with an engine.";
+	}
+
+	MotorCycle(){
+		System.out.println("Hello I am a motorcycle, I am "+ define_me());
+
+		String temp=super.define_me(); //Fix this line
+
+		System.out.println("My ancestor is a cycle who is "+ temp );
+	}
+
+}
+class Solution{
+	public static void main(String []args){
+		MotorCycle M=new MotorCycle();
+	}
+}
+
+```
+
+50 [Java instanceof](https://www.hackerrank.com/challenges/java-instanceof-keyword/problem)
+
+- the Java instaceof is an operator, such that a instanceof b;
+- it returns true is a is an instance of the type b. For conditions of when this is the case see [here](https://www.baeldung.com/java-instanceof).
+
+```
+class Student{}
+class Rockstar{   }
+class Hacker{}
+
+
+public class InstanceOFTutorial{
+
+   static String count(ArrayList mylist){
+      int a = 0,b = 0,c = 0;
+      for(int i = 0; i < mylist.size(); i++){
+         Object element=mylist.get(i);
+         if(element instanceof Student)
+            a++;
+         if(element instanceof Rockstar)
+            b++;
+         if(element instanceof Hacker)
+            c++;
+      }
+      String ret = Integer.toString(a)+" "+ Integer.toString(b)+" "+ Integer.toString(c);
+      return ret;
+   }
+
+   public static void main(String []args){
+      ArrayList mylist = new ArrayList();
+      Scanner sc = new Scanner(System.in);
+      int t = sc.nextInt();
+      for(int i=0; i<t; i++){
+         String s=sc.next();
+         if(s.equals("Student"))mylist.add(new Student());
+         if(s.equals("Rockstar"))mylist.add(new Rockstar());
+         if(s.equals("Hacker"))mylist.add(new Hacker());
+      }
+      System.out.println(count(mylist));
+   }
+}
+```
+
+51 [Java Iterator]()
+
+- The hint here was very useful. Do rememeber.
+- Also not how Object is used for elements of unknown types.
+
+```
+mport java.util.*;
+public class Main{
+
+   static Iterator func(ArrayList mylist){
+      Iterator it=mylist.iterator();
+      while(it.hasNext()){
+         Object element = it.next();
+         if(element instanceof String) //Hints: use instanceof operator
+
+			break;
+		}
+      return it;
+
+   }
+...
 ```
 
 # FCC Solutions
@@ -2664,6 +2828,35 @@ You initially correctly reasoned or guessed that you would require O(n^2) to sol
 - by far your best solution would have been the one where using just one int as a temporary store, you rotate each layer, char by char, one char moving to the right until all have moved right one time, and you continued concentrically inwards.
 - this last solution was somewhat similar to her solution, which she argued cannot be done faster than O(n^2) time since all elements in the matrix have to be touched. That said, she focused on optimizing the space usage.
 - an entirely naive space usage could go up to O(n^2) where someone just create a new matrix and copies in the values (this I now understand is a not in place solution). A better space usage is O(n) where rows and columns are switched one at a time (her first solution). The optimal solution here is something that uses O(1) space. A single int.
+
+- implementing the code that loops through concentric layers of a matrix is more difficult than anticipated
+
+wip
+
+```
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int len = sc.nextInt();
+        sc.next();
+        String[][] matrix = new String[len][len];
+        for(int i = 0; i < len; ++i){
+            matrix[i] = sc.nextLine().split("");
+        }
+        sc.close();
+        for(int i = 0; i < len; ++i){
+            for(int j = 0; j < matrix[i].length; ++j){
+                System.out.print(matrix[i][j]);
+            }
+            System.out.print("\n");
+        }
+    }
+}
+
+```
 
 8 [Zero Matrix]
 
