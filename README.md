@@ -2147,6 +2147,44 @@ public class Solution {
     }
 ```
 
+54 [Java Factory](https://www.hackerrank.com/challenges/java-factory/problem)
+
+- for reference see: https://www.javatpoint.com/factory-method-design-pattern
+
+```
+import java.util.*;
+import java.security.*;
+interface Food {
+	 public String getType();
+	}
+	class Pizza implements Food {
+	 public String getType() {
+	 return "Someone ordered a Fast Food!";
+	 }
+	}
+
+	class Cake implements Food {
+
+	 public String getType() {
+	 return "Someone ordered a Dessert!";
+	 }
+	}
+	class FoodFactory {
+		public Food getFood(String order) {
+
+        if(order.equalsIgnoreCase("cake")){
+            return new Cake();
+        }
+        if(order.equalsIgnoreCase("pizza")){
+            return new Pizza();
+        }
+
+        return null;
+}//End of getFood method
+
+	}//End of factory class
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
