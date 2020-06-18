@@ -2005,6 +2005,40 @@ public class Main{
 ...
 ```
 
+52 [Java Exception Handling (try-catch)]()
+
+- when using try catch remember that scoping applies. You cannot access variables declared inside the try block, outside the try catch block.
+- also, note how in this solution you've hard coded "java.util.InputMismatchException." This is bad practise. Imagine if there were 1000 such places where you hard coded this and for some reason the exception message changes. You'd have to replace all those hard coded instances.
+- use getClass(), e.g e.getClass().toString() returns "class <class type>" Yes you have to remove the "class " depending on what you need.
+
+```
+import java.io.*;
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+
+        try{
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            int ans = x/y;
+            System.out.println(ans);
+        }catch(InputMismatchException e) {
+            System.out.println("java.util.InputMismatchException");
+        } catch(ArithmeticException e) {
+            System.out.println(e);
+        }
+
+        sc.close();
+
+    }
+}
+
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
