@@ -2005,7 +2005,7 @@ public class Main{
 ...
 ```
 
-52 [Java Exception Handling (try-catch)]()
+52 [Java Exception Handling (try-catch)](https://www.hackerrank.com/challenges/java-exception-handling-try-catch/problem)
 
 - when using try catch remember that scoping applies. You cannot access variables declared inside the try block, outside the try catch block.
 - also, note how in this solution you've hard coded "java.util.InputMismatchException." This is bad practise. Imagine if there were 1000 such places where you hard coded this and for some reason the exception message changes. You'd have to replace all those hard coded instances.
@@ -2037,6 +2037,114 @@ public class Solution {
     }
 }
 
+```
+
+- it also seems to be the case that resources such as a scanner should be closed in a finally block. As in
+
+```
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ReadData_Demo {
+
+   public static void main(String args[]) {
+      FileReader fr = null;
+      try {
+         File file = new File("file.txt");
+         fr = new FileReader(file); char [] a = new char[50];
+         fr.read(a);   // reads the content to the array
+         for(char c : a)
+         System.out.print(c);   // prints the characters one by one
+      } catch (IOException e) {
+         e.printStackTrace();
+      }finally {
+         try {
+            fr.close();
+         } catch (IOException ex) {
+            ex.printStackTrace();
+         }
+      }
+   }
+}
+```
+
+- or even better, use a try-with-resources block
+
+```
+try(FileReader fr = new FileReader("file path")) {
+   // use the resource
+   } catch () {
+      // body of catch
+   }
+}
+```
+
+source: https://www.tutorialspoint.com/java/java_exceptions.htm
+
+53 [Java Exception Handling](https://www.hackerrank.com/challenges/java-exception-handling/problem)
+
+- reference this for user-defined exceptions ( https://www.tutorialspoint.com/java/java_exceptions.htm)
+
+```
+class MyCalculator {
+    /*
+    * Create the method long power(int, int) here.
+    */
+    long power(int n, int p) throws Exception {
+        if(n < 0 || p < 0) {
+            throw new Exception("n or p should not be negative.");
+        }
+        if(n == 0 && p == 0) {
+            throw new Exception("n and p should not be zero.");
+        }
+        return (long)Math.pow(n, p);
+    }
+
+}
+```
+
+52 [Java varargs](https://www.hackerrank.com/challenges/simple-addition-varargs/problem)
+
+```
+class Add {
+    int add(int... nums) {
+        int sum = 0;
+        StringBuilder s = new StringBuilder();
+        s.append(""+ nums[0]);
+        sum = nums[0];
+        for(int i = 1; i < nums.length; ++i) {
+            s.append("+"+nums[i]);
+            sum += nums[i];
+        }
+        System.out.println(s.append("="+sum));
+        return sum;
+    }
+}
+```
+
+53 [Java Reflection](https://www.hackerrank.com/challenges/java-reflection-attributes/problem)
+
+- the important thing to understand about reflection is when to use it. See here for guidance: https://www.baeldung.com/java-reflection
+
+```
+public class Solution {
+
+        public static void main(String[] args){
+            Class student = new Student().getClass();
+            Method[] methods = student.getDeclaredMethods();
+
+            ArrayList<String> methodList = new ArrayList<>();
+            for(Method m : methods){
+                methodList.add(m.getName());
+            }
+            Collections.sort(methodList);
+            for(String name: methodList){
+                System.out.println(name);
+            }
+        }
+
+    }
 ```
 
 # FCC Solutions
