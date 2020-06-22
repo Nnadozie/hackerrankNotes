@@ -3038,6 +3038,47 @@ public class Solution {
 
 ```
 
+wip 2
+
+```
+import java.util.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+       Scanner sc = new Scanner(System.in);
+       String[] fline = sc.nextLine().split(" ");
+       for(String s : fline) System.out.print(s+ " "); System.out.println("");
+
+       int len = fline.length;
+       String[][] mat = new String[len][len];
+       mat[0] = fline;
+       for(int i = 1; i < len; ++i) {
+           mat[i] = sc.nextLine().split(" ");
+           for(String s : mat[i]) System.out.print(s + " "); System.out.println("");
+       }
+       sc.close();
+
+
+
+       for(int i = 0; i < len/2; ++i) {
+           for(int j = 0; j < len; ++j) {
+               String temp = mat[0][0];
+               mat[0][0] = mat[len-1][0];
+               mat[len-1][0] = mat[len-1][len-1];
+               mat[len-1][len-1] = mat[0][len-1];
+               mat[0][len-1] = temp;
+
+               for( String s : mat[0]) System.out.print(s + " "); System.out.println("");
+               for( String s : mat[len-1]) System.out.print(s + " "); System.out.println("");
+
+           }
+
+       }
+    }
+}
+```
+
 8 [Zero Matrix]
 
 Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column are set to O.
