@@ -2185,6 +2185,30 @@ interface Food {
 	}//End of factory class
 ```
 
+55 [Java Singleton](https://www.hackerrank.com/challenges/java-singleton/problem)
+
+- this video is quite good reference(https://www.youtube.com/watch?v=NZaXM67fxbs)
+
+```
+class Singleton{
+
+    private Singleton() {}
+    private static Singleton onlyInstance = null;
+    public String str = null;
+
+    static Singleton getSingleInstance() {
+        if(onlyInstance == null) {
+            onlyInstance = new Singleton();
+            return onlyInstance;
+        }else {
+            return onlyInstance;
+        }
+
+    }
+
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
