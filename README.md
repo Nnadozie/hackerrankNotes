@@ -2189,6 +2189,8 @@ interface Food {
 
 - this video is quite good reference(https://www.youtube.com/watch?v=NZaXM67fxbs)
 
+- The first naive solution which didn't bother about threading issues was accepted, however look at the discussions for a better implementation of the singleton pattern.
+
 ```
 class Singleton{
 
@@ -2206,6 +2208,51 @@ class Singleton{
 
     }
 
+}
+```
+
+56 [Covariant return types](https://www.hackerrank.com/challenges/java-covariance/forum)
+
+```
+/Complete the classes below
+class Flower {
+    String whatsYourName() {
+        return "I have many names and types.";
+    }
+}
+
+class Jasmine extends Flower {
+    @Override
+    String whatsYourName() {
+        return "Jasmine";
+    }
+}
+
+class Lily extends Flower {
+    @Override
+    String whatsYourName() {
+        return "Lily";
+    }
+}
+
+class Region {
+    Flower yourNationalFlower() {
+        return new Flower();
+    }
+}
+
+class WestBengal extends Region {
+    @Override
+    Jasmine yourNationalFlower() {
+        return new Jasmine();
+    }
+}
+
+class AndhraPradesh extends Region {
+    @Override
+    Lily yourNationalFlower() {
+        return new Lily();
+    }
 }
 ```
 
