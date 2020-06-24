@@ -2256,6 +2256,67 @@ class AndhraPradesh extends Region {
 }
 ```
 
+57 [can you access](https://www.hackerrank.com/challenges/can-you-access/problem)
+
+```
+import java.io.*;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.regex.*;
+import java.security.*;
+
+
+public class Solution {
+
+	public static void main(String[] args) throws Exception {
+		DoNotTerminate.forbidExit();
+
+		try{
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			int num = Integer.parseInt(br.readLine().trim());
+			Object o;// Must be used to hold the reference of the instance of the class Solution.Inner.Private
+            // Solution.Inner in = new Solution.Inner();
+            // Solution.Inner.Private p = in.new Private();
+            // o = p;
+            // System.out.printf("%d is %s\n", num, p.powerof2(num));
+            //can't go straight to a private nested class. first create  an instance of the most public parent class, then use that to create a new instance of the private nested class.
+
+            // Solution.Inner in = new Solution.Inner();
+            // o = in.new Private();
+            // //o is a superclass of Solution.Inner.Private, it does not contain the powerof2 method, and so will require casting.
+            // Solution.Inner.Private p = (Solution.Inner.Private) o;
+            // System.out.printf("%d is %s\n", num, p.powerof2(num));
+
+            // Solution.Inner in = new Solution.Inner();
+            // o = in.new Private();
+            // System.out.printf("%d is %s\n", num, ((Solution.Inner.Private) o).powerof2(num));
+
+            // Solution.Inner in = new Solution.Inner();
+            // System.out.printf("%d is %s\n", num, ((Solution.Inner.Private) (o = in.new Private())).powerof2(num));
+
+            System.out.printf("%d is %s\n", num, ((Solution.Inner.Private) (o = new Solution.Inner().new Private())).powerof2(num));
+
+//https://stackoverflow.com/questions/5306835/casting-objects-in-java
+		System.out.println("An instance of class: " + o.getClass().getCanonicalName() + " has been created");
+
+		}//end of try
+
+		catch (DoNotTerminate.ExitTrappedException e) {
+			System.out.println("Unsuccessful Termination!!");
+		}
+	}//end of main
+	static class Inner{
+		private class Private{
+			private String powerof2(int num){
+				return ((num&num-1)==0)?"power of 2":"not a power of 2";
+			}
+		}
+	}//end of Inner
+
+}//end of Solution
+...
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
