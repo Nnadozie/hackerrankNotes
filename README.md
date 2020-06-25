@@ -2317,6 +2317,45 @@ public class Solution {
 ...
 ```
 
+58 [Java MD5]()
+
+- various things to unpack. DatatypeConverter is deprecated since java9 (see here: https://stackoverflow.com/questions/38563609/datatypeconverter-vs-base64). You need to understand the encoding of bytes in Java and how to decode them.
+
+```
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+import java.security.*;
+import javax.xml.bind.DatatypeConverter;
+
+public class Solution {
+
+    static void encrypt(String s) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        //md.update(s.getBytes());
+        byte[] digest = md.digest(s.getBytes());
+        System.out.println(DatatypeConverter
+      .printHexBinary(digest).toLowerCase());
+
+    }
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+
+        String message = sc.nextLine();
+        try {
+            encrypt(message);
+        } catch (Exception e) {
+
+        }
+        sc.close();
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
