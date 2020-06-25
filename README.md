@@ -2357,6 +2357,76 @@ public class Solution {
 }
 ```
 
+59 [Java Annotations](https://www.hackerrank.com/challenges/java-annotations/problem)
+
+- not quite sure what to make of annotations. I can see they're useful for documentation and defining nuanced types. But how the leap from what I see to what the Spring framework is using them for occured is not clear to me.
+
+Then there's the use case provided where the annotation is (as is defined) used to define metadata about the code. The logic of the code doesn't change, but if the metadata changes the output of the code does change.
+
+```
+import java.lang.annotation.*;
+import java.lang.reflect.*;
+import java.util.*;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@interface FamilyBudget {
+	String userRole() default "GUEST";
+	int budgetLimit() default 100;
+}
+
+class FamilyMember {
+	@FamilyBudget(userRole = "SENIOR")
+	public void seniorMember(int budget, int moneySpend) {
+		System.out.println("Senior Member");
+		System.out.println("Spend: " + moneySpend);
+		System.out.println("Budget Left: " + (budget - moneySpend));
+	}
+
+    @FamilyBudget(userRole = "JUNIOR", budgetLimit = 50)
+	public void juniorUser(int budget, int moneySpend) {
+		System.out.println("Junior Member");
+		System.out.println("Spend: " + moneySpend);
+		System.out.println("Budget Left: " + (budget - moneySpend));
+	}
+}
+
+public class Solution {
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		int testCases = Integer.parseInt(in.nextLine());
+		while (testCases > 0) {
+			String role = in.next();
+			int spend = in.nextInt();
+			try {
+				Class annotatedClass = FamilyMember.class;
+				Method[] methods = annotatedClass.getMethods();
+				for (Method method : methods) {
+					if (method.isAnnotationPresent(FamilyBudget.class)) {
+						FamilyBudget family = method
+								.getAnnotation(FamilyBudget.class);
+						String userRole = family.userRole();
+						int budgetLimit = family.budgetLimit();
+						if (userRole.equals(role)) {
+							if(spend <= budgetLimit){
+								method.invoke(FamilyMember.class.newInstance(),
+										budgetLimit, spend);
+							}else{
+								System.out.println("Budget Limit Over");
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			testCases--;
+		}
+	}
+}
+
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
