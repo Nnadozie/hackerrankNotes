@@ -2317,9 +2317,10 @@ public class Solution {
 ...
 ```
 
-58 [Java MD5]()
+58 [Java MD5](https://www.hackerrank.com/challenges/java-md5/forum)
 
 - various things to unpack. DatatypeConverter is deprecated since java9 (see here: https://stackoverflow.com/questions/38563609/datatypeconverter-vs-base64). You need to understand the encoding of bytes in Java and how to decode them.
+- don't use md5 to hash passwords, its unsafe. Instead use sha for that. However md5 is still useful for implementing file checksums.
 
 ```
 import java.io.*;
