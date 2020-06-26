@@ -2427,6 +2427,37 @@ public class Solution {
 
 ```
 
+60 [Java SHA-256](https://www.hackerrank.com/challenges/sha-256/problem)
+
+- see [here](https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html#syntax) for the format string reference. "%02x" is a format string that specifies 0 padding, width of 2, and small xters conversion x.
+
+```
+import java.io.*;
+import java.util.*;
+import java.security.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        sc.close();
+
+        try{
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(s.getBytes());
+            for(byte b : hash) {
+                System.out.print(String.format("%02x", b));
+            }
+
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e);
+        }
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
