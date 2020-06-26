@@ -2458,6 +2458,105 @@ public class Solution {
 }
 ```
 
+61 []()
+
+- this resource, though tedious to go through was very good: https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html#approach3
+- note the usefulness of lambda expressions: "you're usually trying to pass functionality as an argument to another method, such as what action should be taken when someone clicks a button. Lambda expressions enable you to do this, to treat functionality as method argument, or code as data."
+- that said I started off with a named local class Lambda that implemented PerformOperation. This would have required a distinct class for each method.
+
+```
+    class Lambda implements PerformOperation {
+        public boolean check(int num) {
+            return (num%2 == 0) ? false : true;
+        }
+    }
+
+    PerformOperation isOdd() {
+        return new Lambda();
+    }
+
+    PerformOperation isPrime() {
+        return new Lambda();
+    }
+
+    PerformOperation isPalindrome() {
+        return new Lambda();
+    }
+```
+
+- then I moved on to anonymous classes, as in:
+- I think this is better because the implementation I specifiy is right there in the method scope.
+- now all that was left was implementing the correct logic
+
+```
+    PerformOperation isOdd() {
+        return new PerformOperation() {
+            public boolean check(int num) {
+                return (num%2 == 0) ? false : true;
+            }
+        };
+    }
+
+    PerformOperation isPrime() {
+        return new PerformOperation() {
+            public boolean check(int num) {
+                return (num%2 == 0) ? false : true;
+            }
+        };
+    }
+
+    PerformOperation isPalindrome() {
+        return new PerformOperation() {
+            public boolean check(int num) {
+                return (num%2 == 0) ? false : true;
+            }
+        };
+    }
+```
+
+- the passing solution. Not necessarily the most efficient solution. A challenge: work out the running times for each method:
+
+```
+    PerformOperation isOdd() {
+        return new PerformOperation() {
+            public boolean check(int num) {
+                return (num%2 == 0) ? false : true;
+            }
+        };
+    }
+
+    PerformOperation isPrime() {
+        return new PerformOperation() {
+            public boolean check(int num) {
+                if(num < 2) {
+                    return false;
+                }
+                int i = 3;
+                while(i*i < num){
+                    if(num%i == 0) return false;
+                    ++i;
+                }
+                return true;
+            }
+        };
+    }
+
+    PerformOperation isPalindrome() {
+        return new PerformOperation() {
+            public boolean check(int num) {
+                StringBuilder nums = new StringBuilder(String.valueOf(num));
+                if(nums.toString().equals(nums.reverse().toString())) {
+                    return true;
+                }
+
+                return false;
+            }
+        };
+    }
+
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
