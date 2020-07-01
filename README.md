@@ -2557,6 +2557,275 @@ public class Solution {
 }
 ```
 
+62 []()
+
+- this was one **\* \*** of a question. Rolls eyes
+- where I got to without help: passes the only test case, fails all submission casses
+
+```
+import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+enum Color {
+    RED, GREEN
+}
+
+abstract class Tree {
+
+    private int value;
+    private Color color;
+    private int depth;
+
+    public Tree(int value, Color color, int depth) {
+        this.value = value;
+        this.color = color;
+        this.depth = depth;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public abstract void accept(TreeVis visitor);
+}
+
+class TreeNode extends Tree {
+
+    private ArrayList<Tree> children = new ArrayList<>();
+
+    public TreeNode(int value, Color color, int depth) {
+        super(value, color, depth);
+    }
+
+    public void accept(TreeVis visitor) {
+        visitor.visitNode(this);
+
+        for (Tree child : children) {
+            child.accept(visitor);
+        }
+    }
+
+    public void addChild(Tree child) {
+        children.add(child);
+    }
+}
+
+class TreeLeaf extends Tree {
+
+    public TreeLeaf(int value, Color color, int depth) {
+        super(value, color, depth);
+    }
+
+    public void accept(TreeVis visitor) {
+        visitor.visitLeaf(this);
+    }
+}
+
+abstract class TreeVis
+{
+    public abstract int getResult();
+    public abstract void visitNode(TreeNode node);
+    public abstract void visitLeaf(TreeLeaf leaf);
+
+}
+
+//TreeLeaf visitLeaf is only called when it's a leaf.
+//TreeNode visitNode is only called when it's a node.
+class SumInLeavesVisitor extends TreeVis {
+    private int sumOfLeaves = 0;
+
+    public int getResult() {
+      	//implement this
+        return sumOfLeaves;
+    }
+
+    public void visitNode(TreeNode node) {
+      	//implement this
+    }
+
+    public void visitLeaf(TreeLeaf leaf) {
+      	sumOfLeaves += leaf.getValue();
+    }
+}
+
+class ProductOfRedNodesVisitor extends TreeVis {
+    private int productOfNodes = 1;
+
+    public int getResult() {
+      	//implement this
+        return productOfNodes % (int)(Math.pow(10,9) + 7);
+    }
+
+    public void visitNode(TreeNode node) {
+      	//implement this
+        if(node.getColor() == Color.RED) {
+            if(node.getValue() == 0 && productOfNodes == 0) {
+                productOfNodes = 1;
+            }else{
+                productOfNodes *= node.getValue();
+            }
+        }
+    }
+
+    public void visitLeaf(TreeLeaf leaf) {
+      	//implement this
+        if(leaf.getColor() == Color.RED) {
+            if(leaf.getValue() == 0 && productOfNodes == 0) {
+                productOfNodes = 1;
+            }else{
+                productOfNodes *= leaf.getValue();
+            }
+        }
+    }
+}
+
+class FancyVisitor extends TreeVis {
+    private int sumOfEvenDepthNodes = 0;
+    private int sumOfGreenLeaves = 0;
+
+    public int getResult() {
+      	//implement this
+        return Math.abs(sumOfEvenDepthNodes - sumOfGreenLeaves);
+    }
+
+    public void visitNode(TreeNode node) {
+    	//implement this
+        if(node.getDepth()%2 == 0) {
+            sumOfEvenDepthNodes += node.getValue();
+        }
+    }
+
+    public void visitLeaf(TreeLeaf leaf) {
+    	//implement this
+        if(leaf.getColor() == Color.GREEN) {
+            sumOfGreenLeaves += leaf.getValue();
+        }
+    }
+}
+
+public class Solution {
+
+    public void buildTree(Tree root) {
+
+    }
+
+    public static Tree solve() {
+        //read the tree from STDIN and return its root as a return value of this function
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+        String[] values = sc.nextLine().split(" ");
+        // for(String s : values) {
+        //     System.out.println(s);
+        // }
+        String[] colors = sc.nextLine().split(" ");
+        // for(String s : colors) {
+        //     System.out.println(s);
+        // }
+
+
+        int[][] mappings = new int[n-1][2];
+        HashSet<Integer> nodes = new HashSet<Integer>();
+        HashSet<Integer> leaves = new HashSet<Integer>();
+
+        for(int i = 0; i < n-1; ++i ) {
+            int pa = sc.nextInt();
+            int child = sc.nextInt();
+            sc.nextLine();
+            mappings[i][0] = pa;
+            nodes.add(pa);
+            mappings[i][1] = child;
+
+        }
+
+        for(int i = 0; i < n-1; ++i ) {
+            if(!nodes.contains(mappings[i][1])){
+                leaves.add(mappings[i][1]);
+            }
+
+        }
+
+        //System.out.println(nodes.toString());
+        //System.out.println(leaves.toString());
+
+        int[] graph = new int[n];
+        Arrays.fill(graph, -1);
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        int w = 1;
+        graph[w-1] = 0;
+        queue.add(w);
+        while(queue.size() !=0) {
+            int currNode = queue.remove();
+            //System.out.printf("current node %d", currNode);
+            for( int[] edge : mappings) {
+                if(edge[0] == currNode) {
+                    w = edge[1];
+                    if(graph[w - 1] == -1) {
+                        graph[w -1] = graph[edge[0] -1]+1;
+                        queue.add(w);
+                    }
+                }
+            }
+        }
+
+        Tree[] allNodes = new Tree[n];
+
+        for(int i =0; i < n; ++i) {
+            if(nodes.contains(i+1)){
+                allNodes[i] = new TreeNode(Integer.parseInt(values[i]), Color.values()[Integer.parseInt(colors[i])], graph[i]);
+            }
+            if(leaves.contains(i+1)){
+                allNodes[i] = new TreeLeaf(Integer.parseInt(values[i]), Color.values()[Integer.parseInt(colors[i])], graph[i]);
+            }
+
+        }
+
+        for(int[] edge : mappings) {
+            ((TreeNode)allNodes[edge[0]-1]).addChild(allNodes[edge[1]-1]);
+        }
+
+
+        return allNodes[0];
+    }
+
+
+    public static void main(String[] args) {
+      	Tree root = solve();
+		SumInLeavesVisitor vis1 = new SumInLeavesVisitor();
+      	ProductOfRedNodesVisitor vis2 = new ProductOfRedNodesVisitor();
+      	FancyVisitor vis3 = new FancyVisitor();
+
+      	root.accept(vis1);
+      	root.accept(vis2);
+      	root.accept(vis3);
+
+      	int res1 = vis1.getResult();
+      	int res2 = vis2.getResult();
+      	int res3 = vis3.getResult();
+
+      	System.out.println(res1);
+     	System.out.println(res2);
+    	System.out.println(res3);
+	}
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
