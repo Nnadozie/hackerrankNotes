@@ -2557,7 +2557,7 @@ public class Solution {
 }
 ```
 
-62 []()
+62 [Java Visitor Pattern](https://www.hackerrank.com/challenges/java-vistor-pattern/problem)
 
 - this was one **\* \*** of a question. Rolls eyes
 - where I got to without help: passes the only test case, fails all submission casses
@@ -3981,6 +3981,109 @@ public class Solution {
 
 
 ```
+
+- You were right! Just a small error with get(w-1).size() instead of get(w).size()
+- The key insights of this: when given an undirected graph with edges not necessarily given in parent to child relationships, remember to delete edges once you've used them, and there're two ways to distinguish a leaf from a node:
+- 1, count the number of instances. A leaf occurs exactly once.
+- 2, Put your data into an adjacency list. A leaf node key will have a list of edges of maximum length 1, and can reduce to 0 if the edge is read off from another list and therefore deleted from the leaf's list.
+- Other insights: BFS and DFS are the same runtime but can vary in practice depending on the nature of the data. I.e whether you're looking for something near the root (bfs better) or towards the leafs (dfs better).
+- BFS is optimal with an adjacency list.
+- Be careful to watch out for int overflows when doing big number multiplications. A long or BigInt will be better in these instances
+- Be careful when using primitives like Collections.frequency, and scanner.nextline().split(), that run in O(n) time. They seem free, but are linear time in the number of the input. In this case, eliminating these were the key to solving it within the time constraints.
+
+
+```
+public class Solution {
+
+    public static Tree solve() {
+        //read the tree from STDIN, construct the tree and return its root as a return value of this function
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+        int[] values = new int[n];
+
+        Color[] colors = new Color[n];
+
+        for (int i = 0; i < n; ++i) {
+            values[i] = sc.nextInt();
+        }
+        for (int i = 0; i < n; ++i) {
+            colors[i] = sc.nextInt() == 0 ? Color.RED : Color.GREEN;
+        }
+
+
+
+        HashMap<Integer, HashSet<Integer>>mappings = new HashMap<Integer, HashSet<Integer>>();
+
+        for(int i = 0; i < n-1; ++i ) {
+            int pa = sc.nextInt();
+            int child = sc.nextInt();
+
+
+            if(mappings.containsKey(pa)){
+                mappings.get(pa).add(child);
+            }else{
+                mappings.put(pa, new HashSet<Integer>());
+                mappings.get(pa).add(child);
+            }
+
+            if(mappings.containsKey(child)){
+                mappings.get(child).add(pa);
+            }else{
+                mappings.put(child, new HashSet<Integer>());
+                mappings.get(child).add(pa);
+            }
+            if(sc.hasNextLine()) sc.nextLine();
+
+        }
+
+
+        int[] depth = new int[n];
+        Arrays.fill(depth, -1);
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        int r = 1;
+        depth[r-1] = 0;
+        queue.add(r);
+
+        Tree[] allNodes = new Tree[n];
+
+        while(queue.size() !=0) {
+            int currNode = queue.remove();
+
+            if(allNodes[currNode-1]== null) {
+
+                if(mappings.get(currNode).size() <= 1) {
+                    allNodes[currNode-1] = new TreeLeaf(values[currNode-1], colors[currNode-1], depth[currNode-1]);
+                }else {
+                    allNodes[currNode-1] = new TreeNode(values[currNode-1], colors[currNode-1], depth[currNode-1]);
+                }
+            }
+
+            for(int w : mappings.get(currNode)) {
+                    if(depth[w - 1] == -1) {
+                        depth[w -1] = depth[currNode -1]+1;
+                        queue.add(w);
+                    }
+                    if(allNodes[w-1]== null) {
+
+                                            if(mappings.get(w).size() <= 1 ) {
+                                                allNodes[w-1] = new TreeLeaf(values[w-1],colors[w-1], depth[w-1]);
+                                            }else {
+                                                allNodes[w-1] = new TreeNode(values[w-1],colors[w-1], depth[w-1]);
+                                            }
+                    }
+                    if(allNodes[currNode-1] instanceof TreeNode) ((TreeNode)allNodes[currNode-1]).addChild(allNodes[w-1]);
+                    mappings.get(w).remove(Integer.valueOf(currNode));
+            }
+        }
+
+
+        return allNodes[0];
+    }
+
+```
+
 
 # FCC Solutions
 
