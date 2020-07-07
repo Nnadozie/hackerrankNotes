@@ -240,6 +240,61 @@ class Solution {
 }
 ```
 
+- in attempting to optimize you forget, it's the edges you're looking for, not the nodes
+- therefore your solution fails for this: [[1,1],[1,1]], you get 10 instead of 8, because the edge between the last two nodes is unaccounted for.
+
+```
+class Solution {
+    public int islandPerimeter(int[][] grid) {
+        
+        // for every array
+        //     if find 1
+        //     choose as starting node for path finding algo
+        //         for every edge deduct two
+        
+        return dfs(getStartNode(grid), grid);
+                
+    }
+    
+    public int dfs(int[] s, int[][] grid) {
+        
+        grid[s[0]][s[1]] = 0;
+        int perimeter = 0;
+        
+        if(s[0]-1 >= 0 && grid[s[0]-1][s[1]] == 1) {
+            perimeter  += dfs(new int[]{s[0]-1,s[1]}, grid) - 2;
+        }
+        if(s[0]+1 < grid.length && grid[s[0]+1][s[1]] == 1) {
+            perimeter += dfs(new int[]{s[0]+1,s[1]}, grid) -2;
+        }
+        if(s[1]-1 >= 0 && grid[s[0]][s[1]-1] == 1) {
+            perimeter += dfs(new int[]{s[0],s[1]-1}, grid) -2;
+        }
+        if(s[1]+1 < grid[0].length && grid[s[0]][s[1]+1] == 1) {
+            perimeter += dfs(new int[]{s[0],s[1]+1}, grid) -2;
+        }
+
+        return perimeter + 4;
+        
+    }
+    
+    public int[] getStartNode(int[][] grid) {
+        
+        int[] startNode = new int[2]; 
+        
+        for(int row = 0; row < grid.length; ++row) {
+            for(int col = 0; col < grid[0].length; ++col) {
+                if(grid[row][col] == 1){
+                    startNode[0] = row; startNode[1] = col;
+                    return startNode;
+                }
+            }
+        }
+        return startNode;
+    }
+}
+```
+
 # Hackerrank SQL Solutions
 
 1 [Revising the Select Query](https://www.hackerrank.com/challenges/revising-the-select-query/problem)
