@@ -197,6 +197,49 @@ fs.readFile("array.txt", function (err, data) {
 
 ```
 
+4 [Island perimeter](https://leetcode.com/explore/challenge/card/july-leetcoding-challenge/544/week-1-july-1st-july-7th/3383/)
+
+- The brute force approach runs in O(n^2) and thetha actually time.
+- can be optimized by first finding a starting node, then using a path finding algo to build up
+    the island. Each edge incurring a deduction of 2.
+
+```
+class Solution {
+    public int islandPerimeter(int[][] grid) {
+        
+        // for each piece of land increment by 4
+        //     check if it has any neighbor on all sides
+        //         subtract one for that side
+        
+        int perimeter = 0;
+        
+        for(int row = 0; row < grid.length; ++row) {
+            for(int col = 0; col < grid[0].length; ++col) {
+                if(grid[row][col] == 1){
+                    perimeter += 4;
+                    
+                    if(row-1 >= 0 && grid[row-1][col] == 1) {
+                        perimeter -= 1;
+                    }
+                    if(row+1 < grid.length && grid[row+1][col] == 1) {
+                        perimeter -= 1;
+                    }
+                    if(col-1 >= 0 && grid[row][col-1] == 1) {
+                        perimeter -= 1;
+                    }
+                    if(col+1 < grid[0].length && grid[row][col+1] == 1) {
+                        perimeter -= 1;
+                    }
+                }
+            }
+        }
+        
+        return perimeter;
+        
+    }
+}
+```
+
 # Hackerrank SQL Solutions
 
 1 [Revising the Select Query](https://www.hackerrank.com/challenges/revising-the-select-query/problem)
