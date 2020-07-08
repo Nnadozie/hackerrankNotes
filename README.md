@@ -201,23 +201,23 @@ fs.readFile("array.txt", function (err, data) {
 
 - The brute force approach runs in O(n^2) and thetha actually time.
 - can be optimized by first finding a starting node, then using a path finding algo to build up
-    the island. Each edge incurring a deduction of 2.
+  the island. Each edge incurring a deduction of 2.
 
 ```
 class Solution {
     public int islandPerimeter(int[][] grid) {
-        
+
         // for each piece of land increment by 4
         //     check if it has any neighbor on all sides
         //         subtract one for that side
-        
+
         int perimeter = 0;
-        
+
         for(int row = 0; row < grid.length; ++row) {
             for(int col = 0; col < grid[0].length; ++col) {
                 if(grid[row][col] == 1){
                     perimeter += 4;
-                    
+
                     if(row-1 >= 0 && grid[row-1][col] == 1) {
                         perimeter -= 1;
                     }
@@ -233,9 +233,9 @@ class Solution {
                 }
             }
         }
-        
+
         return perimeter;
-        
+
     }
 }
 ```
@@ -246,21 +246,21 @@ class Solution {
 ```
 class Solution {
     public int islandPerimeter(int[][] grid) {
-        
+
         // for every array
         //     if find 1
         //     choose as starting node for path finding algo
         //         for every edge deduct two
-        
+
         return dfs(getStartNode(grid), grid);
-                
+
     }
-    
+
     public int dfs(int[] s, int[][] grid) {
-        
+
         grid[s[0]][s[1]] = 0;
         int perimeter = 0;
-        
+
         if(s[0]-1 >= 0 && grid[s[0]-1][s[1]] == 1) {
             perimeter  += dfs(new int[]{s[0]-1,s[1]}, grid) - 2;
         }
@@ -275,13 +275,13 @@ class Solution {
         }
 
         return perimeter + 4;
-        
+
     }
-    
+
     public int[] getStartNode(int[][] grid) {
-        
-        int[] startNode = new int[2]; 
-        
+
+        int[] startNode = new int[2];
+
         for(int row = 0; row < grid.length; ++row) {
             for(int col = 0; col < grid[0].length; ++col) {
                 if(grid[row][col] == 1){
@@ -291,6 +291,33 @@ class Solution {
             }
         }
         return startNode;
+    }
+}
+```
+
+- looking at the discussions and running the solutions provided, it turns out dfs performs worse than the brute force approach. Why?
+
+5 [3Sum](https://leetcode.com/explore/challenge/card/july-leetcoding-challenge/545/week-2-july-8th-july-14th/3384/)
+
+- a quick approach using three for loops should easily produce an O(n^3) solution. I highly doubt that's optimal, and remember something in the Algorithms specialization about solving an n choose 2 problem.
+
+```
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+
+        //nchoose3
+        //brute force
+        //for every one, iterate through every other one
+            //for every other one iterate through every other one
+
+            i.e
+
+        //for i to n
+            for i+1 to n
+                for 1+2 to n
+                    check if [i] + [i+1] + [i+2] == 0
+        //add to some hashet or list
+
     }
 }
 ```
@@ -4089,7 +4116,6 @@ public class Solution {
 - Be careful to watch out for int overflows when doing big number multiplications. A long or BigInt will be better in these instances
 - Be careful when using primitives like Collections.frequency, and scanner.nextline().split(), that run in O(n) time. They seem free, but are linear time in the number of the input. In this case, eliminating these were the key to solving it within the time constraints.
 
-
 ```
 public class Solution {
 
@@ -4181,7 +4207,6 @@ public class Solution {
     }
 
 ```
-
 
 # FCC Solutions
 
