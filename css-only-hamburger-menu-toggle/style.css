@@ -1,0 +1,187 @@
+/* set up elements*/
+#reverse, #forward {
+  display: none;
+}
+body {
+  padding: 0px;
+  margin: 0px;
+}
+#reverse-label {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: green;
+  position: absolute;
+  z-index: 1;
+}
+
+#forward-label {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+    z-index: 2;
+}
+
+#forward-label-span {
+  display: block;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+#forward-label-span::before {
+  content: "";
+  display: block;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: absolute;
+}
+
+label > span > span {
+  display: block;
+  width: 50%;
+  height: 10px;
+  border-radius: 50px;
+  background: white;
+  margin: auto;
+  margin-top: 80px;
+  position: relative;
+}
+
+label > span > span::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 10px;
+  border-radius: 50px;
+  background: white;
+  position: absolute;
+  bottom: -40px;
+}
+
+/* set up states */
+
+/*state 0*/
+/* #reverse:not(:checked) + #reverse-label + #forward:not(:checked) {}
+ */
+
+/*state 1*/
+#reverse:not(:checked) + #reverse-label + #forward:checked + #forward-label {
+  pointer-events: none;
+}
+/*state 2*/
+#reverse:checked + #reverse-label + #forward:checked + #forward-label {
+  pointer-events: none;
+}
+/*state 3*/
+/* #reverse:checked + #reverse-label + #forward:not(:checked) + /*#forward-label {} */
+
+
+/* set up animations */
+
+/* state 1 animation */
+
+#reverse:not(:checked) + #reverse-label + #forward:checked + label > span {
+    animation-name: clicked-background;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes clicked-background {
+  0% {
+    background: #000000;
+  }
+  100% {
+    background: #545454;
+  }
+}
+
+
+
+#reverse:not(:checked) + #reverse-label + #forward:checked + label > span > span {
+    animation-name: rotate-f;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes rotate-f {
+  0%{
+    margin-top: 90px;
+  }
+  100% {
+    margin-top: 90px;
+    transform: rotate(45deg);
+  }
+}
+
+
+
+#reverse:not(:checked) + #reverse-label + #forward:checked + label > span > span::after {
+    animation-name: rotate-b;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes rotate-b {
+  0{
+    bottom: -40px;
+  }
+  100% {
+    transform: rotate(-90deg);
+    bottom: 0px;
+  }
+}
+
+/* state 2 animation */
+#reverse:checked + #reverse-label + #forward:checked + label > span {
+    animation-name: unclicked-background;
+    animation-duration: 500ms;
+}
+
+@keyframes unclicked-background {
+  0% {
+      background: #545454;
+  }
+  100% {
+    background: #000000;
+  }
+}
+
+
+#reverse:checked + #reverse-label + #forward:checked + label > span > span {
+    margin-top: 90px;
+    animation-name: unrotate-f;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes unrotate-f {
+  0% {
+    transform: rotate(45deg);
+  }
+  100% {
+    
+  }
+}
+
+#reverse:checked + #reverse-label + #forward:checked + label > span > span::after {
+    animation-name: unrotate-b;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+@keyframes unrotate-b {
+  0% {
+    bottom: 0px;
+    transform: rotate(-90deg);
+  }
+  100% {
+    bottom: -40px;
+  }
+}
