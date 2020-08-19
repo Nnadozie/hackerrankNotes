@@ -322,6 +322,42 @@ class Solution {
 }
 ```
 
+6 [2sum](https://leetcode.com/problems/two-sum/submissions/)
+
+Final solution O(n^2).
+I initially sorted the array, aiming for a O(nlogn) solution, but forgot that sorting the array mixes up the indices.
+
+I suppose it's possible to create a hashtable of values and their indices in O(n) then use the hashtable for the rest of the algorithm.
+
+```
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        // sort nums
+        // for each int in nums
+        // find diff from target
+        // find target in nums
+        int diff = 0;
+        int index = -1;
+        int in = 9;
+        for(int i =0; i < nums.length; ++i) {
+            diff = target - nums[i];
+            for(int k = i+1; k < nums.length; ++k) {
+                if(nums[k] == diff){
+                    index = k;
+                    in = i;
+                    break;
+                }
+            }
+            if(index != -1) {
+                break;
+            }
+        }
+        return new int[]{in, index};
+        
+    }
+}
+```
+
 # Hackerrank SQL Solutions
 
 1 [Revising the Select Query](https://www.hackerrank.com/challenges/revising-the-select-query/problem)
