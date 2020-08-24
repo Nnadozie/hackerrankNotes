@@ -437,7 +437,8 @@ Input: [7,6,4,3,1]
 Output: 0
 Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
-sol:
+sol: (fails test cases)
+```
 bn = last val
 bi = last index,
 sn = first val
@@ -453,6 +454,24 @@ if index < index of biggest val found (bi)
 update si = index, sn = val
 
 if bn > sn (return bn - sn) else return 0
+```
+
+fell back to an absymal o(n^2) solution
+```
+class Solution {
+    public int maxProfit(int[] prices) {
+        int max = 0;
+        for(int i = 0; i < prices.length; ++i){
+            for(int j = i; j< prices.length; ++j){
+                if(prices[j] > prices[i] && prices[j] - prices[i] > max){
+                    max = prices[j] - prices[i];
+                }
+            }
+        }
+        return max;
+    }
+}
+```
 
 
 10 [Missing Number](https://leetcode.com/problems/missing-number/)
