@@ -470,6 +470,10 @@ Output: 8
 Note:
 Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity?
 
+
+solution:
+
+```
 create data structure containing 0 - n
 
 loop through array, for each element remove from previous data strcture,
@@ -483,6 +487,30 @@ get sum of 0 - n
 get sum of numbers in array
 
 return sum of 0-n minus numbers in array
+```
+
+Java Impl
+
+```
+class Solution {
+    public int missingNumber(int[] nums) {
+        int expected = 0;
+        int found = 0;
+        
+        for(int i = 0; i <= nums.length; ++i) {
+            expected += i;
+        }
+        
+        for (int val : nums) {
+            found += val;
+        }
+        
+        return expected - found;
+        
+    }
+}
+```
+
 
 
 # Hackerrank SQL Solutions
