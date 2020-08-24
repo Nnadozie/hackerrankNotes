@@ -324,6 +324,17 @@ class Solution {
 
 6 [2sum](https://leetcode.com/problems/two-sum/submissions/)
 
+Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+Example:
+
+Given nums = [2, 7, 11, 15], target = 9,
+
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1].
+
 Final solution O(n^2).
 I initially sorted the array, aiming for a O(nlogn) solution, but forgot that sorting the array mixes up the indices.
 
@@ -347,7 +358,7 @@ class Solution {
                     in = i;
                     break;
                 }
-            }
+             }
             if(index != -1) {
                 break;
             }
@@ -357,6 +368,122 @@ class Solution {
     }
 }
 ```
+
+7 [reverse integer](https://leetcode.com/problems/reverse-integer/)
+
+Given a 32-bit signed integer, reverse digits of an integer.
+
+Example 1:
+
+Input: 123
+Output: 321
+Example 2:
+
+Input: -123
+Output: -321
+Example 3:
+
+Input: 120
+Output: 21
+
+sol:
+if neg, make pos, convert to string, reverse, convert to int, make neg
+
+
+8 [Palindrome number](https://leetcode.com/problems/palindrome-number/)
+
+Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+
+Example 1:
+
+Input: 121
+Output: true
+Example 2:
+
+Input: -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+Example 3:
+
+Input: 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+Follow up:
+
+Coud you solve it without converting the integer to a string?
+
+sol:
+if <= 10, not palindrom,
+else, convert to string
+check mirror indices, 0 and n-1, 1 and n-2, e.t.c until (n/2 - 1)-1 if odd, or (n/2)-1 if even length
+
+9 [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+If you were only permitted to complete at most one transaction (i.e., buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+
+Note that you cannot sell a stock before you buy one.
+
+Example 1:
+
+Input: [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+             Not 7-1 = 6, as selling price needs to be larger than buying price.
+Example 2:
+
+Input: [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transaction is done, i.e. max profit = 0.
+
+sol:
+bn = last val
+bi = last index,
+sn = first val
+si = first index,
+
+from right to left
+if val > biggest val found (bn)
+if index > index of smallest val found (si)
+update bi = index, bn = val
+
+if val < smallest val found (sn)
+if index < index of biggest val found (bi)
+update si = index, sn = val
+
+if bn > sn (return bn - sn) else return 0
+
+
+10 [Missing Number](https://leetcode.com/problems/missing-number/)
+
+Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
+
+Example 1:
+
+Input: [3,0,1]
+Output: 2
+Example 2:
+
+Input: [9,6,4,2,3,5,7,0,1]
+Output: 8
+Note:
+Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity?
+
+create data structure containing 0 - n
+
+loop through array, for each element remove from previous data strcture,
+
+return sole element in data structure
+
+or
+
+get sum of 0 - n
+
+get sum of numbers in array
+
+return sum of 0-n minus numbers in array
+
 
 # Hackerrank SQL Solutions
 
