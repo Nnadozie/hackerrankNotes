@@ -389,6 +389,43 @@ Output: 21
 sol:
 if neg, make pos, convert to string, reverse, convert to int, make neg
 
+this didn't work because you were trying to catch an error that wouldn't have been thrown. (values are limited to btwn integer.max_value and interger.min_value)
+
+Luckily java provides a Math.multiplyExact and Math.addExact which throws an ArithmeticException when an overflow occurs.
+```
+public int reverse(int x) {
+        try{
+            int reversed = 0; boolean neg = false;
+            if(x < 0){neg = true; x *= -1;}
+            while(x >= 1){
+                reversed = reversed * 10 + x%10;
+                x /= 10;
+            }
+            
+            return neg? reversed * -1 : reversed;
+        }catch(Error e){
+            return 0;
+        }
+        
+    }
+```
+Final Solution, optimizing for time and space
+```
+public int reverse(int x) {
+        try{
+            int reversed = 0; //boolean neg = false;
+            //if(x < 0){neg = true; x *= -1;}
+            while(Math.abs(x) >= 1){
+                reversed = Math.addExact(Math.multiplyExact(reversed, 10), x%10);
+                x /= 10;
+            }
+            //return neg? reversed * -1 : reversed;
+            return reversed;
+        }catch(ArithmeticException e){
+            return 0;
+        }
+```
+
 
 8 [Palindrome number](https://leetcode.com/problems/palindrome-number/)
 
