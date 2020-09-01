@@ -413,9 +413,20 @@ Follow up:
 Coud you solve it without converting the integer to a string?
 
 sol:
-if <= 10, not palindrom,
+if <= 10, not palindrome,
 else, convert to string
 check mirror indices, 0 and n-1, 1 and n-2, e.t.c until (n/2 - 1)-1 if odd, or (n/2)-1 if even length
+
+Implementation
+```
+if(x <0){return false;}
+        String num = Integer.toString(x);
+        for(int i = 0; i < num.length()/2; ++i) {
+            if(num.charAt(i) != num.charAt(num.length()-1 -i)) {return false;}
+
+        }
+        return true;
+```
 
 9 [Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
 
@@ -530,6 +541,49 @@ class Solution {
 }
 ```
 
+11 [Valid parenthesis](https://leetcode.com/problems/valid-parentheses/)
+
+Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+An input string is valid if:
+
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+Note that an empty string is also considered valid.
+
+Example 1:
+
+Input: "()"
+Output: true
+Example 2:
+
+Input: "()[]{}"
+Output: true
+Example 3:
+
+Input: "(]"
+Output: false
+Example 4:
+
+Input: "([)]"
+Output: false
+Example 5:
+
+Input: "{[]}"
+Output: true
+
+12 [Maximum subarray](https://leetcode.com/problems/maximum-subarray/)
+
+Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+Example:
+
+Input: [-2,1,-3,4,-1,2,1,-5,4],
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
+Follow up:
+
+If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
 
 
 # Hackerrank SQL Solutions
