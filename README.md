@@ -609,6 +609,37 @@ Example 5:
 Input: "{[]}"
 Output: true
 
+sol:
+mistakes:
+- storing strings "[" instead of chars '[' in my hashmap, then trying to compare chars to strings later on
+- using a for( char val: s) foreach construct on a string, which was invalid
+- attempting to peek() at an empty stack, which threw an error
+- forgetting that the stack could be empty even when an input was given, e.g "]"
+```
+class Solution {
+    public boolean isValid(String s) {
+        HashMap brackets = new HashMap();
+        brackets.put(']', '[');
+        brackets.put(')', '(');
+        brackets.put('}', '{');
+                
+        Stack counter = new Stack();
+        for(int i = 0; i < s.length(); ++i) {
+            char brak = s.charAt(i);
+            if(brak == '[' || brak =='(' || brak == '{'){
+                counter.push(brak);
+            }
+            else if(counter.size() > 0 && counter.peek() == brackets.get(brak)) {
+                counter.pop();
+            }else{
+                return false;
+            }
+        }
+        return counter.size() == 0? true : false;
+    }
+}
+```
+
 12 [Maximum subarray](https://leetcode.com/problems/maximum-subarray/)
 
 Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
