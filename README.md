@@ -653,6 +653,72 @@ Follow up:
 
 If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
 
+13 [Intersection of two arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
+
+Given two arrays, write a function to compute their intersection.
+
+Example 1:
+
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2]
+Example 2:
+
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+Output: [9,4]
+Note:
+
+Each element in the result must be unique.
+The result can be in any order.
+
+pseudo:
+
+sort longer array
+for(el: shorter array)
+    if el not in unique set
+    binarysearch in longer array
+    if found add to unique set
+return unique set
+
+My sol:
+
+is O(mlogm) vs the  O(n+m) that's provided.
+- I loved that O(n+m) solution. They simply convert both to sets
+```
+public int[] intersection(int[] nums1, int[] nums2) {
+        if(nums1.length > nums2.length){
+            Arrays.sort(nums1);
+        } else {
+            Arrays.sort(nums2);
+        }
+        
+        HashSet<Integer> s = new HashSet<Integer>();
+        
+        for(int el : (nums1.length < nums2.length ? nums1 : nums2 ) ) {
+            
+            if(!s.contains(el)){
+                if(Arrays.binarySearch((nums1.length > nums2.length ? nums1 : nums2 ), el) >= 0){
+                    s.add(el);
+                }                
+            }           
+        
+        }
+        
+        int ret[] = new int[s.size()];
+        Integer ent[] = s.toArray(new Integer[0]);
+        for(int i = 0; i < ret.length; ++i){
+            ret[i] = ent[i].intValue();
+        }
+
+        return ret;
+    }
+```
+
+O(n) solution:
+
+```
+The idea is to convert both arrays into sets, and then iterate over the smallest set checking the presence of each element in the larger set. Time complexity of this approach is \mathcal{O}(n + m)O(n+m) in the average case.
+```
+
 
 # Hackerrank SQL Solutions
 
