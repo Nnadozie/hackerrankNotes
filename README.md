@@ -719,6 +719,29 @@ O(n) solution:
 The idea is to convert both arrays into sets, and then iterate over the smallest set checking the presence of each element in the larger set. Time complexity of this approach is \mathcal{O}(n + m)O(n+m) in the average case.
 ```
 
+14 [First unique xter in string](https://leetcode.com/problems/first-unique-character-in-a-string/)
+
+Given a string, find the first non-repeating character in it and return its index. If it doesn't exist, return -1.
+
+Examples:
+
+s = "leetcode"
+return 0.
+
+s = "loveleetcode"
+return 2.
+ 
+
+Note: You may assume the string contains only lowercase English letters.
+
+sol:
+
+loop through on char at time
+Push into hash map, char and index no. of occurrences
+loop through hash map picking out single occurring letter with lowest index
+
+Optimize using a min-heap
+
 
 # Hackerrank SQL Solutions
 
