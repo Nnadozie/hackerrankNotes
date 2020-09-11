@@ -364,7 +364,7 @@ class Solution {
             }
         }
         return new int[]{in, index};
-        
+
     }
 }
 ```
@@ -392,6 +392,7 @@ if neg, make pos, convert to string, reverse, convert to int, make neg
 this didn't work because you were trying to catch an error that wouldn't have been thrown. (values are limited to btwn integer.max_value and interger.min_value)
 
 Luckily java provides a Math.multiplyExact and Math.addExact which throws an ArithmeticException when an overflow occurs.
+
 ```
 public int reverse(int x) {
         try{
@@ -401,15 +402,17 @@ public int reverse(int x) {
                 reversed = reversed * 10 + x%10;
                 x /= 10;
             }
-            
+
             return neg? reversed * -1 : reversed;
         }catch(Error e){
             return 0;
         }
-        
+
     }
 ```
+
 Final Solution, optimizing for time and space
+
 ```
 public int reverse(int x) {
         try{
@@ -425,7 +428,6 @@ public int reverse(int x) {
             return 0;
         }
 ```
-
 
 8 [Palindrome number](https://leetcode.com/problems/palindrome-number/)
 
@@ -455,6 +457,7 @@ else, convert to string
 check mirror indices, 0 and n-1, 1 and n-2, e.t.c until (n/2 - 1)-1 if odd, or (n/2)-1 if even length
 
 Implementation
+
 ```
 if(x <0){return false;}
         String num = Integer.toString(x);
@@ -478,7 +481,7 @@ Example 1:
 Input: [7,1,5,3,6,4]
 Output: 5
 Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
-             Not 7-1 = 6, as selling price needs to be larger than buying price.
+Not 7-1 = 6, as selling price needs to be larger than buying price.
 Example 2:
 
 Input: [7,6,4,3,1]
@@ -486,6 +489,7 @@ Output: 0
 Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
 sol: (fails test cases)
+
 ```
 bn = last val
 bi = last index,
@@ -505,6 +509,7 @@ if bn > sn (return bn - sn) else return 0
 ```
 
 fell back to an absymal o(n^2) solution
+
 ```
 class Solution {
     public int maxProfit(int[] prices) {
@@ -521,7 +526,6 @@ class Solution {
 }
 ```
 
-
 10 [Missing Number](https://leetcode.com/problems/missing-number/)
 
 Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
@@ -536,7 +540,6 @@ Input: [9,6,4,2,3,5,7,0,1]
 Output: 8
 Note:
 Your algorithm should run in linear runtime complexity. Could you implement it using only constant extra space complexity?
-
 
 solution:
 
@@ -563,17 +566,17 @@ class Solution {
     public int missingNumber(int[] nums) {
         int expected = 0;
         int found = 0;
-        
+
         for(int i = 0; i <= nums.length; ++i) {
             expected += i;
         }
-        
+
         for (int val : nums) {
             found += val;
         }
-        
+
         return expected - found;
-        
+
     }
 }
 ```
@@ -611,10 +614,12 @@ Output: true
 
 sol:
 mistakes:
+
 - storing strings "[" instead of chars '[' in my hashmap, then trying to compare chars to strings later on
 - using a for( char val: s) foreach construct on a string, which was invalid
 - attempting to peek() at an empty stack, which threw an error
 - forgetting that the stack could be empty even when an input was given, e.g "]"
+
 ```
 class Solution {
     public boolean isValid(String s) {
@@ -622,7 +627,7 @@ class Solution {
         brackets.put(']', '[');
         brackets.put(')', '(');
         brackets.put('}', '{');
-                
+
         Stack counter = new Stack();
         for(int i = 0; i < s.length(); ++i) {
             char brak = s.charAt(i);
@@ -674,15 +679,17 @@ pseudo:
 
 sort longer array
 for(el: shorter array)
-    if el not in unique set
-    binarysearch in longer array
-    if found add to unique set
+if el not in unique set
+binarysearch in longer array
+if found add to unique set
 return unique set
 
 My sol:
 
-is O(mlogm) vs the  O(n+m) that's provided.
+is O(mlogm) vs the O(n+m) that's provided.
+
 - I loved that O(n+m) solution. They simply convert both to sets
+
 ```
 public int[] intersection(int[] nums1, int[] nums2) {
         if(nums1.length > nums2.length){
@@ -690,19 +697,19 @@ public int[] intersection(int[] nums1, int[] nums2) {
         } else {
             Arrays.sort(nums2);
         }
-        
+
         HashSet<Integer> s = new HashSet<Integer>();
-        
+
         for(int el : (nums1.length < nums2.length ? nums1 : nums2 ) ) {
-            
+
             if(!s.contains(el)){
                 if(Arrays.binarySearch((nums1.length > nums2.length ? nums1 : nums2 ), el) >= 0){
                     s.add(el);
-                }                
-            }           
-        
+                }
+            }
+
         }
-        
+
         int ret[] = new int[s.size()];
         Integer ent[] = s.toArray(new Integer[0]);
         for(int i = 0; i < ret.length; ++i){
@@ -730,7 +737,6 @@ return 0.
 
 s = "loveleetcode"
 return 2.
- 
 
 Note: You may assume the string contains only lowercase English letters.
 
@@ -742,32 +748,32 @@ loop through hash map picking out single occurring letter with lowest index
 
 Optimize using a min-heap
 
-final sol:
+final sol: I noticed dealing with the edge case early on improved mem perfomance.
 
 ```
 class Solution {
     public int firstUniqChar(String s) {
+        //if(s.equals("")) return -1;
         int[] letters = new int[26];
-        
+
         for(int i = 0; i < s.length(); ++i) {
             if (letters[s.charAt(i) - 97] == 0) {
                 letters[s.charAt(i) - 97] = i + 1;
             } else {
                 letters[s.charAt(i) - 97] = Integer.MAX_VALUE;
-            } 
+            }
         }
-        
+
         int min = Integer.MAX_VALUE - 1; //it was either this or a check for empty string at the beginning
         for(int c : letters){
             if( c - 1 >= 0 && c - 1 < min ) min = c - 1;
         }
-        
+
         if(min + 1 >= Integer.MAX_VALUE) return -1;
         return min;
     }
 }
 ```
-
 
 # Hackerrank SQL Solutions
 
