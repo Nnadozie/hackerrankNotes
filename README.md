@@ -742,6 +742,32 @@ loop through hash map picking out single occurring letter with lowest index
 
 Optimize using a min-heap
 
+final sol:
+
+```
+class Solution {
+    public int firstUniqChar(String s) {
+        int[] letters = new int[26];
+        
+        for(int i = 0; i < s.length(); ++i) {
+            if (letters[s.charAt(i) - 97] == 0) {
+                letters[s.charAt(i) - 97] = i + 1;
+            } else {
+                letters[s.charAt(i) - 97] = Integer.MAX_VALUE;
+            } 
+        }
+        
+        int min = Integer.MAX_VALUE - 1; //it was either this or a check for empty string at the beginning
+        for(int c : letters){
+            if( c - 1 >= 0 && c - 1 < min ) min = c - 1;
+        }
+        
+        if(min + 1 >= Integer.MAX_VALUE) return -1;
+        return min;
+    }
+}
+```
+
 
 # Hackerrank SQL Solutions
 
