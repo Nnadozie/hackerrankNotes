@@ -828,7 +828,7 @@ for each possible value find all occurences in string and remove from string
 
 add up sum
 
-- first implementation arguable O(n^2), faster than only 5% of other solutions.
+- first implementation arguable O(n^2), faster than only 5% of other solutions, mem better than about 40%.
 
 class Solution {
     public int romanToInt(String s) {
@@ -855,6 +855,99 @@ class Solution {
         }
         
         return sum;
+    }
+}
+```
+
+attempted to optimize
+- same, but with worse mem, now only better than 5%
+
+```
+class Solution {
+    public int romanToInt(String s) {
+        
+        if(s.equals("")) return -1;
+        Map<String, Integer> map = Stream.of(new Object[][] {
+            {"IV", 4},
+            {"IX",9},
+            {"XL", 40},
+            {"XC", 90},
+            {"CD", 400},
+            {"CM", 900},
+            {"I", 1},
+            {"V",5},
+            {"X", 10},
+            {"L", 50},
+            {"C", 100},
+            {"D", 500},
+            {"M", 1000}            
+        }).collect(Collectors.toMap(data -> (String) data[0], data -> (Integer) data[1]));
+        
+        HashMap<String, Integer> hmap = new HashMap<String, Integer>(map);
+            
+        Integer sum = 0;
+        
+        for(int i = 0; i < s.length(); i++) {
+            if(i != s.length()-1 && hmap.containsKey(s.substring(i, i+2))) {
+                sum+= hmap.get(s.substring(i,i+2));
+                System.out.println(sum);
+                i+=1;
+            }else{
+                sum+=hmap.get(Character.toString(s.charAt(i)));
+                //System.out.println(sum);
+            }
+        }
+        
+        return sum.intValue();
+    }
+}
+```
+
+So now I'm using their solution
+
+- It turns out the way you initialize your map, using put rather than streaming and collecting is much faster
+- also, it betrays your misunderstanding of an interface as a type specifier. Notice how in your impl you created both a map and a hashmap,
+while here you only need one Hashmap.
+
+This is faster than 20% and better than 80% in space
+
+```
+class Solution {
+    
+    static Map<String, Integer> values = new HashMap<>();
+
+    static {
+        values.put("I", 1);
+        values.put("V", 5);
+        values.put("X", 10);
+        values.put("L", 50);
+        values.put("C", 100);
+        values.put("D", 500);
+        values.put("M", 1000);
+        values.put("IV", 4);
+        values.put("IX", 9);
+        values.put("XL", 40);
+        values.put("XC", 90);
+        values.put("CD", 400);
+        values.put("CM", 900);
+    }
+    
+    public int romanToInt(String s) {
+             
+        Integer sum = 0;
+        
+        for(int i = 0; i < s.length(); i++) {
+            if(i != s.length()-1 && values.containsKey(s.substring(i, i+2))) {
+                sum+= values.get(s.substring(i,i+2));
+                System.out.println(sum);
+                i+=1;
+            }else{
+                sum+=values.get(Character.toString(s.charAt(i)));
+                //System.out.println(sum);
+            }
+        }
+        
+        return sum.intValue();
     }
 }
 ```
