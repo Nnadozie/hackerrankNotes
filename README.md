@@ -862,6 +862,11 @@ class Solution {
 attempted to optimize
 - same, but with worse mem, now only better than 5%
 
+errors made,
+- using stream instead of Stream,
+- incrementing i by 2 in the body and forgetting the extra incr by 1 in the for loop
+- check if there's a collectors.toHashMap method.
+
 ```
 class Solution {
     public int romanToInt(String s) {
