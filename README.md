@@ -958,6 +958,103 @@ class Solution {
 ```
 
 
+16 [Longest common prefix](https://leetcode.com/problems/longest-common-prefix/)
+
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+
+Example 1:
+
+Input: ["flower","flow","flight"]
+Output: "fl"
+Example 2:
+
+Input: ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+Note:
+
+All given inputs are in lowercase letters a-z.
+
+pseudo solution:
+
+initially thought,
+
+for each index in strings, loop through every string to confirm it's the same, stop when a char differs. This seems to be an O(n^2) solution.
+
+So I moved on to an OR logical operator idea. Create an operator that returns the parts of two strings that are the same.
+
+But quite complex, so simplified that to this:
+
+for the first two strings in O(n) time, find the common substring:
+
+for the next n-2 strings, for each one, compare common substring with each and remove whenever a char differs
+
+return common substring. I estimate this is O(n) in total because the common substring comparison is constant time in the length or <  of the substring.
+
+```
+impl:
+
+class Solution {
+    public String longestCommonPrefix(String[] strs) {
+        if(strs.length == 0) return "";
+        if(strs.length == 1) return strs[0];
+        
+        StringBuilder sb = new StringBuilder(0);
+        
+        for(int i=0; i < strs[0].length() && i < strs[1].length(); ++i) {
+            if(strs[0].charAt(i) != strs[1].charAt(i)) break;
+            sb.append(strs[0].charAt(i));
+        }
+        
+        for(String s : strs) {
+            if(s.length() < sb.length()) sb.delete(s.length(), sb.length());
+            for(int i = 0; i < sb.length() && i < s.length(); ++i) {
+                if(sb.charAt(i) != s.charAt(i)) {
+                    sb.delete(i, sb.length());
+                    break;
+                }
+            }
+        }
+        
+        return sb.toString();
+    }
+}
+```
+
+errors:
+- used .length instead of .length() forgetting that strs is an array of strings not an array
+- used the || condition to get the lesser of two lengths instead of the && condition
+- forgot the use the lesser of two lengths in the second linear loop
+- forgot the case where the remaining strings are less than the initial substring
+- forgot that the first element in a single length array is at arr[0]
+
+the working solution: Runtime: 3 ms, faster than 31.40% of Java online submissions for Longest Common Prefix.
+Memory Usage: 39.8 MB, less than 10.61% of Java online submissions for Longest Common Prefix.
+
+Not what I expected.
+
+Adding this edge case in the second loop take mem performance to 94%
+
+```
+for(String s : strs) {
+            if(s.length() == 0) return "";
+```
+
+reading the first solution shows that the first loop is not actually needed
+
+```
+StringBuilder sb = new StringBuilder(strs[0]);
+        
+        // for(int i=0; i < strs[0].length() && i < strs[1].length(); ++i) {
+        //     if(strs[0].charAt(i) != strs[1].charAt(i)) break;
+        //     sb.append(strs[0].charAt(i));
+        // }
+```
+
+This is a really juicy problem. I recommend revisiting each approach and tyring to implement them.
+
 
 # Hackerrank SQL Solutions
 
