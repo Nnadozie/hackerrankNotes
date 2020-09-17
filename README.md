@@ -1055,6 +1055,26 @@ StringBuilder sb = new StringBuilder(strs[0]);
 
 This is a really juicy problem. I recommend revisiting each approach and tyring to implement them.
 
+17 [Merge two sorted lists](https://leetcode.com/problems/merge-two-sorted-lists/)
+
+Merge two sorted linked lists and return it as a new sorted list. The new list should be made by splicing together the nodes of the first two lists.
+
+Example:
+
+Input: 1->2->4, 1->3->4
+Output: 1->1->2->3->4->4
+
+pseudo sol:
+
+handle 00, 01, 1 11 edge cases
+
+l3 head = smaller of first nodes
+
+while l1 and l2 have next values
+l3.next  = smaller (l1, l2)
+l3 = l3.next
+
+return l3 head
 
 # Hackerrank SQL Solutions
 
