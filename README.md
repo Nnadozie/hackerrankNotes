@@ -1069,12 +1069,44 @@ pseudo sol:
 handle 00, 01, 1 11 edge cases
 
 l3 head = smaller of first nodes
+lcurr = larger of first nodes
 
 while l1 and l2 have next values
-l3.next  = smaller (l1, l2)
-l3 = l3.next
+lcurr.next  = smaller (l1.next, l2.next)
+lcurr = lcurr.next
 
 return l3 head
+
+Implementing this has been harder than expected. After a lot of consternation, it appears there is an object assignment by reference happening, rather than the expected assignment by value.
+
+```
+class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        
+        System.out.println(l1.next.val);
+        System.out.println(l2.next.val);
+        
+        
+        
+        ListNode head = new ListNode();
+                
+        if(l1.val < l2.val) {
+            head = l1;
+            head.next = l2;
+        } else if(l1.val >= l2.val) {
+            // head = l2;
+            // head.next = l1;
+        }
+        
+        l1 = l1.next;
+        l2 = l2.next;
+        
+        System.out.println(l1.next.val);
+        System.out.println(l2.next.val);
+```
+Notice the commented out lines. head becomes l2, and l2.next becomes l1, such that when I then print out l2.next.value, I get l1.next.value.
+
+Truly unexpected but definitely a gem of insight to Java assigment that needs clarification.
 
 # Hackerrank SQL Solutions
 
