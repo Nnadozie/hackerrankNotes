@@ -1108,6 +1108,83 @@ Notice the commented out lines. head becomes l2, and l2.next becomes l1, such th
 
 Truly unexpected but definitely a gem of insight to Java assigment that needs clarification.
 
+Right. So a refresher on Java types shows that class types are reference types, and objects are instances of classes.
+
+'There may be many references to the same object. Most objects have state, stored in the fields of objects that are instances of classes or in the variables that are the components of an array object. If two variables contain references to the same object, the state of the object can be modified using one variable's reference to the object, and then the altered state can be observed through the reference in the other variable.' [more here](https://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.3.1)
+
+
+My submission ended up being heavily dependent on insight gleaned from the test cases, and highly impractical in a competitive setting
+```
+class Solution {
+    
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        
+        ListNode head;
+        
+        
+        if(l1 == null && l2 != null) {
+            return l2;
+        } else if(l2 == null && l1 != null) {
+            return l1;
+        }else if(l1 == null && l2 == null) {
+            return null;
+        }
+        
+        if(l1.val <= l2.val) {
+            head = l1;
+            linkTails(l1, l2);
+        }else{
+            head = l2;
+            linkTails(l2, l1);
+        }
+        
+        return head;
+        
+    }
+    
+    public void linkTails(ListNode sm, ListNode bg) {
+        
+        if(sm.next == bg) {
+            return;
+        }
+        
+        ListNode nSm = sm.next;
+        
+        if(sm.next != null && bg.val <= sm.next.val ){
+            sm.next = bg;
+            linkTails(bg, nSm);
+        }else if(sm.next == null && bg != null) {
+            sm.next = bg;
+            linkTails(sm, bg);
+        }else{
+            linkTails(nSm, bg);
+        }
+    }
+}
+```
+
+compare it to this:
+
+```
+https://leetcode.com/problems/merge-two-sorted-lists/discuss/9715/Java-1-ms-4-lines-codes-using-recursion
+
+public ListNode mergeTwoLists(ListNode l1, ListNode l2){
+		if(l1 == null) return l2;
+		if(l2 == null) return l1;
+		if(l1.val < l2.val){
+			l1.next = mergeTwoLists(l1.next, l2);
+			return l1;
+		} else{
+			l2.next = mergeTwoLists(l1, l2.next);
+			return l2;
+		}
+}
+```
+
+Recursive, short, elegant. Unfortunately, I don't have access to the runtime analysis.
+
+
+
 # Hackerrank SQL Solutions
 
 1 [Revising the Select Query](https://www.hackerrank.com/challenges/revising-the-select-query/problem)
