@@ -1183,6 +1183,44 @@ public ListNode mergeTwoLists(ListNode l1, ListNode l2){
 
 Recursive, short, elegant. Unfortunately, I don't have access to the runtime analysis.
 
+18 [Remove duplicates from sorted array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
+
+well done. I believe your first sol was optimal in o(n). And you followed the Amazon coding interview style. Plust you solved this quite quickly, although you had to look up arrays documentation before realizing you didn't need anything extra.
+
+The reason you were able to solve this so quickly is because you remembered a similar technique from a ctci question. (You should read more ctci questions)
+
+```
+class Solution {
+    public int removeDuplicates(int[] nums) {
+        
+        //input: sorted int array with duplicate elements
+        //output: length on array with duplicates removed
+        //side-effect: array should have duplicates removed
+
+        //note: in place duplicate removal using at most constant extra space
+
+        //going from left to right
+        //keep track of index to copy into
+        //whenever you see a different int, copy into index, incr index
+        
+        if(nums.length == 0 || nums.length == 1) return nums.length;        
+        
+        int copyInto = 1;
+        
+        for(int i = 1; i < nums.length; ++i){
+            if(nums[i] != nums[i-1]){
+                nums[copyInto] = nums[i];
+                copyInto++;
+            }
+        }
+        
+        return copyInto++;
+        
+    }
+}
+```
+
+
 
 
 # Hackerrank SQL Solutions
