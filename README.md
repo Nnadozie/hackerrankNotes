@@ -1220,8 +1220,92 @@ class Solution {
 }
 ```
 
+19 [Implemet strStr()](https://leetcode.com/problems/implement-strstr/)
+
+```
+class Solution {
+    public int strStr(String haystack, String needle) {
+        //string haystack that can be empty, and may or may not contain a needle
+        //string needle that can be empty, and may or may not be in haystack
+        
+        //output: first index of needle in haystack if it is contained in haystack
+        //-1 if it is not
+        //0 if needle is empty
+
+        if(needle.length() == 0) return 0;
+        
+        //loop through from left to right
+        //find first matching char
+        //check if region matches
+        //if not continue
+        for(int i = 0; i < haystack.length(); ++i) {
+            if(haystack.charAt(i) == needle.charAt(0)
+                && haystack.regionMatches(true, i, needle, 0, needle.length())
+            ) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
+```
+
+this performs 45% time, 98% space. Why is it so slow? I think this is because for each common start char, it goes through the full length of needle. I think this is an O(n x m) solution
+
+20 [Count and say](https://leetcode.com/problems/count-and-say/)
+
+```
+```
+
+how do you string to interger
+how do you add to stringbuilder
+how to convert char to string
+
+interim solution. Will need to continue tomorrow
+
+```
+class Solution {
+    public String countAndSay(int n) {
+        
+        //input, n, the number of times to run the count and say sequence
+
+        //output, the nth term of the count and say sequence
+
+        //the 5th term is the 4th term interpreted
+        if(n == 1) return "1";        
+        return interpret(countAndSay(n-1));
+        
+    }
+    
+    public String interpret(String s) {
+        
+        if(s.equals("1")) return "11";
+        
+        //if(s.equals("11")) return "21";
+        
+        
+        StringBuilder sb = new StringBuilder();
+        
+        int[] counter = new int[30];
 
 
+        for(int i = 0; i < s.length(); ++i) {
+            
+            counter[s.charAt(i) - 1]++;
+        }
+
+        int dex = 0;
+        for(int v: counter) {
+            if(v > 0){
+                sb.append(String.valueOf(v));
+                sb.append(String.valueOf(dex));
+            }
+        }
+        
+        return sb.toString();
+    }
+}
+```
 
 # Hackerrank SQL Solutions
 
