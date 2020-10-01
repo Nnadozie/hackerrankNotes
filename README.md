@@ -1250,6 +1250,8 @@ class Solution {
 }
 ```
 
+regionMatches is a good string method to remember
+
 this performs 45% time, 98% space. Why is it so slow? I think this is because for each common start char, it goes through the full length of needle. I think this is an O(n x m) solution
 
 20 [Count and say](https://leetcode.com/problems/count-and-say/)
@@ -1306,6 +1308,72 @@ class Solution {
     }
 }
 ```
+
+```
+class Solution {
+    public String countAndSay(int n) {
+        
+        //input, n, the number of times to run the count and say sequence
+
+        //output, the nth term of the count and say sequence
+
+        //the 5th term is the 4th term interpreted
+        if(n == 1) return "1";        
+        return interpret(countAndSay(n-1));
+        
+    }
+    
+    public String interpret(String s) {
+        //System.out.println(s.length());
+        
+        //failed:
+        /*
+            loop through string counting chars
+            loop through again buillding output string 
+            failed because the count were absolute values
+        */
+
+        //passed:
+        /*
+            loop through string buillding output string as you go
+            key techniques: how to register a value change without hitting index out of bounds exception
+            how to count values and build a stinrg making use of these value changes in one pass
+        */
+
+        if(s.equals("1")) return "11";
+        
+        
+        StringBuilder sb = new StringBuilder();
+        
+        char curr = s.charAt(0);
+        int currCounter = 1;
+        
+        int dex = 1;
+        while(dex < s.length()) {
+            if(s.charAt(dex) == curr) {
+                currCounter++;
+            }else {
+                sb.append(currCounter);
+                sb.append(curr - 48);
+                curr = s.charAt(dex);
+                currCounter = 1;
+            }
+
+            if(dex == s.length() - 1) {
+                sb.append(currCounter);
+                sb.append(curr - 48);
+            }
+            
+            dex++;
+        }
+        
+        System.out.print("end");
+        return sb.toString();
+    }
+}
+```
+
+The idea behind interim solution failed. and this only performed 64% time, 99% memory
 
 # Hackerrank SQL Solutions
 
