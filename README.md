@@ -1375,6 +1375,8 @@ class Solution {
 
 The idea behind interim solution failed. and this only performed 64% time, 99% memory
 
+Seems regex is generally a good technique for questions like this. Have a look at [javascript recursive regex sol](https://leetcode.com/problems/count-and-say/discuss/642001/Javascript100-runtime-Super-easy-recursive)
+
 # Hackerrank SQL Solutions
 
 1 [Revising the Select Query](https://www.hackerrank.com/challenges/revising-the-select-query/problem)
