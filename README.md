@@ -1377,6 +1377,58 @@ The idea behind interim solution failed. and this only performed 64% time, 99% m
 
 Seems regex is generally a good technique for questions like this. Have a look at [javascript recursive regex sol](https://leetcode.com/problems/count-and-say/discuss/642001/Javascript100-runtime-Super-easy-recursive)
 
+21 [Plus One](https://leetcode.com/problems/plus-one/)
+
+```
+class Solution {
+    public int[] plusOne(int[] digits) {
+        //input non-empty array of positive integers
+        //msd in head
+        //no trailing zeros except 0 itsef i.e [0]
+
+        //output array
+        //to consider: can be 100 length of 9s. Don't know any data structure to contain this
+
+        //sol: from right to left, sum and carry over,
+        //if there's an extra create new array and concat
+        
+        //edge cases: head is 9, and +1
+        //extend to: element is 9 and +1
+        //if el is 9, co = 1, el = 0;
+        //else el++, co = 0
+        
+        //or: if el+co == 10, el = 0, co = 1
+        //if done and co = 1, create new array and concat
+        int co = 1;
+        for(int i = digits.length-1; i >= 0; i--) {
+            digits[i] += co;
+            if(digits[i] == 10) {
+                co = 1;
+                digits[i] = 0;
+            }else{
+                co = 0;
+                break; //this was good
+            }
+        }
+        if(co == 1) { //always be sure you're doing boolean operator ==, not assignment =
+            int[] res = new int[digits.length+1];
+            res[0] = 1;
+            //si.concat(digits); // does not exist
+            //I looked up concat
+            System.arraycopy(digits, 0, res, 1, digits.length); //this is from one source to one destination: source, start source, dest, start dest, length to copy.
+            return res;
+
+        }
+        
+        return digits;
+    }
+}
+```
+
+100% better runtime, but ony 75% better memory
+
+I believe it's an o(n) solution, and varaibly, O(n) space, o(1) space.
+
 # Hackerrank SQL Solutions
 
 1 [Revising the Select Query](https://www.hackerrank.com/challenges/revising-the-select-query/problem)
