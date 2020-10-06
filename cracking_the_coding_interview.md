@@ -877,3 +877,37 @@ Write an algorithm such that if an element in an MxN matrix is 0, its entire row
 - Her solution is also O(MN) time as well becasue she has to scan the entire matrix.
 - Her space usage however comes down from O(MN) space (using a duplicate matrix to store positions of 0), to O(M+N) (using two, arrays, on to store rows with 0, the other cols with 0), to  O(1), using the first row and the fist col.
 - at first I didn't understand why the first row and col would work, given that we'd be modifying them by placing 0s in them, but when thinking about it to the end, at the end we'll be modifying them anyway by placing those 0s to align with rows and cols with 0s, so it works.
+
+```
+//wip: merely scanning the input took too long
+
+import java.util.Scanner;
+
+public class HelloWorld{
+
+     public static void main(String []args){
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        System.out.printf("%d %d", m, n );
+        int[][] matrix = new int[m][n];
+        
+        for(int i = 0; i < m; ++i) {
+            for(int j = 0; j < n; j++) {
+                matrix[i][j] = sc.nextInt();
+            }
+        }
+        
+        for(int i = 0; i < m; ++i) {
+            System.out.println();
+            for(int j = 0; j < n; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+        }
+     }
+     
+     public static int[][] solve(int[][] matrix) {
+        return new int[0][0];
+     }
+}
+```
