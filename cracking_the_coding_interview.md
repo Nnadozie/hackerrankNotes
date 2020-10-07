@@ -911,3 +911,6 @@ public class HelloWorld{
      }
 }
 ```
+
+9 [isSubString]()
+
