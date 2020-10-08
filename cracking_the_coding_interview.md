@@ -912,5 +912,67 @@ public class HelloWorld{
 }
 ```
 
+implmenting to remember, I've tried scanning comma delimited by setting the pattern to non-digits, e.g
+
+```
+ sc.useDelimiter(Pattern.compile("\\D"))
+```
+
+that failed. So I returned to scanning the input in one line at a time and splitting by comma.
+
+I also tried printing out using streams.
+
+```
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.*;
+
+public class HelloWorld{
+
+     public static void main(String []args){
+        Scanner sc = new Scanner(System.in);
+        String[] nl = sc.nextLine().split(",");
+        int m = Integer.parseInt(nl[0]);
+        int n = Integer.parseInt(nl[1]);
+        int[][] matrix = new int[m][n];
+        
+    
+        
+        for(int i = 0; i < m; ++i) {
+            nl = sc.nextLine().split(",");
+            for(int j = 0; j < n; ++j) {
+                matrix[i][j] = Integer.parseInt(nl[j]);   
+            }
+        }
+        
+        sc.close();
+        
+        matrix = setZeros(matrix);
+        
+        Arrays.stream(matrix).forEach(e -> 
+            
+            Arrays.stream(e).forEach(l ->
+            
+                System.out.print(e+" ")
+
+            )
+        );
+     }
+     
+     public static int[][] setZeros(int[][] matrix){
+        //input is a matrix with some 0 elements
+        //set the entire row and col of the 0 el to be 0
+        //return matrix
+        //go from the O(m+n) space to the O(1) space solution.
+        return matrix;
+        
+     }
+     
+     
+}
+```
+
+That didn't work either. I get memory addresses instead of ints.
+
 9 [isSubString]()
 
