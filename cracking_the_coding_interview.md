@@ -866,7 +866,7 @@ public class Solution {
 }
 ```
 
-8 [Zero Matrix]
+8 [Zero Matrix] (https://leetcode.com/problems/set-matrix-zeroes/)
 
 Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column are set to O.
 
@@ -980,7 +980,6 @@ That didn't work either. I get memory addresses instead of ints.
 
 This did the trick. [reference](https://stackoverflow.com/questions/22601036/stream-from-two-dimensional-array-in-java)
 
-
 Your final solution for this, did quite poorly with memory usage on leetcode's testcases.
 
 "Runtime: 1 ms, faster than 96.40% of Java online submissions for Set Matrix Zeroes.
@@ -1026,32 +1025,32 @@ public class HelloWorld{
      }
 
      public static void setZeros(int[][] matrix){
-         
+
         //phase 1: find which rows and cols to set to 0
         //loop through all rows and cols in O(mxn) time, storing
         //0s in the first row and first col
         //you cannot set first row and col to 0 if there were no 0s there initially.
-        
+
         if(matrix.length == 0 || matrix[0].length == 0) {
             return;
         }
-        
+
         boolean[] isZeros = new boolean[2];
-        
+
         for(int e : matrix[0]) {
             if(e == 0) {
                 isZeros[0] = true;
                 break;
             }
         }
-        
+
         for(int[] e : matrix) {
             if(e[0] == 0) {
                 isZeros[1] = true;
                 break;
             }
         }
-        
+
         for(int i = 1; i < matrix.length; ++i) {
             for(int j = 1; j < matrix[0].length; ++j) {
                 if(matrix[i][j] == 0) {
@@ -1061,9 +1060,9 @@ public class HelloWorld{
                 }
             }
         }
-        
-        
-        
+
+
+
         //phase 2: set these rows and cols to 0
         for(int i = 1; i < matrix.length; ++i) {
             if(matrix[i][0] == 0) {
@@ -1071,7 +1070,7 @@ public class HelloWorld{
                 Arrays.fill(matrix[i], 0);
             }
         }
-        
+
         for(int j = 1; j < matrix[0].length; ++j) {
             if(matrix[0][j] == 0) {
                 //setMatrixRowI === 0;
@@ -1080,17 +1079,17 @@ public class HelloWorld{
                 }
             }
         }
-        
+
         if(isZeros[0]) {
             Arrays.fill(matrix[0], 0);
         }
-        
+
         if(isZeros[1]) {
             for(int i = 0; i < matrix.length; ++i){
                     matrix[i][0] = 0;
             }
         }
-        
+
 
      }
 
@@ -1098,4 +1097,22 @@ public class HelloWorld{
 }
 ```
 
-9 [isSubString]()
+9 [string rotation]()
+
+String Rotation: Assume you have a method isSubst ring which checks if one word is a substring
+of another. Given two strings, 51 and 52, write code to check if 52 is a rotation of 51 using only one
+call to isSubstring (e.g., "waterbottle" is a rotation of"erbottlewat").
+
+I read through the answer for this and just wanted to impl it.
+
+let y = wat, x = erbottle
+then yx = waterbottle and xy =erbottlewat
+it is always the case that yxyx contains xy
+therefore
+
+```
+//yxyx.contains(xy) gives our answer
+```
+
+as for running time. concatenation is O(yx + yx) -> O(yx)
+contains is ... lets say O(nm) [ref](https://stackoverflow.com/questions/4089558/what-is-the-big-o-of-string-contains-in-java)
