@@ -875,7 +875,7 @@ Write an algorithm such that if an element in an MxN matrix is 0, its entire row
 - It seemed so easy that you completely failed to spot the error in that straight forward attempt. She expalains in the book. Naively replace as you go will lead to an entire matrix of zeros when there's even one 0.
 - Anyway, that runtime would have been O(MN) and given a wrong solution. So?
 - Her solution is also O(MN) time as well becasue she has to scan the entire matrix.
-- Her space usage however comes down from O(MN) space (using a duplicate matrix to store positions of 0), to O(M+N) (using two, arrays, on to store rows with 0, the other cols with 0), to  O(1), using the first row and the fist col.
+- Her space usage however comes down from O(MN) space (using a duplicate matrix to store positions of 0), to O(M+N) (using two, arrays, on to store rows with 0, the other cols with 0), to O(1), using the first row and the fist col.
 - at first I didn't understand why the first row and col would work, given that we'd be modifying them by placing 0s in them, but when thinking about it to the end, at the end we'll be modifying them anyway by placing those 0s to align with rows and cols with 0s, so it works.
 
 ```
@@ -891,13 +891,13 @@ public class HelloWorld{
         int n = sc.nextInt();
         System.out.printf("%d %d", m, n );
         int[][] matrix = new int[m][n];
-        
+
         for(int i = 0; i < m; ++i) {
             for(int j = 0; j < n; j++) {
                 matrix[i][j] = sc.nextInt();
             }
         }
-        
+
         for(int i = 0; i < m; ++i) {
             System.out.println();
             for(int j = 0; j < n; j++) {
@@ -905,7 +905,7 @@ public class HelloWorld{
             }
         }
      }
-     
+
      public static int[][] solve(int[][] matrix) {
         return new int[0][0];
      }
@@ -935,44 +935,167 @@ public class HelloWorld{
         int m = Integer.parseInt(nl[0]);
         int n = Integer.parseInt(nl[1]);
         int[][] matrix = new int[m][n];
-        
-    
-        
+
+
+
         for(int i = 0; i < m; ++i) {
             nl = sc.nextLine().split(",");
             for(int j = 0; j < n; ++j) {
-                matrix[i][j] = Integer.parseInt(nl[j]);   
+                matrix[i][j] = Integer.parseInt(nl[j]);
             }
         }
-        
+
         sc.close();
-        
+
         matrix = setZeros(matrix);
-        
-        Arrays.stream(matrix).forEach(e -> 
-            
+
+        Arrays.stream(matrix).forEach(e ->
+
             Arrays.stream(e).forEach(l ->
-            
+
                 System.out.print(e+" ")
 
             )
         );
      }
-     
+
      public static int[][] setZeros(int[][] matrix){
         //input is a matrix with some 0 elements
         //set the entire row and col of the 0 el to be 0
         //return matrix
         //go from the O(m+n) space to the O(1) space solution.
         return matrix;
-        
+
      }
-     
-     
+
+
 }
 ```
 
 That didn't work either. I get memory addresses instead of ints.
 
-9 [isSubString]()
+```
+ Arrays.stream(matrix).flatMapToInt(x -> Arrays.stream(x)).forEach(e -> System.out.println(e));
+```
 
+This did the trick. [reference](https://stackoverflow.com/questions/22601036/stream-from-two-dimensional-array-in-java)
+
+
+Your final solution for this, did quite poorly with memory usage on leetcode's testcases.
+
+"Runtime: 1 ms, faster than 96.40% of Java online submissions for Set Matrix Zeroes.
+Memory Usage: 40.4 MB, less than 17.50% of Java online submissions for Set Matrix Zeroes."
+
+Also you made an index mistake in the final step where you were meant to set the first column to 0s if there was a 0 initially. Because you copied and pasted the code, you used wrong code that started from the second column.
+
+Also, for these in-place optimizations, ask yourself if new ata structures you plan to use have the same shape and structure to fit in the existing data structure. In this case if arrays exist in matrices.
+
+```
+import java.util.Scanner;
+import java.util.regex.Pattern;
+import java.util.*;
+
+public class HelloWorld{
+
+     public static void main(String []args){
+        Scanner sc = new Scanner(System.in);
+        String[] nl = sc.nextLine().split(",");
+        int m = Integer.parseInt(nl[0]);
+        int n = Integer.parseInt(nl[1]);
+        int[][] matrix = new int[m][n];
+
+
+
+        for(int i = 0; i < m; ++i) {
+            nl = sc.nextLine().split(",");
+            for(int j = 0; j < n; ++j) {
+                matrix[i][j] = Integer.parseInt(nl[j]);
+            }
+        }
+
+        sc.close();
+
+        setZeros(matrix);
+
+        for(int i = 0; i < m; ++i) {
+            for(int j = 0; j < n; ++j) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+     }
+
+     public static void setZeros(int[][] matrix){
+         
+        //phase 1: find which rows and cols to set to 0
+        //loop through all rows and cols in O(mxn) time, storing
+        //0s in the first row and first col
+        //you cannot set first row and col to 0 if there were no 0s there initially.
+        
+        if(matrix.length == 0 || matrix[0].length == 0) {
+            return;
+        }
+        
+        boolean[] isZeros = new boolean[2];
+        
+        for(int e : matrix[0]) {
+            if(e == 0) {
+                isZeros[0] = true;
+                break;
+            }
+        }
+        
+        for(int[] e : matrix) {
+            if(e[0] == 0) {
+                isZeros[1] = true;
+                break;
+            }
+        }
+        
+        for(int i = 1; i < matrix.length; ++i) {
+            for(int j = 1; j < matrix[0].length; ++j) {
+                if(matrix[i][j] == 0) {
+                    matrix[0][j] = 0;
+                    matrix[i][0] = 0;
+                    continue;
+                }
+            }
+        }
+        
+        
+        
+        //phase 2: set these rows and cols to 0
+        for(int i = 1; i < matrix.length; ++i) {
+            if(matrix[i][0] == 0) {
+                //setMatrixRowI === 0;
+                Arrays.fill(matrix[i], 0);
+            }
+        }
+        
+        for(int j = 1; j < matrix[0].length; ++j) {
+            if(matrix[0][j] == 0) {
+                //setMatrixRowI === 0;
+                for(int i = 1; i < matrix.length; ++i){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        
+        if(isZeros[0]) {
+            Arrays.fill(matrix[0], 0);
+        }
+        
+        if(isZeros[1]) {
+            for(int i = 0; i < matrix.length; ++i){
+                    matrix[i][0] = 0;
+            }
+        }
+        
+
+     }
+
+
+}
+```
+
+9 [isSubString]()
