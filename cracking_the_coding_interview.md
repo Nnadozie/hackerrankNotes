@@ -1116,3 +1116,67 @@ therefore
 
 as for running time. concatenation is O(yx + yx) -> O(yx)
 contains is ... lets say O(nm) [ref](https://stackoverflow.com/questions/4089558/what-is-the-big-o-of-string-contains-in-java)
+
+## Linked Lists
+
+2.1 [remove duplicates]()
+
+Remove Dups: Write code to remove duplicates from an unsorted linked list. FOLLOW UP How would you solve this problem if a temporary buffer is not allowed?
+
+(Page 106).
+
+pseudo:
+
+```
+input: head or linkedlist of unsorted linkedlist
+expected output: void
+
+unsorted: means duplicates can exist at any point in the list
+naive solution: for every node, loop through the list deleting duplicates O(n^2)
+using a  hashset: for every node check if it exists in hashset, if it does, delete, if not add to hashset
+not using a hashset: sort the list in O(nlogn) time and remove dups in O(n) time and O(1) space, by, for every node, if same node delete, if new replace holder.
+
+* I did not ask if it was a singly or doubly linked list. This makes a difference in deletion.
+
+```
+
+2.2 [Return Kth to last elem of linkedlist]()
+
+```
+problem: return kth to last elem of a singly linked list:
+singly linked list: I can't just find the last elem and go back k-1 times.
+
+Input: Head node or LinkedList instance of singly linkedList
+output: LinkedList Node
+
+approach: use the runner method. Two pointers:
+- p1 starts at head
+- p2 maintains a k-1 distance ahead of p1
+
+if(p2.next == null) ==> end of list
+return p1
+else p2 = p2.next
+p1 = p1.next
+```
+
+Runtime of O(n-k-1) === O(n-k)
+
+2.3 [Delete middle node of singly linkedlist]()
+
+```
+problem: delete the middle node of a singly linked list given only access to that node
+middle node: not the head or tail node
+singly linked list: cannot go back to previous node so cannot set prev to skip current
+access to that node: are not given head, just that node
+
+input: a node to delete
+sub-problem: how to go back to prev node to delete curr node? assume head? Head is not given.
+
+approach: for each node from current, clone next node, move to next node, repeat
+end case:  node prior to last node should clone the null endcase
+if not, use runner method.
+p1 current node
+p2 to check for end node
+while p2 is not end node, clone
+if p2 is end node, p1 clone and p1 set to end node
+```
