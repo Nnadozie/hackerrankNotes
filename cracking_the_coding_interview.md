@@ -1180,3 +1180,33 @@ p2 to check for end node
 while p2 is not end node, clone
 if p2 is end node, p1 clone and p1 set to end node
 ```
+
+2.4 [Partition]()
+
+```
+problem: partition linkedlist around element x; all elements < x should come before all elems > x. X can appear in any position; not neccessarily in the middle.
+
+Q: is it a singly or doubly linked list? assume it's single.
+
+input: Linked list, partition val
+
+approach: maintain a pointer to original head, ph,
+maintain another pointer to the partition elemen, pe
+maintain a pointer to tail, pt.
+
+maintain a pointer to new head nPh, nPt
+for each next elm from pe, if e < pe, make new nPh, delete from curr position. if e > pe, make new nPt, delete from curr position.
+
+sub-problem: all nodes < x come before all nodes > x. ^ just ensures all nodes less than x come before x.
+
+do another sweep, this time from ph to pe, for each node > than x, make new tail.
+
+sub-problem: what if ph itself > pe?
+
+modify other sweep, from ph to pe, for each el < pe, make new head.
+
+```
+
+2.5 [Sum Lists]()
+
+2.6 [Palindrome]()
