@@ -1209,4 +1209,58 @@ modify other sweep, from ph to pe, for each el < pe, make new head.
 
 2.5 [Sum Lists]()
 
+You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in reverse order, such that the 1 's digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list. EXAMPLE Input: (7-) 1 -) 6) + (5 -) 9 -) 2).Thatis,617 + 295. Output: 2 -) 1 -) 9. That is, 912. FOLLOW UP Suppose the digits are stored in forward order. Repeat the above problem. EXAMPLE Input: (6 -) 1 -) 7) + (2 -) 9 -)
+
+(Page 107).
+
+```
+problem: given two numbers whose digits are nodes in a linkedlist, return the sum of the two numbers as a linkedlist. The given linkedlist has it's digits reversed.
+
+input: two linkedlists with digits, reversed.
+output: linkedlist with digits, reversed.
+
+clarification: are the numbers the same length? nothing to suggest this.
+
+approach, create a new linkedlist to store the output.
+
+keep track of head of both input lists and new linkelist
+
+while head is not null
+
+sum the two values, such that new linkedlist gets the remainder by 10, and carryover is value of division
+
+update heads to head.next for each.
+
+
+subproblem: how to create nodes on the fly for new linkedlist?
+
+subproblem: how to terminate summation.
+
+if(one of the input list heads == null, summation ends, but which was null)
+
+sum the val of the one thats not null with carry over,
+
+if theres stil carry over, append to new linkedlist
+
+```
+
+problem: what if the digits were not reversed?
+
+```
+approach: reverse the lists in O(n) time then run the summation, and reverse the result.
+
+sub-problem: how to reverse the singly linked list?
+
+approach:
+for each curr node, know the prev node and the next node
+
+perform the ffg assignments
+
+curr node.next = prev node
+prev node = curr node
+curr node = next node
+next node = curr node.next
+
+```
+
 2.6 [Palindrome]()
