@@ -1264,3 +1264,96 @@ next node = curr node.next
 ```
 
 2.6 [Palindrome]()
+
+Implement a function to check if a linked list is a palindrome.
+
+(Page 107).
+
+```
+problem: impl a func to check if a linked list is a palindrome
+
+assumption: it's singly linked list
+
+input: linkedlist
+
+output: boolean
+
+palindrome: if we forward, or backword, we get the same sequence of characters
+
+approach 1:
+- reverse the linked list in a new linked list in O(n) time
+- iterate through both linkedlists comparing characters as you go
+- if any mismatch occurs then its not a palindrome, elese it is
+O(n) time o(n) space
+
+approach 2:
+
+- reverse only half of the linked list
+- compare with the other half in the same iterative approach
+
+O(n) time and O(n) space
+
+approach 3:
+- push all elements of the first of half of the linkedlist into a stack
+- ignore any odd middle elements
+- iteratively pop each element from the stack while comparing with the each subsequent element from the second half of the linkedlist
+- if any mistmatch occurs then it's a palindrome else its not a palindrome
+
+O(n) time and O(n) space
+
+
+
+
+```
+
+2.6 [Intersection]()
+
+Intersection: Given two (singly) linked lists, determine if the two lists intersect. Return the intersecting node. Note that the intersection is defined based on reference, not value. That is, if the kth node of the first linked list is the exact same node (by reference) as the jth node of the second linked list, then they are intersecting.
+
+(Page 107).
+
+```
+problem: given two SINLGLY LINKED LISTS. Determine if they INTERSECT. Intersection is by reference i.e if the kth noe of ll1 is the same node by reference as the jth node of ll2, then they intersect
+
+intersect: as of sets, an intersection occurs when an element exists in both sets.
+
+simply: check if there is an element common to both linkedlists by reference, not by value
+
+approach 1:
+- for every element in one linkedlist, chec if it exists in the other linkedlist.
+this is O(m xn) time, but only O(1) space
+
+edge case: data could consist of two really long ll with duplicate references
+ans: store each elem in a hashset and only proceedd with execution if the element has not been seen before, else, skip.
+
+
+approach 2:
+- push each element of ll1 into a hashset. in O(m) time, O(m) space
+- for each elm in second ll, check if it exists in hashset
+if it does, then intersection has occured, return
+O(n) time
+
+O(m+n) time O(m) space
+
+```
+
+2.8 [Loop Detection]()
+
+Given a circular linked list, implement an algorithm that returns the node at the beginning of the loop. DEFINITION Circular linked list: A (corrupt) linked list in which a node's next pointer points to an earlier node, so as to make a loop in the linked list. EXAMPLE Input: A -) B -) C -) 0 -) E - ) C[thesameCasearlierl Output: C
+
+(Page 107).
+
+```
+Problem: given a circlular linkedlist, impl algo that returns the node at the beginning of the loop
+
+examp: a -> b -> c -> d ->e -> c
+return: c
+
+input: a circular linkedlist
+assumption: all input is of a circular ll
+
+approach 1: interate through each reference, and for each interate from the beginning checking if it's been seen before. O(n^2) time.
+
+approach 2: iterate through each ref, store in hashset if it doensnt already exist. else, return.
+O(n) time and O(n) space
+```
