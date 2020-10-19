@@ -1393,3 +1393,19 @@ return val
 similar for push, peep, and isEmpty
 
 Analysis: should allow doubling array capacity in O(n) time.
+
+3.2 [Stack Min]()
+
+How would you design a stack which, in addition to push and pop, has a function min which returns the minimum element? Push, pop and min should all operate in 0(1) time.
+
+(Page 110).
+
+Approach: I would simply maintain a min property, such that for every push, if the elem is smaller than the curr min, the min elem, is updated.
+
+for every pop, after popping, update the min elem in O(n) time by scanning through the stack, such that:
+
+if curr elem is < min, update min, keep scanning.
+
+issue: doesn't this mean that the pop is actually O(n) time?
+
+3.3 []()
