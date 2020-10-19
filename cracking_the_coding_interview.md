@@ -1357,3 +1357,39 @@ approach 1: interate through each reference, and for each interate from the begi
 approach 2: iterate through each ref, store in hashset if it doensnt already exist. else, return.
 O(n) time and O(n) space
 ```
+
+3.1 [Three In One]()
+
+Describe how you could use a single array to implement three stacks.
+
+(Page 110).
+
+Problem: implement three stacks using one array
+stack: a lifo data structure with unlimited length, and constant time pop, push, peep, and isEmpty.
+sub-problem: how to grow the array when full?
+assumption: array is long enough for what is needed.
+approach: segment the array into three, as follows:
+
+- st0 starts from 0 in increments of 3
+- st1 starts from 1 in increments of 3
+- st2 starts from 2 in increments of 3
+
+such that st0 has 0, 3, 6, 9, ... allocated to it
+st1 has 1, 4, 7, 10, ... to it
+st2 has 2, 5, 8, 11, ... to it
+
+Maintain a pointer to the top of each stack; the top being the highest index of the respective stack with an element.
+
+st0 = 0, st1 = 1, st2 = 2
+
+pop(stack) {
+if stack top index = 0 && empty retun empty exception
+val = val at stack top index
+stack top index = stack top index - 3
+return val
+
+}
+
+similar for push, peep, and isEmpty
+
+Analysis: should allow doubling array capacity in O(n) time.
