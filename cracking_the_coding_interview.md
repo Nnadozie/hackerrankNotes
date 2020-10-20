@@ -1408,4 +1408,93 @@ if curr elem is < min, update min, keep scanning.
 
 issue: doesn't this mean that the pop is actually O(n) time?
 
-3.3 []()
+3.3 [Stack of Plates]()
+
+Imagine a (literal) stack of plates. If the stack gets too high, it might topple. Therefore, in real life, we would likely start a new stack when the previous stack exceeds some threshold. Implement a data structure SetOfStacks that mimics this. SetOfStacks should be composed of several stacks and should create a new stack once the previous one exceeds capacity. SetOfStacks. push () and SetOfStacks. pop () should behave identically to a single stack (that is, pop ( ) should return the same values as it would if there were just a single stack). FOLLOW UP Implement a function popAt (int index) which performs a pop operation on a specific sub-stack.
+
+(Page 111).
+
+Problem:
+
+- implement setOfStacks which creates a new stack when a threshold is reached.
+- pop and push should work as though it's one stack
+- it impls popAt(int index) that selects the stack to pop from
+
+assumptions:
+
+- popAt() maintains the invariant of O(1) access time
+- setOfStacks depends on existing Stack data structures
+
+approach: on construction, setOfStacks should create a collection of stacks maintained in an array, arrayList or, stack.
+array presents issues with increasing capcity when full,
+stack makes popAt O(1) impossible
+so arrayList is the best datastructure for this
+
+- define a threshold after which a new stack is added to the arraylist
+- maintain a pointer to the last index of the arraylist
+- for push, when threshold is reached, create new stack, push into that, append to arraylist and inc pointer
+
+for pop, if stack at pointer is empty, dec pointer, pop from stack at new pointer, or else pop from pointer stack
+
+for popAt, access stack at given index of arraylist, and pop.
+
+analysis: space O(n), pop, push, popAt are O(1)
+
+3.4 [Queue via Stacks]()
+
+Stacks: Implement a MyQueue class which implements a queue using two stacks.
+
+(Page 111).
+
+Problem: implement a queue with two stacks
+stack: lifo data structure
+queue: fifo data structure
+
+subproblem: how to get a fifo from a lifo
+
+approach: imagine two stack of plates, from one stack you want to get the plate at the bottom,
+stack every element from the top to the bottom onto the other stack, and then you can get the elem,
+and restack every element back
+
+in order to maintain order, one stack must be empty at all times.
+
+subproblem: which operation should have O(1) access time, and which should have O(n) access time?
+
+approach 1:
+
+maintain two stacks, a push stack and a pop stack
+on every push, if push stack is not empty push into it,
+else, pop every elem from the pop stack into the push stack and push into it, if pop stack is not empty
+
+on every pop, if pop stack is not empty, pop from it,
+else, pop every elem from push stack into pop stack and pop from it, if push stack is not empty
+
+approach 2:
+maintain O(1) pop time for pop, and O(n) for push
+
+on every pop, pop from pop if not empty
+on every push, pop every elm from pop stack into push stack, push, and then pop every elm back.
+
+3.5 [Sort Stack]
+
+Write a program to sort a stack such that the smallest items are on the top. You can use an additional temporary stack, but you may not copy the elements into any other data structure (such as an array). The stack supports the following operations: push, pop, peek, and isEmpty.
+
+(Page 111).
+
+problem: sort a stack using only a temporary stack and nothing else, if extra space is needed.
+
+stack supports push, pop, peek, isEmpty
+
+approach:
+
+- create a temp stack
+
+- pk = peek of temp stack
+- if pop of main stack >= pk, push into temp stack
+- if pop main < pk,
+  while pop main < pk, pop from temp stack and push into main stack
+  push pop of main stack into temp stack
+
+when done, pop every thing from temp stack into main stack
+
+I think this is O(n^2)
