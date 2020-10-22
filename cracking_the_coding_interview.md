@@ -1498,3 +1498,40 @@ approach:
 when done, pop every thing from temp stack into main stack
 
 I think this is O(n^2)
+
+3.5 [Animal Shelter]()
+
+An animal shelter, which holds only dogs and cats, operates on a strictly"first in, first out" basis. People must adopt either the "oldest" (based on arrival time) of all animals at the shelter, or they can select whether they would prefer a dog or a cat (and will receive the oldest animal of that type). They cannot select which specific animal they would like. Create the data structures to maintain this system and implement operations such as enqueue, dequeueAny, dequeueDog, and dequeueCat. You may use the built-in Linked List data structure.
+
+(Page 111).
+
+problem: impl an Animal shelter that has the ffg rules:
+
+- can only adopt the oldest animal or the oldest of either a cat or a dog
+- impl enqueue, dequeueAny, dequeueDog, and dequeueCat
+
+approach: use two list data structs to rep two queues, one for cat one for dog
+
+subproblem: how to use Linkedlist for a queue: - enqueue to head, and dequeue from tail
+
+implemtation:
+
+enqueue(Animal a) {
+if a.type == cat: queue to head of cat list
+if is dog, queue to head of dog list
+else, throw not accepted animal exception
+}
+
+dequeueAny() {
+peek at tail of both lists
+return the older of the two
+
+    sub-problem: how do you identify the older animal?
+    add a time of addtion to animal class.
+
+}
+
+dequeueDog/Cat() {
+dequeue from the end of the respective list
+return that
+}
