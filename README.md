@@ -779,20 +779,20 @@ class Solution {
 
 Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
 
-Symbol       Value
-I             1
-V             5
-X             10
-L             50
-C             100
-D             500
-M             1000
+Symbol Value
+I 1
+V 5
+X 10
+L 50
+C 100
+D 500
+M 1000
 For example, two is written as II in Roman numeral, just two one's added together. Twelve is written as, XII, which is simply X + II. The number twenty seven is written as XXVII, which is XX + V + II.
 
 Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
 
-I can be placed before V (5) and X (10) to make 4 and 9. 
-X can be placed before L (50) and C (100) to make 40 and 90. 
+I can be placed before V (5) and X (10) to make 4 and 9.
+X can be placed before L (50) and C (100) to make 40 and 90.
 C can be placed before D (500) and M (1000) to make 400 and 900.
 Given a roman numeral, convert it to an integer. Input is guaranteed to be within the range from 1 to 3999.
 
@@ -832,11 +832,11 @@ add up sum
 
 class Solution {
     public int romanToInt(String s) {
-        
+
         String keys[] = new String[] {"IV", "IX", "XL", "XC", "CD", "CM", "I", "V", "X", "L", "C", "D", "M"};
         int values[] = new int[] {4, 9, 40, 90, 400, 900, 1, 5, 10, 50, 100, 500, 1000};
         int sum = 0;
-        
+
         int ind = 0;
         for(String c: keys) {
             if(s.equals("")) break;
@@ -853,16 +853,18 @@ class Solution {
             sum += values[ind] * count;
             ind++;
         }
-        
+
         return sum;
     }
 }
 ```
 
 attempted to optimize
+
 - same, but with worse mem, now only better than 5%
 
 errors made,
+
 - using stream instead of Stream,
 - incrementing i by 2 in the body and forgetting the extra incr by 1 in the for loop
 - check if there's a collectors.toHashMap method.
@@ -870,7 +872,7 @@ errors made,
 ```
 class Solution {
     public int romanToInt(String s) {
-        
+
         if(s.equals("")) return -1;
         Map<String, Integer> map = Stream.of(new Object[][] {
             {"IV", 4},
@@ -885,13 +887,13 @@ class Solution {
             {"L", 50},
             {"C", 100},
             {"D", 500},
-            {"M", 1000}            
+            {"M", 1000}
         }).collect(Collectors.toMap(data -> (String) data[0], data -> (Integer) data[1]));
-        
+
         HashMap<String, Integer> hmap = new HashMap<String, Integer>(map);
-            
+
         Integer sum = 0;
-        
+
         for(int i = 0; i < s.length(); i++) {
             if(i != s.length()-1 && hmap.containsKey(s.substring(i, i+2))) {
                 sum+= hmap.get(s.substring(i,i+2));
@@ -902,7 +904,7 @@ class Solution {
                 //System.out.println(sum);
             }
         }
-        
+
         return sum.intValue();
     }
 }
@@ -912,13 +914,13 @@ So now I'm using their solution
 
 - It turns out the way you initialize your map, using put rather than streaming and collecting is much faster
 - also, it betrays your misunderstanding of an interface as a type specifier. Notice how in your impl you created both a map and a hashmap,
-while here you only need one Hashmap.
+  while here you only need one Hashmap.
 
 This is faster than 20% and better than 80% in space
 
 ```
 class Solution {
-    
+
     static Map<String, Integer> values = new HashMap<>();
 
     static {
@@ -936,11 +938,11 @@ class Solution {
         values.put("CD", 400);
         values.put("CM", 900);
     }
-    
+
     public int romanToInt(String s) {
-             
+
         Integer sum = 0;
-        
+
         for(int i = 0; i < s.length(); i++) {
             if(i != s.length()-1 && values.containsKey(s.substring(i, i+2))) {
                 sum+= values.get(s.substring(i,i+2));
@@ -951,12 +953,11 @@ class Solution {
                 //System.out.println(sum);
             }
         }
-        
+
         return sum.intValue();
     }
 }
 ```
-
 
 16 [Longest common prefix](https://leetcode.com/problems/longest-common-prefix/)
 
@@ -991,7 +992,7 @@ for the first two strings in O(n) time, find the common substring:
 
 for the next n-2 strings, for each one, compare common substring with each and remove whenever a char differs
 
-return common substring. I estimate this is O(n) in total because the common substring comparison is constant time in the length or <  of the substring.
+return common substring. I estimate this is O(n) in total because the common substring comparison is constant time in the length or < of the substring.
 
 ```
 impl:
@@ -1000,14 +1001,14 @@ class Solution {
     public String longestCommonPrefix(String[] strs) {
         if(strs.length == 0) return "";
         if(strs.length == 1) return strs[0];
-        
+
         StringBuilder sb = new StringBuilder(0);
-        
+
         for(int i=0; i < strs[0].length() && i < strs[1].length(); ++i) {
             if(strs[0].charAt(i) != strs[1].charAt(i)) break;
             sb.append(strs[0].charAt(i));
         }
-        
+
         for(String s : strs) {
             if(s.length() < sb.length()) sb.delete(s.length(), sb.length());
             for(int i = 0; i < sb.length() && i < s.length(); ++i) {
@@ -1017,13 +1018,14 @@ class Solution {
                 }
             }
         }
-        
+
         return sb.toString();
     }
 }
 ```
 
 errors:
+
 - used .length instead of .length() forgetting that strs is an array of strings not an array
 - used the || condition to get the lesser of two lengths instead of the && condition
 - forgot the use the lesser of two lengths in the second linear loop
@@ -1046,7 +1048,7 @@ reading the first solution shows that the first loop is not actually needed
 
 ```
 StringBuilder sb = new StringBuilder(strs[0]);
-        
+
         // for(int i=0; i < strs[0].length() && i < strs[1].length(); ++i) {
         //     if(strs[0].charAt(i) != strs[1].charAt(i)) break;
         //     sb.append(strs[0].charAt(i));
@@ -1072,7 +1074,7 @@ l3 head = smaller of first nodes
 lcurr = larger of first nodes
 
 while l1 and l2 have next values
-lcurr.next  = smaller (l1.next, l2.next)
+lcurr.next = smaller (l1.next, l2.next)
 lcurr = lcurr.next
 
 return l3 head
@@ -1082,14 +1084,14 @@ Implementing this has been harder than expected. After a lot of consternation, i
 ```
 class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        
+
         System.out.println(l1.next.val);
         System.out.println(l2.next.val);
-        
-        
-        
+
+
+
         ListNode head = new ListNode();
-                
+
         if(l1.val < l2.val) {
             head = l1;
             head.next = l2;
@@ -1097,13 +1099,14 @@ class Solution {
             // head = l2;
             // head.next = l1;
         }
-        
+
         l1 = l1.next;
         l2 = l2.next;
-        
+
         System.out.println(l1.next.val);
         System.out.println(l2.next.val);
 ```
+
 Notice the commented out lines. head becomes l2, and l2.next becomes l1, such that when I then print out l2.next.value, I get l1.next.value.
 
 Truly unexpected but definitely a gem of insight to Java assigment that needs clarification.
@@ -1112,16 +1115,16 @@ Right. So a refresher on Java types shows that class types are reference types, 
 
 'There may be many references to the same object. Most objects have state, stored in the fields of objects that are instances of classes or in the variables that are the components of an array object. If two variables contain references to the same object, the state of the object can be modified using one variable's reference to the object, and then the altered state can be observed through the reference in the other variable.' [more here](https://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.3.1)
 
-
 My submission ended up being heavily dependent on insight gleaned from the test cases, and highly impractical in a competitive setting
+
 ```
 class Solution {
-    
+
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        
+
         ListNode head;
-        
-        
+
+
         if(l1 == null && l2 != null) {
             return l2;
         } else if(l2 == null && l1 != null) {
@@ -1129,7 +1132,7 @@ class Solution {
         }else if(l1 == null && l2 == null) {
             return null;
         }
-        
+
         if(l1.val <= l2.val) {
             head = l1;
             linkTails(l1, l2);
@@ -1137,19 +1140,19 @@ class Solution {
             head = l2;
             linkTails(l2, l1);
         }
-        
+
         return head;
-        
+
     }
-    
+
     public void linkTails(ListNode sm, ListNode bg) {
-        
+
         if(sm.next == bg) {
             return;
         }
-        
+
         ListNode nSm = sm.next;
-        
+
         if(sm.next != null && bg.val <= sm.next.val ){
             sm.next = bg;
             linkTails(bg, nSm);
@@ -1192,7 +1195,7 @@ The reason you were able to solve this so quickly is because you remembered a si
 ```
 class Solution {
     public int removeDuplicates(int[] nums) {
-        
+
         //input: sorted int array with duplicate elements
         //output: length on array with duplicates removed
         //side-effect: array should have duplicates removed
@@ -1202,20 +1205,20 @@ class Solution {
         //going from left to right
         //keep track of index to copy into
         //whenever you see a different int, copy into index, incr index
-        
-        if(nums.length == 0 || nums.length == 1) return nums.length;        
-        
+
+        if(nums.length == 0 || nums.length == 1) return nums.length;
+
         int copyInto = 1;
-        
+
         for(int i = 1; i < nums.length; ++i){
             if(nums[i] != nums[i-1]){
                 nums[copyInto] = nums[i];
                 copyInto++;
             }
         }
-        
+
         return copyInto++;
-        
+
     }
 }
 ```
@@ -1227,13 +1230,13 @@ class Solution {
     public int strStr(String haystack, String needle) {
         //string haystack that can be empty, and may or may not contain a needle
         //string needle that can be empty, and may or may not be in haystack
-        
+
         //output: first index of needle in haystack if it is contained in haystack
         //-1 if it is not
         //0 if needle is empty
 
         if(needle.length() == 0) return 0;
-        
+
         //loop through from left to right
         //find first matching char
         //check if region matches
@@ -1257,6 +1260,7 @@ this performs 45% time, 98% space. Why is it so slow? I think this is because fo
 20 [Count and say](https://leetcode.com/problems/count-and-say/)
 
 ```
+
 ```
 
 how do you string to interger
@@ -1268,31 +1272,31 @@ interim solution. Will need to continue tomorrow
 ```
 class Solution {
     public String countAndSay(int n) {
-        
+
         //input, n, the number of times to run the count and say sequence
 
         //output, the nth term of the count and say sequence
 
         //the 5th term is the 4th term interpreted
-        if(n == 1) return "1";        
+        if(n == 1) return "1";
         return interpret(countAndSay(n-1));
-        
+
     }
-    
+
     public String interpret(String s) {
-        
+
         if(s.equals("1")) return "11";
-        
+
         //if(s.equals("11")) return "21";
-        
-        
+
+
         StringBuilder sb = new StringBuilder();
-        
+
         int[] counter = new int[30];
 
 
         for(int i = 0; i < s.length(); ++i) {
-            
+
             counter[s.charAt(i) - 1]++;
         }
 
@@ -1303,7 +1307,7 @@ class Solution {
                 sb.append(String.valueOf(dex));
             }
         }
-        
+
         return sb.toString();
     }
 }
@@ -1312,24 +1316,24 @@ class Solution {
 ```
 class Solution {
     public String countAndSay(int n) {
-        
+
         //input, n, the number of times to run the count and say sequence
 
         //output, the nth term of the count and say sequence
 
         //the 5th term is the 4th term interpreted
-        if(n == 1) return "1";        
+        if(n == 1) return "1";
         return interpret(countAndSay(n-1));
-        
+
     }
-    
+
     public String interpret(String s) {
         //System.out.println(s.length());
-        
+
         //failed:
         /*
             loop through string counting chars
-            loop through again buillding output string 
+            loop through again buillding output string
             failed because the count were absolute values
         */
 
@@ -1341,13 +1345,13 @@ class Solution {
         */
 
         if(s.equals("1")) return "11";
-        
-        
+
+
         StringBuilder sb = new StringBuilder();
-        
+
         char curr = s.charAt(0);
         int currCounter = 1;
-        
+
         int dex = 1;
         while(dex < s.length()) {
             if(s.charAt(dex) == curr) {
@@ -1363,10 +1367,10 @@ class Solution {
                 sb.append(currCounter);
                 sb.append(curr - 48);
             }
-            
+
             dex++;
         }
-        
+
         System.out.print("end");
         return sb.toString();
     }
@@ -1391,12 +1395,12 @@ class Solution {
 
         //sol: from right to left, sum and carry over,
         //if there's an extra create new array and concat
-        
+
         //edge cases: head is 9, and +1
         //extend to: element is 9 and +1
         //if el is 9, co = 1, el = 0;
         //else el++, co = 0
-        
+
         //or: if el+co == 10, el = 0, co = 1
         //if done and co = 1, create new array and concat
         int co = 1;
@@ -1419,7 +1423,7 @@ class Solution {
             return res;
 
         }
-        
+
         return digits;
     }
 }
@@ -5315,6 +5319,48 @@ public class Solution {
 
 ```
 
+[Validade Binary Search Tree](https://leetcode.com/explore/interview/card/microsoft/31/trees-and-graphs/152/)
+
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isValidBST(TreeNode root) {
+        //problem: check if bst maintains the invariant, left node smaller, right node bigger, than parent node.
+        //sub problem: how to access left and right sub-nodes? provided in the class
+        //approach: from root, recurse on left and right sub-nodes, checking invariant. Terminate on invariant violation.
+        //sub problem: how to check all nodes in tree on right and left hand side against the root node.
+        //approach: go from leafs upwards, cascading up and making sure every relationship maintains the invariant
+
+        if(root.left == null && root.right == null) return true;
+        if(root.left == null && root.right != null && root.right.val > root.val) return true;
+        if(root.right == null && root.left != null && root.left.val < root.val) return true;
+
+
+
+
+        return (true && isValidBST(root.left) && isValidBST(root.right));
+
+    }
+}
+
+```
+
+The fails to check the invariant: all nodes on right greater than root, all nodes on left less than root.
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
@@ -5340,4 +5386,3 @@ function updateRecords(id, prop, value) {
   return collection;
 }
 ```
-
