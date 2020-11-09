@@ -5493,6 +5493,58 @@ class Solution {
 }
 ```
 
+[Validate Binary Search Tree](https://leetcode.com/explore/interview/card/microsoft/31/trees-and-graphs/152/)
+
+This was basically me implementing ctci's O(n) approach to this problem.
+
+```
+import java.util.*;
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    public boolean isValidBST(TreeNode root) {
+
+        //this problem shows up in cracking the coding interview, and
+        //of the two ways to solve it, I choose the O(N) approach,
+        //that progressively checks each subtree to see that all the nodes there fall within a range
+
+        return isValidBST(root, null, null);
+
+    }
+
+    public boolean isValidBST(TreeNode root, Integer min, Integer max) {
+
+        //this problem shows up in cracking the coding interview, and
+        //of the two ways to solve it, I choose the O(N) approach,
+        //that progressively checks each subtree to see that all the nodes there fall within a range
+
+        //null is a subtree of a bst
+        if(root == null) return true;
+
+        //check for exceeds boundary
+        if((min != null && root.val <= min.intValue()) || (max != null && root.val >= max.intValue())) return false;
+
+        if(!isValidBST(root.left, min, Integer.valueOf(root.val)) || !isValidBST(root.right, Integer.valueOf(root.val), max)) return false;
+
+        return true;
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
