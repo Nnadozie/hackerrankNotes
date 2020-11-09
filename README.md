@@ -5450,6 +5450,49 @@ class Solution {
 }
 ```
 
+[Reverse linked list](https://leetcode.com/explore/interview/card/microsoft/32/linked-list/169/)
+
+This should be O(n) as well. And it was done in place, so constant space.
+
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+
+        //objects are pass by reference. When reversing a linkedlist keep this in mind.
+        //while curr is not null, curr should point to the prev, when there is no prev, it should point to null
+        //to point to prev:
+        //store the next
+        //point to prev
+        //update curr to next
+
+        ListNode next = null;
+        ListNode prev = null;
+
+        while(head != null) {
+            next = head.next;
+            head.next = prev;
+
+
+            prev = head;
+            head = next;
+        }
+
+        return prev;
+
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
