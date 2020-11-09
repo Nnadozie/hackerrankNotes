@@ -526,6 +526,32 @@ class Solution {
 }
 ```
 
+coming back to this, the O(n) solution is quite beautiful
+
+```
+public class Solution {
+    public int maxProfit(int prices[]) {
+        int minprice = Integer.MAX_VALUE;
+        int maxprofit = 0;
+        for (int i = 0; i < prices.length; i++) {
+            if (prices[i] < minprice)
+                minprice = prices[i];
+            else if (prices[i] - minprice > maxprofit)
+                maxprofit = prices[i] - minprice;
+        }
+        return maxprofit;
+    }
+}
+```
+
+My first instinct of smallest after biggest was the wrong way around
+
+looking from the right left, if the current price minus the minimum price seen is greater than maxprice,
+
+then obviously you have your new max price
+
+if it's a price < min price then you should update min price before moving ahead.
+
 10 [Missing Number](https://leetcode.com/problems/missing-number/)
 
 Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
