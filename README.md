@@ -5545,6 +5545,59 @@ class Solution {
 }
 ```
 
+[Sort Colors](https://leetcode.com/explore/interview/card/microsoft/47/sorting-and-searching/193/)
+
+So uhmn, the library sort does this.
+
+they wanted in place and O(1) space so quicksort implemtation was needed for this.
+
+I already know the quicksort pseudo code, so a quick look for a reference impl was all I needed.
+
+```
+class Solution {
+    public void sortColors(int[] nums) {
+        //at first glance this looks like a standard sorting problem with duplicates
+        //the in place constraint means quicksort over merge sort.
+        //Arrays.sort(nums);
+
+        //Without the library's sort function, I need to implement quick sort.
+
+        quickSort(nums, 0, nums.length-1);
+
+    }
+
+    public void quickSort(int arr[], int begin, int end) {
+    if (begin < end) {
+        int partitionIndex = partition(arr, begin, end);
+
+        quickSort(arr, begin, partitionIndex-1);
+        quickSort(arr, partitionIndex+1, end);
+    }
+    }
+
+    private int partition(int arr[], int begin, int end) {
+    int pivot = arr[end];
+    int i = (begin-1);
+
+    for (int j = begin; j < end; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+
+            int swapTemp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = swapTemp;
+        }
+    }
+
+    int swapTemp = arr[i+1];
+    arr[i+1] = arr[end];
+    arr[end] = swapTemp;
+
+    return i+1;
+}
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
