@@ -5361,7 +5361,67 @@ class Solution {
 
 The fails to check the invariant: all nodes on right greater than root, all nodes on left less than root.
 
+[Letter Combinations of a phone number](https://leetcode.com/explore/interview/card/microsoft/46/backtracking/165/)
+
+This was a tough one, and I'm not sure I can correctly analyse the run or space time usage
+
+but I think it's better than O(n^2) in the size of the letters that make up the digits
+
+as for space, because it makes 2 recursive calls for every node, maybe log... I can't say.
+```
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        //given a length of numbers 2-9 inclusive, return all possible 'words' the numbers could represent
+        //initially I saw this as a combination problem, e.g, if 29, abcdef combination 2. (well, that's correct no?)
+        //how many ways can you combine the letters represented by the numbers 2...<9>, to give a numbers.length word
+        //okay, this looks like a brute force approach should be obvious
+        //example, given 23 : abc def
+        //_ _
+        //for each in a, combine with each in b --> 9 total
+        //example, given 234 abc def ghi
+        //for each of 23 combine with each of 4 --> 27 total
+        //use a recurrence: the letter combination of string digits is the letter combination of
+        //the digits minus the last, each combined with the digits of the last
+        //you'll need to store this somehow
+        
+        //approach: create hashap of digits and combinations
+        //when it already exists, do the combination, else, generate it and store to hashmap
+        
+        HashMap<String, List<String>> combos = new HashMap<String, List<String>>();
+        combos.put("2", Arrays.asList("a","b","c"));
+        combos.put("3", Arrays.asList("d","e","f"));
+        combos.put("4", Arrays.asList("g","h","i"));
+        combos.put("5", Arrays.asList("j","k","l"));
+        combos.put("6", Arrays.asList("m","n","o"));
+        combos.put("7", Arrays.asList("p","q","r", "s"));
+        combos.put("8", Arrays.asList("t","u","v"));
+        combos.put("9", Arrays.asList("w","x","y","z"));
+        return letterCombinations(digits, combos);
+    }
+    
+    public List<String> letterCombinations(String digits, HashMap combos) {
+        if(digits.equals("")) return new ArrayList<String>();
+        if(combos.containsKey(digits)) return (List<String>) combos.get(digits); //System.out.println(combos.get(digits).getClass());
+        
+        List<String> prefixes = letterCombinations(digits.substring(0, digits.length()-1), combos);
+        List<String> postfixes = letterCombinations(digits.substring(digits.length()-1), combos);
+        List<String> builder = new ArrayList<String>();
+       
+        for(String prefix: prefixes) {
+            for(String postfix: postfixes) {
+                builder.add(prefix+postfix);
+            }
+        }
+        
+        combos.put(digits, builder);
+        
+        return (List<String>) combos.get(digits);
+    }
+}
+```
+
 # FCC Solutions
+
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
 
