@@ -5368,6 +5368,7 @@ This was a tough one, and I'm not sure I can correctly analyse the run or space 
 but I think it's better than O(n^2) in the size of the letters that make up the digits
 
 as for space, because it makes 2 recursive calls for every node, maybe log... I can't say.
+
 ```
 class Solution {
     public List<String> letterCombinations(String digits) {
@@ -5383,10 +5384,10 @@ class Solution {
         //use a recurrence: the letter combination of string digits is the letter combination of
         //the digits minus the last, each combined with the digits of the last
         //you'll need to store this somehow
-        
+
         //approach: create hashap of digits and combinations
         //when it already exists, do the combination, else, generate it and store to hashmap
-        
+
         HashMap<String, List<String>> combos = new HashMap<String, List<String>>();
         combos.put("2", Arrays.asList("a","b","c"));
         combos.put("3", Arrays.asList("d","e","f"));
@@ -5398,30 +5399,58 @@ class Solution {
         combos.put("9", Arrays.asList("w","x","y","z"));
         return letterCombinations(digits, combos);
     }
-    
+
     public List<String> letterCombinations(String digits, HashMap combos) {
         if(digits.equals("")) return new ArrayList<String>();
         if(combos.containsKey(digits)) return (List<String>) combos.get(digits); //System.out.println(combos.get(digits).getClass());
-        
+
         List<String> prefixes = letterCombinations(digits.substring(0, digits.length()-1), combos);
         List<String> postfixes = letterCombinations(digits.substring(digits.length()-1), combos);
         List<String> builder = new ArrayList<String>();
-       
+
         for(String prefix: prefixes) {
             for(String postfix: postfixes) {
                 builder.add(prefix+postfix);
             }
         }
-        
+
         combos.put(digits, builder);
-        
+
         return (List<String>) combos.get(digits);
     }
 }
 ```
 
-# FCC Solutions
+[Two Sum](https://leetcode.com/explore/interview/card/microsoft/30/array-and-strings/173/)
 
+As stated in the solution I believe this is O(n) time and, O(n) space
+
+```
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        //brute force would be O(n^2)
+        //use a hashtable to make it O(n)
+        //for every num, store integer - num in hastable with index found at
+        //for every following num, if in hashtable, stop, return that index and val of num in hashtable
+
+        HashMap<Integer, Integer> toFind = new HashMap<Integer, Integer>();
+
+        for(int i = 0; i < nums.length; ++i) {
+            Integer val = Integer.valueOf(nums[i]);
+            Integer index = Integer.valueOf(i);
+
+            if(toFind.containsKey(val)){
+                return new int[]{toFind.get(val).intValue(), i};
+            }
+            toFind.put(Integer.valueOf(target - nums[i]), index);
+        }
+
+        return new int[2];
+    }
+}
+```
+
+# FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
 
