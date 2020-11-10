@@ -5624,6 +5624,103 @@ class Solution {
 }
 ```
 
+[Implement Trie Node](https://leetcode.com/explore/interview/card/microsoft/51/design/892/)
+
+```
+class TrieNode {
+    private HashMap<Character, TrieNode> children;
+    private String content;
+    private boolean isWord;
+
+   // ...
+    public TrieNode() {
+        children = new HashMap<Character, TrieNode>();
+        content = "";
+        isWord = false;
+
+    }
+
+    public HashMap getChildren() {
+        return this.children;
+    }
+
+    public void setContent(String val) {
+        this.content = val;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public void setIsWord(boolean val) {
+        this.isWord = val;
+    }
+
+    public boolean getIsWord() {
+        return this.isWord;
+    }
+}
+
+class Trie {
+
+    private TrieNode root;
+
+    /** Initialize your data structure here. */
+    public Trie() {
+        this.root = new TrieNode();
+    }
+
+    /** Inserts a word into the trie. */
+    public void insert(String word) {
+        TrieNode curr = root;
+        for(char l : word.toCharArray()) {
+            if(curr.getChildren().containsKey(l)) {
+                curr = (TrieNode) curr.getChildren().get(l);
+            }else{
+                TrieNode child = new TrieNode();
+                child.setContent(Character.toString(l));
+                curr.getChildren().put(l, child);
+                curr = (TrieNode) curr.getChildren().get(l);
+            }
+        }
+
+        curr.setIsWord(true);
+
+    }
+
+    /** Returns if the word is in the trie. */
+    public boolean search(String word) {
+        TrieNode curr = root;
+        for(char l: word.toCharArray()) {
+            curr = (TrieNode) curr.getChildren().get(l);
+            if(curr == null) return false;
+        }
+
+        if(curr.getIsWord() == false) return false;
+        return true;
+    }
+
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    public boolean startsWith(String prefix) {
+        TrieNode curr = root;
+        for(char l: prefix.toCharArray()) {
+            curr = (TrieNode) curr.getChildren().get(l);
+            if(curr == null) return false;
+        }
+
+        return true;
+    }
+}
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie obj = new Trie();
+ * obj.insert(word);
+ * boolean param_2 = obj.search(word);
+ * boolean param_3 = obj.startsWith(prefix);
+ */
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
