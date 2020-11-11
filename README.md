@@ -5721,6 +5721,66 @@ class Trie {
  */
 ```
 
+[String to integer atoi](https://leetcode.com/explore/interview/card/microsoft/30/array-and-strings/171/)
+
+This is the most hacky solution ever, highlighting a severe need for regex proficiency
+
+```
+import java.util.regex.*;
+
+
+class Solution {
+    public int myAtoi(String s) {
+        //use regex to find the sequence of integers
+        //attempt a conversion to int using standard libraries
+
+        //regex takes too much time to figure out. Implement it imperatively.
+        //convert string to char
+        //scan for first non space char
+        //check it's +- or a sequence of integers
+        //use string builer, pushing in chars as you go
+        //stop at first non int char
+
+        int start = Integer.MAX_VALUE;
+
+        StringBuilder b = new StringBuilder();
+        char sign = ' ';
+
+        for(int i = 0; i < s.length(); ++i) {
+            char t = s.charAt(i);
+            if(t != '-' && t != '+' && t != ' ' && t < '0' || t > '9' ) return 0;
+            else if (t >= '0' && t <= '9' || t == '-' || t == '+') {
+                start = i+1;
+                b.append(t);
+                if(t == '-' || t == '+') {
+                    sign = t;
+                }
+                break;
+            }
+        }
+
+
+        while(start < s.length()){
+            char t = s.charAt(start);
+            if(t >= '0' && t <= '9') {
+                b.append(t);
+            }else{ break;}
+            start++;
+        }
+
+
+        try {
+            if(b.toString().equals("-") || b.toString().equals("+") || b.toString().equals("")) return 0;
+            return Integer.parseInt(b.toString());
+        } catch(NumberFormatException e) {
+            if(sign == '-') return Integer.MIN_VALUE;
+            return Integer.MAX_VALUE;
+        }
+
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
