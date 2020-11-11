@@ -2009,6 +2009,38 @@ public class DuplicateWords {
 }
 ```
 
+Using regex, my runtime got worse but my code got easier to maintain
+
+```
+import java.util.regex.*;
+
+
+class Solution {
+    public int myAtoi(String s) {
+        //use regex to find the sequence of integers
+        //attempt a conversion to int using standard libraries
+
+        Pattern p = Pattern.compile("^(-|\\+)?(\\d+)|^( +)(-|\\+)?(\\d+)");
+        Matcher m = p.matcher(s);
+
+        if(m.find()) {
+            try{
+                if(m.group(2) != null) return Integer.parseInt(m.group());
+                if(m.group(5) != null && m.group(4) != null) return Integer.parseInt(m.group(4) + m.group(5));
+                if(m.group(5) != null) return Integer.parseInt(m.group(5));
+
+            }catch(NumberFormatException e) {
+                if(m.group(1) != null && m.group(1).equals("-")) return Integer.MIN_VALUE;
+                if(m.group(4) != null && m.group(4).equals("-")) return Integer.MIN_VALUE;
+                return Integer.MAX_VALUE;
+            }
+        }
+
+        return 0;
+    }
+}
+```
+
 23 [Username validator](https://www.hackerrank.com/challenges/valid-username-checker/problem)
 
 ```
