@@ -2041,6 +2041,80 @@ class Solution {
 }
 ```
 
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        //choose one list to store the sums in
+        //maintian a carry over
+        //add a node if a carry over exists after summation
+        //how do you handle differing lengths of lists
+        //you could first find the longer one in O(n)
+        //but consider adding a shorter to a longer one i.e l1 is shorter
+        //rather than stress, I'll create a new linkedlist
+
+        //I choose l1 and I choose to get lengths first
+        ListNode top = null;
+        ListNode bottom = null;
+
+        if(getLength(l1) >= getLength(l2)) {
+            top = l1;
+            bottom = l2;
+        }else {
+            top = l2;
+            bottom = l1;
+        }
+
+        ListNode root = top;
+
+        int carry = 0;
+        while(bottom != null) {
+            int sum = carry + bottom.val + top.val;
+            top.val = sum%10;
+            carry = sum >= 10 ? 1 : 0;
+            bottom = bottom.next;
+            top = top.next;
+        }
+
+        while(top != null && carry > 0) {
+            int sum = carry + top.val;
+            top.val = sum%10;
+            carry = sum > 10 ? 1 : 0;
+            if(top.next = null && carry > 0) {
+                    ListNode end = new ListNode(1);
+            }
+            top = top.next;
+        }
+
+        if(carry > 0) {
+         //top.next
+        }
+
+        return root;
+
+    }
+
+    public int getLength(ListNode root) {
+        int l = 0;
+        while(root != null) {
+            l++;
+            root = root.next;
+        }
+        return l;
+    }
+}
+```
+
 23 [Username validator](https://www.hackerrank.com/challenges/valid-username-checker/problem)
 
 ```
@@ -5809,6 +5883,57 @@ class Solution {
             return Integer.MAX_VALUE;
         }
 
+    }
+}
+```
+
+[List of Depths | Level order traversal](https://leetcode.com/explore/interview/card/microsoft/31/trees-and-graphs/164/)
+
+Slight modification of ctci's O(n) time O(log n) space solution to return a list of integer lists instead of a list of integer nodes
+
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    void createLevelLinkedList(TreeNode root, ArrayList<List<Integer>> lists, int level) {
+
+        if(root == null) return;
+
+        List<Integer> list = null;
+        if(lists.size() == level) {
+            list = new LinkedList<Integer>();
+            lists.add(list);
+        }else{
+            list = lists.get(level);
+        }
+
+        list.add(root.val);
+        createLevelLinkedList(root.left, lists, level + 1);
+        createLevelLinkedList(root.right, lists, level + 1);
+
+    }
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        //problem, for each level, return the nodes on that level from left to right
+        //problem, how to visit binary tree from left to right level by level
+        //it seems a recursive pre-order traversal that remembers the level of each node works
+
+        ArrayList<List<Integer>> lists = new ArrayList<List<Integer>>();
+        createLevelLinkedList(root, lists, 0);
+        return lists;
     }
 }
 ```
