@@ -5938,6 +5938,94 @@ class Solution {
 }
 ```
 
+[Add two numbers](https://leetcode.com/explore/interview/card/microsoft/32/linked-list/170/)
+
+I opted to count the length of each list in O(n) before adding them in O(n). All together O(n).
+The end case where a carry over was present was a bit tricky to handle and involved care not to loose the pointer before it turned null.
+
+Space usage I believe is O(1) as I add in in place on the longer linkedlist
+
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        //choose one list to store the sums in
+        //maintian a carry over
+        //add a node if a carry over exists after summation
+        //how do you handle differing lengths of lists
+        //you could first find the longer one in O(n)
+        //but consider adding a shorter to a longer one i.e l1 is shorter
+        //rather than stress, I'll create a new linkedlist
+
+        //I choose l1 and I choose to get lengths first
+        ListNode top = null;
+        ListNode bottom = null;
+
+        if(getLength(l1) >= getLength(l2)) {
+            top = l1;
+            bottom = l2;
+        }else {
+            top = l2;
+            bottom = l1;
+        }
+
+        ListNode root = top;
+
+        int carry = 0;
+        while(bottom != null) {
+            int sum = carry + bottom.val + top.val;
+            top.val = sum%10;
+            carry = sum >= 10 ? 1 : 0;
+            bottom = bottom.next;
+            if(top.next == null && carry > 0) {
+                    ListNode end = new ListNode(1);
+                    top.next = end;
+                    top = top.next;
+            }
+            top = top.next;
+        }
+
+        while(top != null && carry > 0) {
+            int sum = carry + top.val;
+            top.val = sum%10;
+            carry = sum >= 10 ? 1 : 0;
+            if(top.next == null && carry > 0) {
+                    ListNode end = new ListNode(1);
+                    top.next = end;
+                    top = top.next;
+            }
+            top = top.next;
+        }
+
+        if(carry > 0) {
+         //top.next
+        }
+
+        return root;
+
+    }
+
+    public int getLength(ListNode root) {
+        int l = 0;
+        while(root != null) {
+            l++;
+            root = root.next;
+        }
+        return l;
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
