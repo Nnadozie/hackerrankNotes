@@ -6026,6 +6026,67 @@ class Solution {
 }
 ```
 
+[Populating next right pointer in each nodes II](https://leetcode.com/explore/interview/card/microsoft/31/trees-and-graphs/163/)
+
+The key thing here was making sure you thought of the case where your linkedlist containting the sequence of nodes was empty.
+
+Otherwise, it was a one line modification of level order traversal.
+
+```
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node next;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, Node _left, Node _right, Node _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+*/
+
+class Solution {
+    //problem: connect each node's next pointer to it's next node on the same level. Null is the nod doesn't exist.
+        //an in-order traversal will visit left, current right. Is the right always the next right node?
+        //I'll opt to modify the level order traversal algorithm which runs in O(n) time
+
+    public void levelOrderTraversal(Node root, ArrayList<LinkedList<Node>> lists, int level) {
+        if(root == null) return;
+        LinkedList<Node> list = null;
+
+        if(lists.size() == level) {
+            list = new LinkedList<Node>();
+            lists.add(list);
+        }else{
+            list = lists.get(level);
+        }
+
+        if(list.size() > 0) list.getLast().next = root; //remember to handle the case
+        //where the list is empty.
+        list.add(root);
+        levelOrderTraversal(root.left, lists, level + 1);
+        levelOrderTraversal(root.right, lists, level + 1);
+    }
+
+    public Node connect(Node root) {
+        ArrayList<LinkedList<Node>> lists = new ArrayList<LinkedList<Node>>();
+        levelOrderTraversal(root, lists, 0);
+        return root;
+    }
+}
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
