@@ -6087,6 +6087,14 @@ class Solution {
 }
 ```
 
+[Find minimum in rotated sorted array](https://leetcode.com/explore/interview/card/microsoft/47/sorting-and-searching/206/)
+
+The main idea for passing solution used on leetcode was to break on a boundary going from higher to lower int.
+
+```
+
+```
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
