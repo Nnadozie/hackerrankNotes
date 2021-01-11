@@ -6095,6 +6095,53 @@ The main idea for passing solution used on leetcode was to break on a boundary g
 
 ```
 
+[Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/)
+
+Given an integer array nums, return the length of the longest strictly increasing subsequence.
+
+A subsequence is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, [3,6,2,7] is a subsequence of the array [0,3,1,6,2,2,7].
+
+initial sol:
+
+say a path exists btwn every num and every number greater than it, our task then becomes to find the longest path.
+//bfs or dfs will work
+
+need a way to say a path has been explored before.
+
+rule is simple: edge exists btwn a num and every num greater than it
+for each node in graph, count length of paths. Mark if already explored
+
+class Solution {
+public int lengthOfLIS(int[] nums) {
+
+        //given the array
+        //for every number
+        //find all the paths reachable from num, using bfs or dfs
+
+        //create and adjacency list of all nums reacha
+
+        //10 - 101, 18
+        //9 - 101, 18
+        //2 - 5, 3, 7, 101, 18
+        //5 - 7, 101, 18
+        //3 - 7, 101, 18
+        //7 - 101, 18
+        //101 -
+        //18 -
+
+        //O(n^2)
+
+        //n * O(bfs) (n+n^2)
+        //n2 + n3 //stopped O(n^3)time O(n^2)space
+
+        //construct binary tree and find longest
+
+    }
+
+}
+
+//Dami suggested using a binary tree
+
 # FCC Solutions
 
 1 [Basic JavaScript: Record Collection](https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/record-collection)
