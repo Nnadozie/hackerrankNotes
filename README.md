@@ -1,5 +1,42 @@
 # Leetcode solutions
 
+[All paths from source to target](https://leetcode.com/explore/learn/card/graph/619/depth-first-search-in-graph/3849/)
+key takeaway - for a directed graph you do not need to mark visited nodes
+
+```ts
+function allPathsSourceTarget(graph: number[][]): number[][] {
+    if(graph.length == 0) return []
+    
+    const stack: number[][] = new Array();
+    stack.push([0])
+    
+    //const visited = new Set();
+    
+    const paths: number[][] = new Array();
+    let currEdge
+    
+    while(stack.length != 0) {
+        currEdge = stack.pop();
+            //visited.add(currEdge[currEdge.length-1])
+            if(currEdge[currEdge.length-1] === graph.length-1) {
+                paths.push(currEdge)
+                //visited.delete(currEdge[currEdge.length-1])
+                //currEdge = stack.pop()
+            }
+
+        graph[currEdge[currEdge.length-1]].forEach((vertex) => {
+            //if(!visited.has(vertex)){
+                stack.push([...currEdge,vertex])
+            //}
+        })
+    }
+    return paths;    
+
+};
+```
+
+
+
 [Find if path exists in graph](https://leetcode.com/explore/learn/card/graph/619/depth-first-search-in-graph/3893/)
 
 DFS iterative approach
