@@ -1,5 +1,86 @@
 # Leetcode solutions
 
+[Find if path exists in graph](https://leetcode.com/explore/learn/card/graph/619/depth-first-search-in-graph/3893/)
+
+DFS iterative approach
+```ts
+function validPath(n: number, edges: number[][], source: number, destination: number): boolean {
+    
+    const visited = new Set();
+    const stack = new Array();
+    stack.push(source)
+    let found = false;
+    
+    const graph = {}
+    for(let i = 0; i < n; i++) {
+        graph[i] = new Array()
+    }
+    edges.forEach((edge) => {
+        graph[edge[0]].push(edge[1])
+        graph[edge[1]].push(edge[0])
+    })
+    
+    let currNode;
+    
+    while(stack.length != 0) {
+        currNode = stack.pop();
+        if(currNode === destination) {
+            found = true
+            break;
+        }
+        if(graph[currNode] === undefined) break;
+        visited.add(currNode)
+        graph[currNode].forEach((vertex) => {
+            if(!visited.has(vertex)) {
+                stack.push(vertex)
+            }
+        })
+        
+    }
+    return found;
+
+};
+```
+
+DFS recursive approach
+
+```ts
+function validPath(n: number, edges: number[][], source: number, destination: number): boolean {
+    
+    const visited = new Set();
+
+    let found = false;
+    
+    const graph = {}
+    for(let i = 0; i < n; i++) {
+        graph[i] = new Array()
+    }
+    edges.forEach((edge) => {
+        graph[edge[0]].push(edge[1])
+        graph[edge[1]].push(edge[0])
+    })
+    
+    function search(source: number) {
+        if(source === destination) found = true
+        if(graph[source] === undefined) return
+        
+        visited.add(source)
+        graph[source].forEach((vertex) => {
+            if(!visited.has(vertex)) {
+                search(vertex)
+            }
+        })
+        
+    }
+    
+    search(source)
+    
+    return found;
+
+};
+```
+[space and time complexity explained here](https://leetcode.com/explore/learn/card/graph/619/depth-first-search-in-graph/4151/)
+
 1 [Sort an array](https://leetcode.com/problems/sort-an-array/submissions/)
 
 ```
